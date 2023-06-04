@@ -1,11 +1,50 @@
+// import { useEffect } from 'react';
+// import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+// import { fetchReviewsAction } from '../../store/api-actions';
 import { ProductCard } from '../../types/product-card';
+// import { getProductReviews } from '../../store/review-data/review-data-selectors';
+import { RATINGS } from '../../consts';
+import RatingItem from '../rating-item/rating-item';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
 }
 
 function ProductCardItem({ productCard }: ProductCardItemProps): JSX.Element {
+  // const dispatch = useAppDispatch();
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
+
+  // useEffect(() => {
+  //   let isMounted = true;
+
+  //   if (isMounted) {
+  //     dispatch(fetchReviewsAction(id));
+  //   }
+
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, [dispatch, id]);
+
+  // const reviews = useAppSelector(getProductReviews);
+
+  // // eslint-disable-next-line no-console
+  // // console.log(id, reviews);
+
+  // const ratings: number[] = [];
+  // reviews.map((review) => {
+  //   if (review.cameraId === id) {
+  //     ratings.push(review.rating);
+  //   }
+  //   return ratings;
+  // });
+
+  // // eslint-disable-next-line no-console
+  // console.log(id, ratings);
+
+  // const sum: number = ratings.reduce((a, b) => a + b, 0);
+  // const rating = Math.round(sum / ratings.length);
+  const rating = 2;
 
   return (
     <div key={id} className="product-card">
@@ -17,22 +56,9 @@ function ProductCardItem({ productCard }: ProductCardItemProps): JSX.Element {
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <p className="visually-hidden">Рейтинг: 3</p>
+          {RATINGS.map((reviewRating) => <RatingItem key={reviewRating} id={reviewRating} rating={rating} />)}
+
+          <p className="visually-hidden">{`Рейтинг: ${rating}`}</p>
           <p className="rate__count">
             <span className="visually-hidden">Всего оценок:</span>
             {reviewCount}

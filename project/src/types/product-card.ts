@@ -1,13 +1,11 @@
-import { CameraCategory, CameraLevel, CameraType } from './filters';
-
 export type ProductCard = {
   id: number;
   name: string;
   vendorCode: string;
-  type: CameraType;
-  category: CameraCategory;
+  type: string;
+  category: string;
   description: string;
-  level: CameraLevel;
+  level: string;
   price: number;
   reviewCount: number;
   previewImg: string;

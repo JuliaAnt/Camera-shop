@@ -3,12 +3,17 @@ import ProductCardItem from '../product-card-item/product-card-item';
 
 type ProductCardListProps = {
   productCards: ProductCard[];
+  firstProductIndex: number;
+  lastProductIndex: number;
 }
 
-function ProductCardList({ productCards }: ProductCardListProps): JSX.Element {
+function ProductCardList({ productCards, firstProductIndex, lastProductIndex }: ProductCardListProps): JSX.Element {
+  // eslint-disable-next-line no-console
+  console.log(firstProductIndex, lastProductIndex);
+
   return (
     <div className="cards catalog__cards">
-      {productCards.map((card) => <ProductCardItem key={card.id} productCard={card} />)}
+      {productCards.slice(firstProductIndex, lastProductIndex).map((card) => <ProductCardItem key={card.id} productCard={card} />)}
     </div>
   );
 }

@@ -8,11 +8,11 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Catalog}>
-          <Route index element={<CatalogPage />} />
-          <Route path={AppRoute.Camera} element={<ProductPage />} />
-          <Route path={AppRoute.Basket} element={<BasketPage />} />
-        </Route>
+        <Route path={AppRoute.Catalog} element={<CatalogPage />} />
+
+        <Route path={AppRoute.Camera} element={<ProductPage />} />
+        <Route path={AppRoute.Basket} element={<BasketPage />} />
+
       </Routes>
     </BrowserRouter>
   );
