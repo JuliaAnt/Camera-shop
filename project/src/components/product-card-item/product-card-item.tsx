@@ -5,6 +5,9 @@ import { ProductCard } from '../../types/product-card';
 // import { getProductReviews } from '../../store/review-data/review-data-selectors';
 import { RATINGS } from '../../consts';
 import RatingItem from '../rating-item/rating-item';
+import { useState } from 'react';
+import PopupCatalogAddItem from '../popup/popup-catalog-add-item';
+import { Link } from 'react-router-dom';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
@@ -13,6 +16,7 @@ type ProductCardItemProps = {
 function ProductCardItem({ productCard }: ProductCardItemProps): JSX.Element {
   // const dispatch = useAppDispatch();
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
+  const [isModalOpen, setModalOpen] = useState(false);
 
   // useEffect(() => {
   //   let isMounted = true;
@@ -71,11 +75,12 @@ function ProductCardItem({ productCard }: ProductCardItemProps): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={() => setModalOpen(true)}>Купить
         </button>
-        <a className="btn btn--transparent" href="#">Подробнее
-        </a>
+        <Link className="btn btn--transparent" to={`/camera/${id}`}>Подробнее
+        </Link>
       </div>
+      <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={() => setModalOpen(false)} />
     </div>
   );
 }

@@ -15,7 +15,7 @@ function FilterItem({ currentItem, currentFilterValue, onFilterChange }: FilterI
       <label>
         <input type="checkbox" name={currentItem.name} onClick={() => onFilterChange(currentItem.title)} defaultChecked={checked} />
         <span className="custom-checkbox__icon"></span>
-        <span className="custom-checkbox__label">{currentItem.title}</span>
+        <span className="custom-checkbox__label">{currentItem.title === 'Фотоаппарат' ? 'Фотокамера' : currentItem.title}</span>
       </label>
     </div>
   );
