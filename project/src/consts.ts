@@ -1,12 +1,12 @@
 export enum AppRoute {
   Camera = '/camera/:id',
-  Catalog = '/:page_1',
+  Catalog = '/',
   Basket = '/basket',
 }
 
 export enum NameSpace {
   CatalogData = 'CATALOG_DATA',
-  ReviewData = 'REVIEW_DATA',
+  ProductData = 'PRODUCT_DATA',
   Basket = 'BASKET',
 }
 

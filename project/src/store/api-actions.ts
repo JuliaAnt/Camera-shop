@@ -41,3 +41,15 @@ export const fetchPromoProductAction = createAsyncThunk<PromoProduct, undefined,
     return data;
   }
 );
+
+export const fetchSelectedProductAction = createAsyncThunk<ProductCard, number, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchSelectedProduct',
+  async (cameraId, { extra: api }) => {
+    const { data } = await api.get<ProductCard>(`/cameras/${cameraId}`);
+    return data;
+  }
+);
