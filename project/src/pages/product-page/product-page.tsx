@@ -1,10 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { fetchSelectedProductAction } from '../../store/api-actions';
 import { getSelectedProduct } from '../../store/product-data/product-data-selectors';
+import Tabs from '../../components/tabs/tabs';
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -37,18 +38,18 @@ function ProductPage(): JSX.Element {
             <div className="container">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">Главная
+                  <Link className="breadcrumbs__link" to="/">Главная
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="catalog.html">Каталог
+                  <Link className="breadcrumbs__link" to="/">Каталог
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">{name || ''}</span>
                 </li>
@@ -91,40 +92,11 @@ function ProductPage(): JSX.Element {
                       <use xlinkHref="#icon-add-basket"></use>
                     </svg>Добавить в корзину
                   </button>
-                  <div className="tabs product__tabs">
-                    <div className="tabs__controls product__tabs-controls">
-                      <button className="tabs__control" type="button">Характеристики</button>
-                      <button className="tabs__control is-active" type="button">Описание</button>
-                    </div>
-                    <div className="tabs__content">
-                      <div className="tabs__element">
-                        <ul className="product__tabs-list">
-                          <li className="item-list"><span className="item-list__title">Артикул: </span>
-                            <p className="item-list__text">{vendorCode}</p>
-                          </li>
-                          <li className="item-list"><span className="item-list__title">Категория: </span>
-                            <p className="item-list__text">{category === 'Фотоаппарат' ? 'Фотокамера' : category}</p>
-                          </li>
-                          <li className="item-list"><span className="item-list__title">Тип камеры: </span>
-                            <p className="item-list__text">{type || ''}</p>
-                          </li>
-                          <li className="item-list"><span className="item-list__title">Уровень: </span>
-                            <p className="item-list__text">{level || ''}</p>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="tabs__element is-active">
-                        <div className="product__tabs-text">
-                          <p>{description || ''}</p>
-                          {/* <p>Вы&nbsp;тоже можете прикоснуться к&nbsp;волшебству аналоговой съёмки, заказав этот чудо-аппарат. Кто знает, может с&nbsp;Das Auge IV&nbsp;начнётся ваш путь к&nbsp;наградам всех престижных кинофестивалей.</p> */}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <Tabs vendorCode={vendorCode} description={description} level={level} type={type} category={category} />
                 </div>
-              </div>
-            </section>
-          </div>
+              </div >
+            </section >
+          </div >
           <div className="page-content__section">
             <section className="product-similar">
               <div className="container">
@@ -495,15 +467,15 @@ function ProductPage(): JSX.Element {
               </div>
             </section>
           </div>
-        </div>
-      </main>
+        </div >
+      </main >
       <a className="up-btn" href="#header">
         <svg width="12" height="18" aria-hidden="true">
           <use xlinkHref="#icon-arrow2"></use>
         </svg>
       </a>
       <Footer />
-    </div>
+    </div >
   );
 }
 
