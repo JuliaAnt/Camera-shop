@@ -69,3 +69,5 @@ export const RATINGS = [1, 2, 3, 4, 5];
 export const PRODUCTS_PER_PAGE = 9;
 
 export const PRODUCTS_PER_SLIDE = 3;
+
+export const REVIEWS_PER_PAGE = 3;

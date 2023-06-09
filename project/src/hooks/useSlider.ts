@@ -12,9 +12,6 @@ export const useSlider = ({ productsPerSlide, productsCount }: UseSliderProps): 
   const lastProductIndex = slide * productsPerSlide;
   const firstProductIndex = lastProductIndex - productsPerSlide;
 
-  // eslint-disable-next-line no-console
-  // console.log(firstProductIndex);
-
   const changeSlideWithDirection = (direction: boolean) => {
     setSlide((currentSlide) => {
       if (direction) {
