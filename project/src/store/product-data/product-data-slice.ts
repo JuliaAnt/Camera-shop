@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Review } from '../../types/review';
 import { NameSpace } from '../../consts';
-import { fetchReviewsAction, fetchSelectedProductAction } from '../api-actions';
+import { fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction } from '../api-actions';
 import { ProductCard } from '../../types/product-card';
 
 type InitialState = {
   productReviews: Review[];
   selectedProduct: ProductCard | null;
+  similarProducts: ProductCard[];
 }
 
 const initialState: InitialState = {
   productReviews: [],
   selectedProduct: null,
+  similarProducts: [],
 };
 
 export const productData = createSlice({
@@ -25,6 +27,9 @@ export const productData = createSlice({
       })
       .addCase(fetchSelectedProductAction.fulfilled, (state, action) => {
         state.selectedProduct = action.payload;
+      })
+      .addCase(fetchSimilarProductsAction.fulfilled, (state, action) => {
+        state.similarProducts = action.payload;
       });
   },
 });

@@ -67,3 +67,5 @@ export const TYPE_FILTER_MAP = [
 export const RATINGS = [1, 2, 3, 4, 5];
 
 export const PRODUCTS_PER_PAGE = 9;
+
+export const PRODUCTS_PER_SLIDE = 3;

@@ -11,9 +11,10 @@ import { Link } from 'react-router-dom';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
+  className: string;
 }
 
-function ProductCardItem({ productCard }: ProductCardItemProps): JSX.Element {
+function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.Element {
   // const dispatch = useAppDispatch();
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
   const [isModalOpen, setModalOpen] = useState(false);
@@ -51,7 +52,7 @@ function ProductCardItem({ productCard }: ProductCardItemProps): JSX.Element {
   const rating = 2;
 
   return (
-    <div key={id} className="product-card">
+    <div key={id} className={`product-card ${className}`}>
       <div className="product-card__img">
         <picture>
           <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />

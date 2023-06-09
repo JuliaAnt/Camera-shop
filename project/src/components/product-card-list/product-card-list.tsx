@@ -10,7 +10,7 @@ type ProductCardListProps = {
 function ProductCardList({ productCards, firstProductIndex, lastProductIndex }: ProductCardListProps): JSX.Element {
   return (
     <div className="cards catalog__cards">
-      {productCards.slice(firstProductIndex, lastProductIndex).map((card) => <ProductCardItem key={card.id} productCard={card} />)}
+      {productCards.slice(firstProductIndex, lastProductIndex).map((card) => <ProductCardItem key={card.id} productCard={card} className={''} />)}
     </div>
   );
 }
