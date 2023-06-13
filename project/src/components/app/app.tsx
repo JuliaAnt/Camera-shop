@@ -3,6 +3,7 @@ import { AppRoute } from '../../consts';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
 import ProductPage from '../../pages/product-page/product-page';
 import BasketPage from '../../pages/basket-page/basket-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
 
 function App(): JSX.Element {
   return (
@@ -12,7 +13,7 @@ function App(): JSX.Element {
 
         <Route path={AppRoute.Camera} element={<ProductPage />} />
         <Route path={AppRoute.Basket} element={<BasketPage />} />
-
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
