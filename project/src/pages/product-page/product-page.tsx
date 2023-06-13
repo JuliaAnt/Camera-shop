@@ -14,11 +14,30 @@ import RatingItem from '../../components/rating-item/rating-item';
 import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
 import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
 
+export type ReviewData = {
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+}
+
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id: productId } = useParams<{ id: string }>();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isSuccessModalActive, setSuccessModalActive] = useState<boolean>(false);
+  const [reviewData, setReviewData] = useState<ReviewData>({
+    userName: '',
+    advantage: '',
+    disadvantage: '',
+    review: '',
+    rating: 0,
+  });
+
+  const handleChange = (review: ReviewData) => {
+    setReviewData(review);
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -72,6 +91,13 @@ function ProductPage(): JSX.Element {
 
   const onModalClose = () => {
     setModalOpen(false);
+    setReviewData({
+      userName: '',
+      advantage: '',
+      disadvantage: '',
+      review: '',
+      rating: 0,
+    });
     document.body.style.position = '';
   };
 
@@ -150,7 +176,7 @@ function ProductPage(): JSX.Element {
             </section>
           </div>
         </div >
-        <PopupProductReview isModalOpen={isModalOpen} onModalClose={onModalClose} onSuccessModalOpen={onSuccessModalOpen} />
+        <PopupProductReview isModalOpen={isModalOpen} reviewData={reviewData} onChangeReview={handleChange} onModalClose={onModalClose} onSuccessModalOpen={onSuccessModalOpen} />
         <PopupProductReviewSuccess isSuccessModalActive={isSuccessModalActive} onSuccessModalClose={onSuccessModalClose} />
       </main >
       <button className="up-btn" onClick={handlerScrollUp}>

@@ -6,13 +6,21 @@ type ReviewItemProps = {
   reviewData: Review;
 }
 
+type DateOptions = {
+  day: 'numeric' | '2-digit' | undefined;
+  month: 'numeric' | '2-digit' | 'narrow' | 'short' | 'long' | undefined;
+}
+
 function ReviewItem({ reviewData }: ReviewItemProps): JSX.Element {
   const { id, createAt, cameraId, userName, advantage, disadvantage, review, rating } = reviewData;
+  const dateOptions: DateOptions = { day: 'numeric', month: 'long' };
+  const formattedDate = new Intl.DateTimeFormat('ru-RU', dateOptions).format(new Date(createAt));
+
   return (
     <li key={`${id}-${cameraId}`} className="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{userName}</p>
-        <time className="review-card__data" dateTime={createAt}>{createAt}</time>
+        <time className="review-card__data" dateTime={createAt}>{formattedDate}</time>
       </div>
       <div className="rate review-card__rate">
         {RATINGS.map((reviewRating) => <RatingItem key={reviewRating} id={reviewRating} rating={rating} />)}

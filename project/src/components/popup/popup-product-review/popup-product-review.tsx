@@ -5,31 +5,34 @@ import { useParams } from 'react-router-dom';
 import { fetchReviewsAction, sendReviewAction } from '../../../store/api-actions';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import RateRequestList from '../../rate-request-list/rate-request-list';
+import { ReviewData } from '../../../pages/product-page/product-page';
 
 type PopupProductReviewProps = {
   isModalOpen: boolean;
+  reviewData: ReviewData;
+  onChangeReview: (value: ReviewData) => void;
   onModalClose: () => void;
   onSuccessModalOpen: () => void;
 }
 
-type ReviewData = {
-  userName: string;
-  advantage: string;
-  disadvantage: string;
-  review: string;
-  rating: number;
-}
+// type ReviewData = {
+//   userName: string;
+//   advantage: string;
+//   disadvantage: string;
+//   review: string;
+//   rating: number;
+// }
 
-function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: PopupProductReviewProps): JSX.Element {
+function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalClose, onSuccessModalOpen }: PopupProductReviewProps): JSX.Element {
   const dispatch = useAppDispatch();
   const { id: productId } = useParams<{ id: string }>();
-  const [reviewData, setReviewData] = useState<ReviewData>({
-    userName: '',
-    advantage: '',
-    disadvantage: '',
-    review: '',
-    rating: 0,
-  });
+  // const [reviewData, setReviewData] = useState<ReviewData>({
+  //   userName: '',
+  //   advantage: '',
+  //   disadvantage: '',
+  //   review: '',
+  //   rating: 0,
+  // });
   const [isDisabledForm, setDisabled] = useState<boolean>(false);
 
   const onSubmit = (currentReview: ReviewRequest) => {
@@ -40,7 +43,7 @@ function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: P
         dispatch(fetchReviewsAction(productId ? +productId : 0));
         setDisabled(false);
         onModalClose();
-        setReviewData({
+        onChangeReview({
           userName: '',
           advantage: '',
           disadvantage: '',
@@ -97,7 +100,7 @@ function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: P
                         render={({ field }) => (
                           <RateRequestList isDisabledForm={isDisabledForm} selectedRate={reviewData.rating} onChange={(rating) => {
                             field.onChange(rating);
-                            setReviewData((state) => ({ ...state, rating: rating }));
+                            onChangeReview({ ...reviewData, rating: rating });
                           }}
                           />
                         )}
@@ -128,7 +131,7 @@ function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: P
                           message: 'Invalid name'
                         }
                       })}
-                      onChange={(evt) => setReviewData((state) => ({ ...state, userName: evt.target.value }))}
+                      onChange={(evt) => onChangeReview({ ...reviewData, userName: evt.target.value })}
                     />
                   </label>
                   {errors.userName && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.userName.message}</p>}
@@ -149,7 +152,7 @@ function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: P
                       {...register('advantage', {
                         required: 'Нужно указать достоинства',
                       })}
-                      onChange={(evt) => setReviewData((state) => ({ ...state, advantage: evt.target.value }))}
+                      onChange={(evt) => onChangeReview({ ...reviewData, advantage: evt.target.value })}
                     />
                   </label>
                   {errors.advantage && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.advantage.message}</p>}
@@ -170,7 +173,7 @@ function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: P
                       {...register('disadvantage', {
                         required: 'Нужно указать недостатки',
                       })}
-                      onChange={(evt) => setReviewData((state) => ({ ...state, disadvantage: evt.target.value }))}
+                      onChange={(evt) => onChangeReview({ ...reviewData, disadvantage: evt.target.value })}
                     />
                   </label>
                   {errors.disadvantage && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.disadvantage?.message}</p>}
@@ -191,7 +194,7 @@ function PopupProductReview({ isModalOpen, onModalClose, onSuccessModalOpen }: P
                         required: 'Нужно добавить комментарий',
                         minLength: 5,
                       })}
-                      onChange={(evt) => setReviewData((state) => ({ ...state, review: evt.target.value }))}
+                      onChange={(evt) => onChangeReview({ ...reviewData, review: evt.target.value })}
                     >
                     </textarea>
                   </label>

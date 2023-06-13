@@ -11,8 +11,22 @@ function RateRequestItem({ rating, title, isDisabledForm, selectedRate, onChange
 
   return (
     <>
-      <input key={rating} className="visually-hidden" id={`star-${rating}`} name="rate" type="radio" value={rating} disabled={isDisabledForm} defaultChecked={checked} onChange={() => onChange(rating)} />
-      <label className="rate__label" htmlFor={`star-${rating}`} title={title}></label>
+      <input
+        key={rating}
+        className="visually-hidden"
+        id={`star-${rating}`}
+        name="rate" type="radio"
+        value={rating}
+        disabled={isDisabledForm}
+        checked={checked}
+        onChange={() => onChange(rating)}
+      />
+      <label
+        className="rate__label"
+        htmlFor={`star-${rating}`}
+        title={title}
+      >
+      </label>
     </>
   );
 }
