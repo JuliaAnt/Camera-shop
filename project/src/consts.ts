@@ -15,7 +15,7 @@ export enum APIRoute {
   SelectedQuest = '/quest/{questId}',
   PromoProduct = '/promo',
   Logout = '/logout',
-  BookedQuests = '/reservation',
+  ReviewRequest = '/reviews',
   Reviews = '/cameras/{cameraId}/reviews',
 }
 
@@ -71,3 +71,26 @@ export const PRODUCTS_PER_PAGE = 9;
 export const PRODUCTS_PER_SLIDE = 3;
 
 export const REVIEWS_PER_PAGE = 3;
+
+export const RATINGS_REQUEST = [
+  {
+    value: 5,
+    title: 'Отлично',
+  },
+  {
+    value: 4,
+    title: 'Хорошо',
+  },
+  {
+    value: 3,
+    title: 'Нормально',
+  },
+  {
+    value: 2,
+    title: 'Плохо',
+  },
+  {
+    value: 1,
+    title: 'Ужасно',
+  },
+];

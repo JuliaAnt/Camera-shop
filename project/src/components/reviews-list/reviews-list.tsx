@@ -4,7 +4,11 @@ import { getProductReviews } from '../../store/product-data/product-data-selecto
 import ReviewItem from './review-item/review-item';
 import { REVIEWS_PER_PAGE } from '../../consts';
 
-function ReviewsList(): JSX.Element {
+type ReviewsListProps = {
+  onModalOpen: () => void;
+}
+
+function ReviewsList({ onModalOpen }: ReviewsListProps): JSX.Element {
   const reviewsList = useAppSelector(getProductReviews);
   const [reviewsCount, setReviewsCount] = useState(REVIEWS_PER_PAGE);
 
@@ -40,7 +44,7 @@ function ReviewsList(): JSX.Element {
     <div className="container" onScroll={onScrollPage}>
       <div className="page-content__headed">
         <h2 className="title title--h3">Отзывы</h2>
-        <button className="btn" type="button">Оставить свой отзыв</button>
+        <button className="btn" type="button" onClick={onModalOpen}>Оставить свой отзыв</button>
       </div>
       <ul className="review-block__list">
         {sortedReviews.slice(0, reviewsCount).map((review) => <ReviewItem key={`${review.id}-${review.cameraId}`} reviewData={review} />)}

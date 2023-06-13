@@ -3,7 +3,7 @@ import { ProductCard } from '../types/product-card';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { APIRoute } from '../consts';
-import { Review } from '../types/review';
+import { Review, ReviewRequest } from '../types/review';
 import { PromoProduct } from '../types/promo';
 
 export const fetchProductsAction = createAsyncThunk<ProductCard[], undefined, {
@@ -63,5 +63,24 @@ export const fetchSimilarProductsAction = createAsyncThunk<ProductCard[], number
   async (cameraId, { extra: api }) => {
     const { data } = await api.get<ProductCard[]>(`/cameras/${cameraId}/similar`);
     return data;
+  }
+);
+
+type SendReviewProps = ReviewRequest & { onSuccess(): void; onError(): void };
+
+export const sendReviewAction = createAsyncThunk<void, SendReviewProps, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'sendBooking',
+  async ({ cameraId, userName, advantage, disadvantage, review, rating, onSuccess, onError }, { extra: api }) => {
+    try {
+      await api.post<ReviewRequest>(APIRoute.ReviewRequest, { cameraId, userName, advantage, disadvantage, review, rating });
+      onSuccess();
+    }
+    catch (error) {
+      onError();
+    }
   }
 );

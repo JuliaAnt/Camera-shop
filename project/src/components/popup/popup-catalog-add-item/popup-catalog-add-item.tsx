@@ -1,4 +1,4 @@
-import { ProductCard } from '../../types/product-card';
+import { ProductCard } from '../../../types/product-card';
 
 type PopupCatalogAddItemProps = {
   isModalOpen: boolean;

@@ -6,7 +6,7 @@ import { ProductCard } from '../../types/product-card';
 import { RATINGS } from '../../consts';
 import RatingItem from '../rating-item/rating-item';
 import { useState } from 'react';
-import PopupCatalogAddItem from '../popup/popup-catalog-add-item';
+import PopupCatalogAddItem from '../popup/popup-catalog-add-item/popup-catalog-add-item';
 import { Link } from 'react-router-dom';
 
 type ProductCardItemProps = {

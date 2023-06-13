@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction } from '../../store/api-actions';
 import { getSelectedProduct, getSimilarProducts } from '../../store/product-data/product-data-selectors';
@@ -11,10 +11,14 @@ import { ProductCard } from '../../types/product-card';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { RATINGS } from '../../consts';
 import RatingItem from '../../components/rating-item/rating-item';
+import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
+import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id: productId } = useParams<{ id: string }>();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isSuccessModalActive, setSuccessModalActive] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -46,6 +50,40 @@ function ProductPage(): JSX.Element {
   };
 
   const rating = 2;
+
+  useEffect(() => {
+    const onModalEscKeydown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        onModalClose();
+        onSuccessModalClose();
+      }
+    };
+
+    window.addEventListener('keydown', onModalEscKeydown);
+    return () => window.removeEventListener('keydown', onModalEscKeydown);
+
+  }, []);
+
+  const onModalOpen = () => {
+    setModalOpen(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onModalClose = () => {
+    setModalOpen(false);
+    document.body.style.position = '';
+  };
+
+  const onSuccessModalOpen = () => {
+    setSuccessModalActive(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onSuccessModalClose = () => {
+    setSuccessModalActive(false);
+    document.body.style.position = '';
+  };
 
   return (
     <div className="wrapper">
@@ -108,10 +146,12 @@ function ProductPage(): JSX.Element {
           </div>
           <div className="page-content__section">
             <section className="review-block">
-              <ReviewsList />
+              <ReviewsList onModalOpen={onModalOpen} />
             </section>
           </div>
         </div >
+        <PopupProductReview isModalOpen={isModalOpen} onModalClose={onModalClose} onSuccessModalOpen={onSuccessModalOpen} />
+        <PopupProductReviewSuccess isSuccessModalActive={isSuccessModalActive} onSuccessModalClose={onSuccessModalClose} />
       </main >
       <button className="up-btn" onClick={handlerScrollUp}>
         <svg width="12" height="18" aria-hidden="true">
