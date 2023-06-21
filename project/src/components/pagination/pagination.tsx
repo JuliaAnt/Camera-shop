@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ProductCard } from '../../types/product-card';
 
 type PaginationProps = {
@@ -10,41 +11,36 @@ type PaginationProps = {
 }
 
 function Pagination({ products, totalPageCount, nextPage, prevPage, setPage, page }: PaginationProps): JSX.Element {
-  // eslint-disable-next-line no-console
-  console.log(page);
 
   return (
     <ul className="pagination__list" data-testid={'pagination'}>
       <li className='pagination__item' style={{ visibility: `${page === 1 ? 'hidden' : 'visible'}` }}>
-        <a
+        <Link
           className="pagination__link pagination__link--text"
-          href={`?page_${page - 1}`}
-          // href='#'
+          to={`?page_${page - 1}`}
           onClick={prevPage}
         >Назад
-        </a>
+        </Link>
       </li>
       {
         [...Array(totalPageCount).keys()].map((pageNumber) => (
           <li key={pageNumber + 1} className="pagination__item">
-            <a
+            <Link
               className={`pagination__link${page === pageNumber + 1 ? ' pagination__link--active' : ''}`}
-              href={`?page_${pageNumber + 1}`}
-              // href='#'
+              to={`?page_${pageNumber + 1}`}
               onClick={() => setPage(pageNumber + 1)}
             >{pageNumber + 1}
-            </a>
+            </Link>
           </li>
         ))
       }
       <li className="pagination__item" style={{ visibility: `${page === totalPageCount ? 'hidden' : 'visible'}` }}>
-        <a
+        <Link
           className="pagination__link pagination__link--text"
-          href={`?page_${page + 1}`}
-          // href='#'
+          to={`?page_${page + 1}`}
           onClick={nextPage}
         >Далее
-        </a>
+        </Link>
       </li>
     </ul >
   );

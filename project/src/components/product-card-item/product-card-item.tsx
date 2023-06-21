@@ -15,40 +15,8 @@ type ProductCardItemProps = {
 }
 
 function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.Element {
-  // const dispatch = useAppDispatch();
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
   const [isModalOpen, setModalOpen] = useState(false);
-
-  // useEffect(() => {
-  //   let isMounted = true;
-
-  //   if (isMounted) {
-  //     dispatch(fetchReviewsAction(id));
-  //   }
-
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, [dispatch, id]);
-
-  // const reviews = useAppSelector(getProductReviews);
-
-  // // eslint-disable-next-line no-console
-  // // console.log(id, reviews);
-
-  // const ratings: number[] = [];
-  // reviews.map((review) => {
-  //   if (review.cameraId === id) {
-  //     ratings.push(review.rating);
-  //   }
-  //   return ratings;
-  // });
-
-  // // eslint-disable-next-line no-console
-  // console.log(id, ratings);
-
-  // const sum: number = ratings.reduce((a, b) => a + b, 0);
-  // const rating = Math.round(sum / ratings.length);
   const rating = 2;
 
   return (

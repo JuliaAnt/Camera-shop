@@ -7,10 +7,11 @@ import Filters from '../../components/filters/filters';
 import Sorts from '../../components/sorts/sorts';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
-import { PRODUCTS_PER_PAGE } from '../../consts';
+import { AppRoute, PRODUCTS_PER_PAGE } from '../../consts';
 import { usePagination } from '../../hooks/usePagination';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { Link } from 'react-router-dom';
 
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -63,11 +64,11 @@ function CatalogPage(): JSX.Element {
             <div className="container">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">Главная
+                  <Link className="breadcrumbs__link" to={AppRoute.Catalog}>Главная
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Каталог</span>
                 </li>

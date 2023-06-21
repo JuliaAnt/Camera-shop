@@ -9,7 +9,7 @@ import Tabs from '../../components/tabs/tabs';
 import Slider from '../../components/slider/slider';
 import { ProductCard } from '../../types/product-card';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import { RATINGS } from '../../consts';
+import { AppRoute, RATINGS } from '../../consts';
 import RatingItem from '../../components/rating-item/rating-item';
 import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
 import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
@@ -120,14 +120,14 @@ function ProductPage(): JSX.Element {
             <div className="container">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to="/">Главная
+                  <Link className="breadcrumbs__link" to={AppRoute.Catalog}>Главная
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
                   </Link>
                 </li>
                 <li className="breadcrumbs__item">
-                  <Link className="breadcrumbs__link" to="/">Каталог
+                  <Link className="breadcrumbs__link" to={AppRoute.Catalog}>Каталог
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
