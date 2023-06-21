@@ -13,6 +13,7 @@ function RateRequestItem({ rating, title, isDisabledForm, selectedRate, onChange
     <>
       <input
         key={rating}
+        data-testid={`rate-input-${rating}`}
         className="visually-hidden"
         id={`star-${rating}`}
         name="rate" type="radio"

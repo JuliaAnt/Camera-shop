@@ -14,12 +14,12 @@ function Pagination({ products, totalPageCount, nextPage, prevPage, setPage, pag
   console.log(page);
 
   return (
-    <ul className="pagination__list">
+    <ul className="pagination__list" data-testid={'pagination'}>
       <li className='pagination__item' style={{ visibility: `${page === 1 ? 'hidden' : 'visible'}` }}>
         <a
           className="pagination__link pagination__link--text"
-          // href={`page_${page - 1}`}
-          href='#'
+          href={`?page_${page - 1}`}
+          // href='#'
           onClick={prevPage}
         >Назад
         </a>
@@ -29,8 +29,8 @@ function Pagination({ products, totalPageCount, nextPage, prevPage, setPage, pag
           <li key={pageNumber + 1} className="pagination__item">
             <a
               className={`pagination__link${page === pageNumber + 1 ? ' pagination__link--active' : ''}`}
-              // href={`page_${pageNumber + 1}`}
-              href='#'
+              href={`?page_${pageNumber + 1}`}
+              // href='#'
               onClick={() => setPage(pageNumber + 1)}
             >{pageNumber + 1}
             </a>
@@ -40,8 +40,8 @@ function Pagination({ products, totalPageCount, nextPage, prevPage, setPage, pag
       <li className="pagination__item" style={{ visibility: `${page === totalPageCount ? 'hidden' : 'visible'}` }}>
         <a
           className="pagination__link pagination__link--text"
-          // href={`page_${page + 1}`}
-          href='#'
+          href={`?page_${page + 1}`}
+          // href='#'
           onClick={nextPage}
         >Далее
         </a>

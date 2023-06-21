@@ -15,24 +15,9 @@ type PopupProductReviewProps = {
   onSuccessModalOpen: () => void;
 }
 
-// type ReviewData = {
-//   userName: string;
-//   advantage: string;
-//   disadvantage: string;
-//   review: string;
-//   rating: number;
-// }
-
 function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalClose, onSuccessModalOpen }: PopupProductReviewProps): JSX.Element {
   const dispatch = useAppDispatch();
   const { id: productId } = useParams<{ id: string }>();
-  // const [reviewData, setReviewData] = useState<ReviewData>({
-  //   userName: '',
-  //   advantage: '',
-  //   disadvantage: '',
-  //   review: '',
-  //   rating: 0,
-  // });
   const [isDisabledForm, setDisabled] = useState<boolean>(false);
 
   const onSubmit = (currentReview: ReviewRequest) => {
@@ -119,6 +104,7 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       </svg>
                     </span>
                     <input
+                      data-testid='name-input'
                       type="text"
                       id='name'
                       placeholder="Введите ваше имя"
@@ -144,6 +130,7 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       </svg>
                     </span>
                     <input
+                      data-testid='advantage'
                       type="text"
                       id='user-plus'
                       placeholder="Основные преимущества товара"
@@ -165,6 +152,7 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       </svg>
                     </span>
                     <input
+                      data-testid='disadvantage'
                       type="text"
                       id="user-minus"
                       placeholder="Главные недостатки товара"
@@ -186,6 +174,7 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       </svg>
                     </span>
                     <textarea
+                      data-testid='comment'
                       id="user-comment"
                       placeholder="Поделитесь своим опытом покупки"
                       disabled={isDisabledForm}

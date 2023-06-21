@@ -73,7 +73,7 @@ export const sendReviewAction = createAsyncThunk<void, SendReviewProps, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'sendBooking',
+  'sendReview',
   async ({ cameraId, userName, advantage, disadvantage, review, rating, onSuccess, onError }, { extra: api }) => {
     try {
       await api.post<ReviewRequest>(APIRoute.ReviewRequest, { cameraId, userName, advantage, disadvantage, review, rating });

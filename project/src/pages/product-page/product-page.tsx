@@ -148,7 +148,7 @@ function ProductPage(): JSX.Element {
                   </picture>
                 </div>
                 <div className="product__content">
-                  <h1 className="title title--h3">{name || ''}</h1>
+                  <h1 className="title title--h3" data-testid={'productTitle'}>{name || ''}</h1>
                   <div className="rate product__rate">
                     {RATINGS.map((reviewRating) => <RatingItem key={reviewRating} id={reviewRating} rating={rating} />)}
                     <p className="visually-hidden">Рейтинг: 4</p>

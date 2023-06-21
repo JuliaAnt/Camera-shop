@@ -69,7 +69,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
             {reviewCount}
           </p>
         </div>
-        <p className="product-card__title">{name}</p>
+        <p className="product-card__title" data-testid={`cardTitle-${id}`}>{name}</p>
         <p className="product-card__price">
           <span className="visually-hidden">Цена:</span>
           {`${price} ₽`}

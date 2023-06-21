@@ -12,9 +12,9 @@ export enum NameSpace {
 
 export enum APIRoute {
   Products = '/cameras',
-  SelectedQuest = '/quest/{questId}',
+  SelectedProduct = '/cameras/{cameraId}',
   PromoProduct = '/promo',
-  Logout = '/logout',
+  SimilarProducts = '/cameras/{cameraId}/similar',
   ReviewRequest = '/reviews',
   Reviews = '/cameras/{cameraId}/reviews',
 }

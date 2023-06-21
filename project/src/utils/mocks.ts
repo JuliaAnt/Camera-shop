@@ -1,4 +1,7 @@
 import { SelectedFilter } from '../types/filters';
+import { PromoProduct } from '../types/promo';
+import { Review, ReviewRequest } from '../types/review';
+import { SortsType } from '../types/sorts';
 
 export const mockSelectedFilters: SelectedFilter[] = [
   {
@@ -94,4 +97,55 @@ export const mockProductCards = [
   },
 ];
 
+export const mockSelectedSorts: SortsType = { sortType: 'sortPrice', sortOrder: 'down' };
 
+export const mockPromoProduct: PromoProduct = {
+  id: 7,
+  name: 'Look 54',
+  previewImg: 'img/content/look-54.jpg',
+  previewImg2x: 'img/content/look-54@2x.jpg',
+  previewImgWebp: 'img/content/look-54.webp',
+  previewImgWebp2x: 'img/content/look-54@2x.webp',
+};
+
+export const mockReviews: Review[] = [
+  {
+    id: 'f1d10ddd-2a21-4f71-9e1e-5f511703fbdd',
+    createAt: '2022-07-09T13:24:57.980Z',
+    cameraId: 1,
+    userName: 'Кирилл',
+    advantage: 'Легкая в плане веса, удобная в интерфейсе',
+    disadvantage: 'Быстро садиться зарядка',
+    review: 'Это моя первая камера. Я в восторге, нареканий нет',
+    rating: 5,
+  },
+  {
+    id: 'f1d10ddd-2a21-4f71-9e1e-5f511703fbbb',
+    createAt: '2022-07-15T13:24:57.980Z',
+    cameraId: 1,
+    userName: 'Пётр Матросов',
+    advantage: 'Хорошее пресс-папье',
+    disadvantage: 'Через 3 дня развалилась на куски',
+    review: 'При попытке вставить плёнку сломался механизм открытия отсека, пришлось заклеить его изолентой.',
+    rating: 1,
+  },
+  {
+    id: 'f1d10ddd-2a21-4f71-9e1e-5f511703fbaa',
+    createAt: '2022-07-08T13:24:57.980Z',
+    cameraId: 1,
+    userName: 'Сергей Горский',
+    advantage: 'Надёжная, хорошо лежит в руке, необычно выглядит',
+    disadvantage: 'Тяжеловата, сложно найти плёнку',
+    review: 'Раз в полгода достаю из-под стекла, стираю пыль, заряжаю — работает как часы.',
+    rating: 5,
+  },
+];
+
+export const mockReview: ReviewRequest = {
+  cameraId: 1,
+  userName: 'Кирилл',
+  advantage: 'Легкая в плане веса, удобная в интерфейсе',
+  disadvantage: 'Быстро садиться зарядка',
+  review: 'Это моя первая камера. Я в восторге, нареканий нет',
+  rating: 5,
+};
