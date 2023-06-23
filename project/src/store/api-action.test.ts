@@ -5,7 +5,7 @@ import { State } from '../types/state';
 import { Action } from 'redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { APIRoute } from '../consts';
-import { look54Card, mockProductCards, mockPromoProduct, mockReview, mockReviews } from '../utils/mocks';
+import { look54Card, mockProductCards, mockPromoProduct, mockReview, mockReviews } from '../mocks/mocks';
 import { fetchProductsAction, fetchPromoProductAction, fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction, sendReviewAction } from './api-actions';
 
 describe('Async actions', () => {

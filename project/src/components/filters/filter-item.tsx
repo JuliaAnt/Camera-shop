@@ -11,7 +11,7 @@ function FilterItem({ currentItem, currentFilterValue, onFilterChange }: FilterI
   const checked = currentFilterValue.includes(currentItem.title);
 
   return (
-    <div key={currentItem.name} className="custom-checkbox catalog-filter__item">
+    <div key={currentItem.name} className="custom-checkbox catalog-filter__item" data-testid={'filterItem'}>
       <label>
         <input type="checkbox" name={currentItem.name} onClick={() => onFilterChange(currentItem.title)} defaultChecked={checked} />
         <span className="custom-checkbox__icon"></span>

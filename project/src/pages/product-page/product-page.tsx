@@ -40,19 +40,11 @@ function ProductPage(): JSX.Element {
   };
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      if (productId) {
-        dispatch(fetchSelectedProductAction(+productId));
-        dispatch(fetchSimilarProductsAction(+productId));
-        dispatch(fetchReviewsAction(+productId));
-      }
+    if (productId) {
+      dispatch(fetchSelectedProductAction(+productId));
+      dispatch(fetchSimilarProductsAction(+productId));
+      dispatch(fetchReviewsAction(+productId));
     }
-
-    return () => {
-      isMounted = false;
-    };
   }, [dispatch, productId]);
 
   const selectedProduct: ProductCard | null = useAppSelector(getSelectedProduct);

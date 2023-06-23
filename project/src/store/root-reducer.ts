@@ -5,6 +5,5 @@ import { productData } from './product-data/product-data-slice';
 
 export const rootReducer = combineReducers({
   [NameSpace.ProductData]: productData.reducer,
-  // [NameSpace.Basket]: userProcess.reducer,
   [NameSpace.CatalogData]: catalogData.reducer,
 });

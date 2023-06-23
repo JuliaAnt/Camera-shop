@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ProductCard } from '../../types/product-card';
 
 type PaginationProps = {
-  products: ProductCard[];
   totalPageCount: number;
   nextPage: () => void;
   prevPage: () => void;
@@ -10,7 +8,7 @@ type PaginationProps = {
   page: number;
 }
 
-function Pagination({ products, totalPageCount, nextPage, prevPage, setPage, page }: PaginationProps): JSX.Element {
+function Pagination({ totalPageCount, nextPage, prevPage, setPage, page }: PaginationProps): JSX.Element {
 
   return (
     <ul className="pagination__list" data-testid={'pagination'}>

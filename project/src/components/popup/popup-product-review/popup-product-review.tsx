@@ -61,7 +61,7 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
   return (
     <div className={`modal${isModalOpen ? ' is-active' : ''}`}>
       <div className="modal__wrapper">
-        <div className="modal__overlay"></div>
+        <div className="modal__overlay" onClick={onModalClose}></div>
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">

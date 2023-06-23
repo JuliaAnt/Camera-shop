@@ -7,7 +7,7 @@ function PopupProductReviewSuccess({ isSuccessModalActive, onSuccessModalClose }
   return (
     <div className={`modal modal--narrow${isSuccessModalActive ? ' is-active' : ''}`}>
       <div className="modal__wrapper">
-        <div className="modal__overlay"></div>
+        <div className="modal__overlay" onClick={onSuccessModalClose}></div>
         <div className="modal__content">
           <p className="title title--h4">Спасибо за отзыв</p>
           <svg className="modal__icon" width="80" height="78" aria-hidden="true">

@@ -1,5 +1,5 @@
 import { PRODUCTS_PER_SLIDE } from '../../consts';
-import { useSlider } from '../../hooks/useSlider';
+import { useSlider } from '../../hooks/use-slider';
 import { ProductCard } from '../../types/product-card';
 import SliderContent from './slider-content/slider-content';
 

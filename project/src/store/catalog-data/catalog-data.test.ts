@@ -2,7 +2,7 @@ import { SelectedFilter } from '../../types/filters';
 import { ProductCard } from '../../types/product-card';
 import { PromoProduct } from '../../types/promo';
 import { SortsType } from '../../types/sorts';
-import { look54Card, mockProductCards, mockPromoProduct, mockSelectedSorts, newMockSelectedFilters } from '../../utils/mocks';
+import { look54Card, mockProductCards, mockPromoProduct, mockSelectedSorts, newMockSelectedFilters } from '../../mocks/mocks';
 import { fetchProductsAction, fetchPromoProductAction } from '../api-actions';
 import { catalogData, changeFiltersAction, changeSortsAction, resetFiltersAction } from './catalog-data-slice';
 

@@ -1,6 +1,6 @@
 import { ProductCard } from '../../types/product-card';
 import { Review } from '../../types/review';
-import { look54Card, mockProductCards, mockReviews } from '../../utils/mocks';
+import { look54Card, mockProductCards, mockReviews } from '../../mocks/mocks';
 import { fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction } from '../api-actions';
 import { productData } from './product-data-slice';
 

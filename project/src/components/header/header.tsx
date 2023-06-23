@@ -5,12 +5,12 @@ function Header(): JSX.Element {
   return (
     <header className="header" id="header" data-testid={'header'}>
       <div className="container">
-        <Link className="header__logo" to={AppRoute.Catalog} aria-label="Переход на главную">
+        <Link className="header__logo" to={AppRoute.Catalog} aria-label="Переход на главную" data-testid={'header-logo'}>
           <svg width="100" height="36" aria-hidden="true">
             <use xlinkHref="#icon-logo"></use>
           </svg>
         </Link>
-        <nav className="main-nav header__main-nav">
+        <nav className="main-nav header__main-nav" data-testid={'header-main-nav'}>
           <ul className="main-nav__list">
             <li className="main-nav__item"><a className="main-nav__link" href="catalog.html">Каталог</a>
             </li>
@@ -22,7 +22,7 @@ function Header(): JSX.Element {
             </li>
           </ul>
         </nav>
-        <div className="form-search">
+        <div className="form-search" data-testid={'form-search'}>
           <form>
             <label>
               <svg className="form-search__icon" width="16" height="16" aria-hidden="true">

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { changeSortsAction } from '../../store/catalog-data/catalog-data-slice';
 import { getSorts } from '../../store/catalog-data/catalog-data-selectors';
 
-function Sorts(): JSX.Element {
+function Sort(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedSorts = useAppSelector(getSorts);
   const [sorts, setSorts] = useState<SortsType>({
@@ -103,4 +103,4 @@ function Sorts(): JSX.Element {
   );
 }
 
-export default Sorts;
+export default Sort;

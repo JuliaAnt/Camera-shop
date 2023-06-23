@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { resetFiltersAction } from '../../store/catalog-data/catalog-data-slice';
 import CategoryFilter from './category-filter/category-filter';
