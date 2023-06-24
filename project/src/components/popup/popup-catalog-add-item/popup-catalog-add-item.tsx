@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
+import FocusTrap from 'react-focus-trap';
 import { ProductCard } from '../../../types/product-card';
-// import { useFocusLoop } from '../../../hooks/use-focus-loop';
 
 type PopupCatalogAddItemProps = {
   isModalOpen: boolean;
@@ -10,72 +9,63 @@ type PopupCatalogAddItemProps = {
 
 function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose }: PopupCatalogAddItemProps): JSX.Element {
   const { name, vendorCode, type, category, level, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
-  const modalContainerRef = useRef<HTMLDivElement>(null);
-  // const clickableElementRefs = useRef<Array<React.RefObject<HTMLElement>>>([]);
-
-  // useFocusLoop(clickableElementRefs.current);
-
-  useEffect(() => {
-    if (isModalOpen && modalContainerRef.current) {
-      modalContainerRef.current.focus();
-    }
-  }, [isModalOpen]);
-
 
   return (
-    <div className={`modal${isModalOpen ? ' is-active' : ''}`}
-      ref={modalContainerRef}
-      tabIndex={-1}
-    // autoFocus={isModalOpen}
+    <div
+      className={`modal${isModalOpen ? ' is-active' : ''}`}
     >
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={onModalClose}></div>
-        <div className="modal__content">
-          <p className="title title--h4">Добавить товар в корзину</p>
-          <div className="basket-item basket-item--short">
-            <div className="basket-item__img">
-              <picture>
-                <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
-                <img src={previewImg} srcSet={`${previewImg2x} 2x`} width="140" height="120" alt={name} />
-              </picture>
+        {/* @ts-expect-error children*/}
+        <FocusTrap active={isModalOpen} focusTrapOptions={{ initialFocus: '#add-btn', onDeactivate: onModalClose }}>
+          <div className="modal__content">
+            <p className="title title--h4">Добавить товар в корзину</p>
+            <div className="basket-item basket-item--short">
+              <div className="basket-item__img">
+                <picture>
+                  <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
+                  <img src={previewImg} srcSet={`${previewImg2x} 2x`} width="140" height="120" alt={name} />
+                </picture>
+              </div>
+              <div className="basket-item__description">
+                <p className="basket-item__title">{name}</p>
+                <ul className="basket-item__list">
+                  <li className="basket-item__list-item">
+                    <span className="basket-item__article">Артикул: </span>
+                    <span className="basket-item__number">{vendorCode}</span>
+                  </li>
+                  <li className="basket-item__list-item">{`${type} ${category === 'Фотоаппарат' ? 'фотокамера' : 'видеокамера'}`}</li>
+                  <li className="basket-item__list-item">{`${level} уровень`}</li>
+                </ul>
+                <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${price} ₽`}</p>
+              </div>
             </div>
-            <div className="basket-item__description">
-              <p className="basket-item__title">{name}</p>
-              <ul className="basket-item__list">
-                <li className="basket-item__list-item">
-                  <span className="basket-item__article">Артикул: </span>
-                  <span className="basket-item__number">{vendorCode}</span>
-                </li>
-                <li className="basket-item__list-item">{`${type} ${category === 'Фотоаппарат' ? 'фотокамера' : 'видеокамера'}`}</li>
-                <li className="basket-item__list-item">{`${level} уровень`}</li>
-              </ul>
-              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${price} ₽`}</p>
+            <div className="modal__buttons">
+              <button
+                id='add-btn'
+                className="btn btn--purple modal__btn modal__btn--fit-width"
+                type="button"
+              >
+                <svg width="24" height="16" aria-hidden="true">
+                  <use xlinkHref="#icon-add-basket"></use>
+                </svg>Добавить в корзину
+              </button>
             </div>
-          </div>
-          <div className="modal__buttons">
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any */}
-            <button className="btn btn--purple modal__btn modal__btn--fit-width"
+            <button
+              className="cross-btn"
               type="button"
-              autoFocus={isModalOpen}
-            // ref={(ref) => clickableElementRefs.current.push(ref as any)}
+              aria-label="Закрыть попап"
+              onClick={onModalClose}
             >
-              <svg width="24" height="16" aria-hidden="true">
-                <use xlinkHref="#icon-add-basket"></use>
-              </svg>Добавить в корзину
+              <svg width="10" height="10" aria-hidden="true">
+                <use xlinkHref="#icon-close"></use>
+              </svg>
             </button>
           </div>
-          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any */}
-          <button className="cross-btn" type="button" aria-label="Закрыть попап"
-            // ref={(ref) => clickableElementRefs.current.push(ref as any)}
-            onClick={onModalClose}
-          >
-            <svg width="10" height="10" aria-hidden="true">
-              <use xlinkHref="#icon-close"></use>
-            </svg>
-          </button>
-        </div>
+        </FocusTrap>
       </div>
-    </div>
+    </div >
+
   );
 }
 
