@@ -16,7 +16,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
   const rating = 2;
 
   return (
-    <div key={id} className={`product-card ${className}`}>
+    <div key={id} className={`product-card ${className}`} data-testid={'product-card-item'}>
       <div className="product-card__img">
         <picture>
           <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
@@ -34,7 +34,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
           </p>
         </div>
         <p className="product-card__title" data-testid={`cardTitle-${id}`}>{name}</p>
-        <p className="product-card__price">
+        <p className="product-card__price" data-testid={'cardPrice'}>
           <span className="visually-hidden">Цена:</span>
           {`${price} ₽`}
         </p>

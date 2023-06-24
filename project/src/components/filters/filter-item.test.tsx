@@ -6,7 +6,7 @@ import { CATEGORY_FILTER_MAP } from '../../consts';
 const mockFilter = CATEGORY_FILTER_MAP[0];
 const mockFilterValue = ['Фотоаппарат'];
 
-describe('Component: CategoryFilter', () => {
+describe('Component: FilterItem', () => {
   it('should render correctly', () => {
     render(
       <BrowserRouter>
@@ -14,7 +14,7 @@ describe('Component: CategoryFilter', () => {
       </ BrowserRouter>
     );
 
-    expect(screen.getByText('Фотоаппарат')).toBeInTheDocument();
+    expect(screen.getByText('Фотокамера')).toBeInTheDocument();
     expect(screen.getByTestId('filterItem')).toBeInTheDocument();
   });
 });

@@ -21,21 +21,13 @@ function PriceFilter(): JSX.Element {
   });
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(changeFiltersAction(priceFilter));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(changeFiltersAction(priceFilter));
   }, [priceFilter, dispatch]);
 
   return (
     <fieldset className="catalog-filter__block">
       <legend className="title title--h5">Цена, ₽</legend>
-      <div className="catalog-filter__price-range">
+      <div className="catalog-filter__price-range" data-testid={'priceRange'}>
         <div className="custom-input">
           <label>
             <input

@@ -25,15 +25,7 @@ function Sort(): JSX.Element {
   };
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(changeSortsAction(sorts));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(changeSortsAction(sorts));
   }, [dispatch, sorts]);
 
   return (
@@ -43,6 +35,7 @@ function Sort(): JSX.Element {
         <div className="catalog-sort__type">
           <div className="catalog-sort__btn-text">
             <input
+              data-testid={'sortPrice'}
               className='sortType'
               type="radio"
               id="sortPrice"
@@ -54,6 +47,7 @@ function Sort(): JSX.Element {
           </div>
           <div className="catalog-sort__btn-text">
             <input
+              data-testid={'sortPopular'}
               className='sortType'
               type="radio"
               id="sortPopular"

@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { ProductCard } from '../../../types/product-card';
+// import { useFocusLoop } from '../../../hooks/use-focus-loop';
 
 type PopupCatalogAddItemProps = {
   isModalOpen: boolean;
@@ -8,11 +10,26 @@ type PopupCatalogAddItemProps = {
 
 function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose }: PopupCatalogAddItemProps): JSX.Element {
   const { name, vendorCode, type, category, level, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
+  const modalContainerRef = useRef<HTMLDivElement>(null);
+  // const clickableElementRefs = useRef<Array<React.RefObject<HTMLElement>>>([]);
+
+  // useFocusLoop(clickableElementRefs.current);
+
+  useEffect(() => {
+    if (isModalOpen && modalContainerRef.current) {
+      modalContainerRef.current.focus();
+    }
+  }, [isModalOpen]);
+
 
   return (
-    <div className={`modal${isModalOpen ? ' is-active' : ''}`}>
+    <div className={`modal${isModalOpen ? ' is-active' : ''}`}
+      ref={modalContainerRef}
+      tabIndex={-1}
+    // autoFocus={isModalOpen}
+    >
       <div className="modal__wrapper">
-        <div className="modal__overlay"></div>
+        <div className="modal__overlay" onClick={onModalClose}></div>
         <div className="modal__content">
           <p className="title title--h4">Добавить товар в корзину</p>
           <div className="basket-item basket-item--short">
@@ -36,13 +53,22 @@ function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose }: PopupCa
             </div>
           </div>
           <div className="modal__buttons">
-            <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button">
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any */}
+            <button className="btn btn--purple modal__btn modal__btn--fit-width"
+              type="button"
+              autoFocus={isModalOpen}
+            // ref={(ref) => clickableElementRefs.current.push(ref as any)}
+            >
               <svg width="24" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-add-basket"></use>
               </svg>Добавить в корзину
             </button>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onModalClose}>
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any */}
+          <button className="cross-btn" type="button" aria-label="Закрыть попап"
+            // ref={(ref) => clickableElementRefs.current.push(ref as any)}
+            onClick={onModalClose}
+          >
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>

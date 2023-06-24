@@ -16,7 +16,8 @@ function RateRequestItem({ rating, title, isDisabledForm, selectedRate, onChange
         data-testid={`rate-input-${rating}`}
         className="visually-hidden"
         id={`star-${rating}`}
-        name="rate" type="radio"
+        name="rate"
+        type="radio"
         value={rating}
         disabled={isDisabledForm}
         checked={checked}

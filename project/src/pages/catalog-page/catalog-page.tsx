@@ -19,27 +19,11 @@ function CatalogPage(): JSX.Element {
   const promoProduct = useAppSelector(getPromoProduct);
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(fetchProductsAction());
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(fetchProductsAction());
   }, [dispatch]);
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(fetchPromoProductAction());
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(fetchPromoProductAction());
   }, [dispatch]);
 
   const promoProductCard = products.find((product) => product.id === promoProduct?.id);

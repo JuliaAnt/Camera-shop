@@ -17,7 +17,7 @@ function ReviewItem({ reviewData }: ReviewItemProps): JSX.Element {
   const formattedDate = new Intl.DateTimeFormat('ru-RU', dateOptions).format(new Date(createAt));
 
   return (
-    <li key={`${id}-${cameraId}`} className="review-card">
+    <li key={`${id}-${cameraId}`} className="review-card" data-testid={'review-item'}>
       <div className="review-card__head">
         <p className="title title--h4">{userName}</p>
         <time className="review-card__data" dateTime={createAt}>{formattedDate}</time>

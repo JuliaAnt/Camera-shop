@@ -36,15 +36,7 @@ function TypeFilter(): JSX.Element {
   }
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(changeFiltersAction(typeFilter));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(changeFiltersAction(typeFilter));
   }, [dispatch, typeFilter]);
 
   return (

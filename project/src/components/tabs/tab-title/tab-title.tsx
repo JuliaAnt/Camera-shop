@@ -9,7 +9,7 @@ type TabTitleProps = {
 
 function TabTitle({ title, id, selectedTabIndex, onClick }: TabTitleProps): JSX.Element {
   return (
-    <Link to={`?${id === 0 ? 'specs' : 'description'}`}>
+    <Link to={`?${id === 0 ? 'specs' : 'description'}`} data-testid={'tab-title'}>
       <button
         className={`tabs__control${selectedTabIndex === id ? ' is-active' : ''}`}
         type="button"

@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import CategoryFilter from './category-filter';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Provider } from 'react-redux';
-import { CATEGORY_FILTER_MAP, NameSpace } from '../../../consts';
+import { NameSpace } from '../../consts';
+import Filters from './filters';
 
 const mockStore = configureMockStore();
 
-describe('Component: CategoryFilter', () => {
+describe('Component: Filters', () => {
   it('should render correctly', () => {
     render(
       <Provider store={mockStore({
@@ -37,14 +37,12 @@ describe('Component: CategoryFilter', () => {
       })}
       >
         <BrowserRouter>
-          <CategoryFilter />
+          <Filters />
         </ BrowserRouter>
       </Provider>
     );
 
-    const elementCount = CATEGORY_FILTER_MAP.length;
-
-    expect(screen.getByText('Категория')).toBeInTheDocument();
-    expect(screen.getAllByTestId('filterItem')).toHaveLength(elementCount);
+    expect(screen.getByText('Сбросить фильтры')).toBeInTheDocument();
+    expect(screen.getByText('Фильтр')).toBeInTheDocument();
   });
 });

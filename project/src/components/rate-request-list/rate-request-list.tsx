@@ -9,7 +9,7 @@ type RateRequestListProps = {
 
 function RateRequestList({ isDisabledForm, selectedRate, onChange }: RateRequestListProps): JSX.Element {
   return (
-    <div className="rate__group">
+    <div className="rate__group" data-testid={'rate-group'}>
       {RATINGS_REQUEST.map((rateItem) => <RateRequestItem key={rateItem.value} rating={rateItem.value} title={rateItem.title} isDisabledForm={isDisabledForm} selectedRate={selectedRate}onChange={onChange} />)}
     </div>
   );
