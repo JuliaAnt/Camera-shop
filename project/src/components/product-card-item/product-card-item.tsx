@@ -1,8 +1,4 @@
-// import { useEffect } from 'react';
-// import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-// import { fetchReviewsAction } from '../../store/api-actions';
 import { ProductCard } from '../../types/product-card';
-// import { getProductReviews } from '../../store/review-data/review-data-selectors';
 import { RATINGS } from '../../consts';
 import RatingItem from '../rating-item/rating-item';
 import { useState } from 'react';
@@ -20,7 +16,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
   const rating = 2;
 
   return (
-    <div key={id} className={`product-card ${className}`}>
+    <div key={id} className={`product-card ${className}`} data-testid={'product-card-item'}>
       <div className="product-card__img">
         <picture>
           <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
@@ -38,7 +34,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
           </p>
         </div>
         <p className="product-card__title" data-testid={`cardTitle-${id}`}>{name}</p>
-        <p className="product-card__price">
+        <p className="product-card__price" data-testid={'cardPrice'}>
           <span className="visually-hidden">Цена:</span>
           {`${price} ₽`}
         </p>
@@ -46,7 +42,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
       <div className="product-card__buttons">
         <button className="btn btn--purple product-card__btn" type="button" onClick={() => setModalOpen(true)}>Купить
         </button>
-        <Link className="btn btn--transparent" to={`/camera/${id}`}>Подробнее
+        <Link className="btn btn--transparent" to={`/camera/${id}?specs`}>Подробнее
         </Link>
       </div>
       <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={() => setModalOpen(false)} />

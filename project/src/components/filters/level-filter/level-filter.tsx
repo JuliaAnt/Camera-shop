@@ -36,15 +36,7 @@ function LevelFilter(): JSX.Element {
   }
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(changeFiltersAction(levelFilter));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(changeFiltersAction(levelFilter));
   }, [dispatch, levelFilter]);
 
   return (

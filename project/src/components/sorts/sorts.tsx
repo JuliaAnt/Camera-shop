@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { changeSortsAction } from '../../store/catalog-data/catalog-data-slice';
 import { getSorts } from '../../store/catalog-data/catalog-data-selectors';
 
-function Sorts(): JSX.Element {
+function Sort(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedSorts = useAppSelector(getSorts);
   const [sorts, setSorts] = useState<SortsType>({
@@ -25,15 +25,7 @@ function Sorts(): JSX.Element {
   };
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(changeSortsAction(sorts));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(changeSortsAction(sorts));
   }, [dispatch, sorts]);
 
   return (
@@ -43,6 +35,7 @@ function Sorts(): JSX.Element {
         <div className="catalog-sort__type">
           <div className="catalog-sort__btn-text">
             <input
+              data-testid={'sortPrice'}
               className='sortType'
               type="radio"
               id="sortPrice"
@@ -54,6 +47,7 @@ function Sorts(): JSX.Element {
           </div>
           <div className="catalog-sort__btn-text">
             <input
+              data-testid={'sortPopular'}
               className='sortType'
               type="radio"
               id="sortPopular"
@@ -103,4 +97,4 @@ function Sorts(): JSX.Element {
   );
 }
 
-export default Sorts;
+export default Sort;

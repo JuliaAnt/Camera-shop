@@ -33,7 +33,7 @@ function Footer(): JSX.Element {
             </li>
           </ul>
         </div>
-        <ul className="footer__nav">
+        <ul className="footer__nav" data-testid={'footer-nav'}>
           <li className="footer__nav-item">
             <p className="footer__title">Навигация</p>
             <ul className="footer__list">

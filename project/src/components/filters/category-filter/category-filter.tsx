@@ -37,15 +37,7 @@ function CategoryFilter(): JSX.Element {
   };
 
   useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(changeFiltersAction(categoryFilter));
-    }
-
-    return () => {
-      isMounted = false;
-    };
+    dispatch(changeFiltersAction(categoryFilter));
   }, [dispatch, categoryFilter]);
 
   return (

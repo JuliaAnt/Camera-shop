@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type TabTitleProps = {
   title: string;
   id: number;
@@ -7,13 +9,15 @@ type TabTitleProps = {
 
 function TabTitle({ title, id, selectedTabIndex, onClick }: TabTitleProps): JSX.Element {
   return (
-    <button
-      className={`tabs__control${selectedTabIndex === id ? ' is-active' : ''}`}
-      type="button"
-      id={id.toString()}
-      onClick={() => onClick(id)}
-    >{title}
-    </button>
+    <Link to={`?${id === 0 ? 'specs' : 'description'}`} data-testid={'tab-title'}>
+      <button
+        className={`tabs__control${selectedTabIndex === id ? ' is-active' : ''}`}
+        type="button"
+        id={id.toString()}
+        onClick={() => onClick(id)}
+      >{title}
+      </button>
+    </Link>
   );
 }
 
