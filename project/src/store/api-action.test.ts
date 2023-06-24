@@ -110,8 +110,7 @@ describe('Async actions', () => {
 
   it('should dispatch Send_Review when POST /reviews', async () => {
     const onSuccessMock = jest.fn();
-    // eslint-disable-next-line no-console
-    const onError = () => console.log('222');
+    const onError = jest.fn();
     mockAPI
       .onPost('/reviews')
       .reply(200, mockReviews[0]);
