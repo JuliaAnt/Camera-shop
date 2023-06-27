@@ -3,13 +3,11 @@ type TabSpecsProps = {
   type: string | undefined;
   category: string | undefined;
   level: string | undefined;
-  id: number;
-  selectedTabIndex: number;
 }
 
-function TabSpecs({ vendorCode, type, category, level, id, selectedTabIndex }: TabSpecsProps): JSX.Element {
+function TabSpecs({ vendorCode, type, category, level }: TabSpecsProps): JSX.Element {
   return (
-    <div className={`tabs__element${selectedTabIndex === id ? ' is-active' : ''}`} id={id.toString()} data-testid={'tab-specs'}>
+    <div className={'tabs__element is-active'} id='specs' data-testid={'tab-specs'}>
       <ul className="product__tabs-list">
         <li className="item-list"><span className="item-list__title">Артикул: </span>
           <p className="item-list__text">{vendorCode}</p>

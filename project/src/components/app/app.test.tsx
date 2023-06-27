@@ -92,6 +92,7 @@ describe('App component', () => {
           productReviews: [],
           similarProducts: [{
             name: 'Instaprinter P2',
+            id: 546565686
           }],
         }
       })}

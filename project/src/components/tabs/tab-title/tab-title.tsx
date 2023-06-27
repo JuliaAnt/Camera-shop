@@ -1,21 +1,26 @@
 import { Link } from 'react-router-dom';
 
+export type TabType = 'specs' | 'description';
+
+export type TabItem = { title: string; id: TabType };
+
 type TabTitleProps = {
-  title: string;
-  id: number;
-  selectedTabIndex: number;
-  onClick: (tabIndex: number) => void;
+  tabItem: TabItem;
+  isActive: boolean;
+  onClick: () => void;
 };
 
-function TabTitle({ title, id, selectedTabIndex, onClick }: TabTitleProps): JSX.Element {
+function TabTitle({ tabItem, isActive, onClick }: TabTitleProps): JSX.Element {
   return (
-    <Link to={`?${id === 0 ? 'specs' : 'description'}`} data-testid={'tab-title'}>
+    <Link to={`?tab=${tabItem.id}`} data-testid={'tab-title'}>
       <button
-        className={`tabs__control${selectedTabIndex === id ? ' is-active' : ''}`}
+        className={`tabs__control${isActive ? ' is-active' : ''}`}
         type="button"
-        id={id.toString()}
-        onClick={() => onClick(id)}
-      >{title}
+        id={tabItem.id}
+        data-testid={'tab-button'}
+        onClick={onClick}
+      >
+        {tabItem.title}
       </button>
     </Link>
   );

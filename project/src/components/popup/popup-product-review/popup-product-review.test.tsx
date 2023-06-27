@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import PopupProductReview from './popup-product-review';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { NameSpace } from '../../../consts';
 
 const mockReviewData = {
   userName: '',
@@ -16,7 +17,20 @@ const mockReviewData = {
 const setup = () => {
   const onChangeReviewMock = jest.fn();
   const utils = render(
-    <Provider store={mockStore({})}>
+    <Provider store={mockStore({
+      [NameSpace.ProductData]: {
+        selectedProduct: {
+          name: 'Ретрокамера Dus Auge lV',
+          vendorCode: 'DA4IU67AD5',
+        },
+        productReviews: [],
+        similarProducts: [{
+          name: 'Instaprinter P2',
+          id: 48498,
+        }],
+      }
+    })}
+    >
       <PopupProductReview
         isModalOpen
         reviewData={mockReviewData}
@@ -42,7 +56,20 @@ describe('Component: PopupProductReview', () => {
 
     render(
       <React.StrictMode>
-        <Provider store={mockStore({})}>
+        <Provider store={mockStore({
+          [NameSpace.ProductData]: {
+            selectedProduct: {
+              name: 'Ретрокамера Dus Auge lV',
+              vendorCode: 'DA4IU67AD5',
+            },
+            productReviews: [],
+            similarProducts: [{
+              name: 'Instaprinter P2',
+              id: 64654,
+            }],
+          }
+        })}
+        >
           <BrowserRouter>
             <PopupProductReview
               isModalOpen

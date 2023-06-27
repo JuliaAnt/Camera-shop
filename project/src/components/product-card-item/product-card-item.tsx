@@ -4,6 +4,7 @@ import RatingItem from '../rating-item/rating-item';
 import { useState } from 'react';
 import PopupCatalogAddItem from '../popup/popup-catalog-add-item/popup-catalog-add-item';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
@@ -14,6 +15,29 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
   const [isModalOpen, setModalOpen] = useState(false);
   const rating = 2;
+
+  useEffect(() => {
+    const onModalEscKeydown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        onModalClose();
+      }
+    };
+
+    window.addEventListener('keydown', onModalEscKeydown);
+    return () => window.removeEventListener('keydown', onModalEscKeydown);
+
+  }, []);
+
+  const onModalOpen = () => {
+    setModalOpen(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onModalClose = () => {
+    setModalOpen(false);
+    document.body.style.position = '';
+  };
 
   return (
     <div key={id} className={`product-card ${className}`} data-testid={'product-card-item'}>
@@ -40,12 +64,12 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button" onClick={() => setModalOpen(true)}>Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={onModalOpen}>Купить
         </button>
-        <Link className="btn btn--transparent" to={`/camera/${id}?specs`}>Подробнее
+        <Link className="btn btn--transparent" to={`/camera/${id}?tab=specs`}>Подробнее
         </Link>
       </div>
-      <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={() => setModalOpen(false)} />
+      <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={onModalClose} />
     </div>
   );
 }

@@ -4,11 +4,9 @@ import TabDescription from './tab-description';
 describe('TabDescription component', () => {
   test('should render description when provided', () => {
     const description = 'fakeDescription';
-    const id = 1;
-    const selectedTabIndex = 1;
 
     render(
-      <TabDescription description={description} id={id} selectedTabIndex={selectedTabIndex} />
+      <TabDescription description={description} />
     );
 
     const descriptionElement = screen.getByText(description);
@@ -17,11 +15,9 @@ describe('TabDescription component', () => {
 
   test('should render empty description when not provided', () => {
     const description = undefined;
-    const id = 1;
-    const selectedTabIndex = 1;
 
     render(
-      <TabDescription description={description} id={id} selectedTabIndex={selectedTabIndex} />
+      <TabDescription description={description} />
     );
 
     expect(screen.getByTestId('tab-description').innerHTML).toMatch('');
@@ -29,11 +25,9 @@ describe('TabDescription component', () => {
 
   test('should apply active class when selectedTabIndex matches id', () => {
     const description = 'fakeDescription';
-    const id = 1;
-    const selectedTabIndex = 1;
 
     render(
-      <TabDescription description={description} id={id} selectedTabIndex={selectedTabIndex} />
+      <TabDescription description={description} />
     );
 
     expect(screen.getByTestId('tab-description')).toBeInTheDocument();
@@ -41,11 +35,9 @@ describe('TabDescription component', () => {
 
   test('should not apply active class when selectedTabIndex does not match id', () => {
     const description = 'fakeDescription';
-    const id = 1;
-    const selectedTabIndex = 0;
 
     render(
-      <TabDescription description={description} id={id} selectedTabIndex={selectedTabIndex} />
+      <TabDescription description={description} />
     );
 
     expect(screen.queryByText('fakeDescription')).not.toHaveClass('is-active');

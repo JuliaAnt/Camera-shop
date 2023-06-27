@@ -13,18 +13,21 @@ describe('Component: ProductPage', () => {
 
     render(
       <React.StrictMode>
-        <Provider store={mockStore({
-          [NameSpace.ProductData]: {
-            selectedProduct: {
-              name: 'Ретрокамера Dus Auge lV',
-              vendorCode: 'DA4IU67AD5',
-            },
-            productReviews: [],
-            similarProducts: [{
-              name: 'Instaprinter P2',
-            }],
-          }
-        })}
+        <Provider store={
+          mockStore({
+            [NameSpace.ProductData]: {
+              selectedProduct: {
+                name: 'Ретрокамера Dus Auge lV',
+                vendorCode: 'DA4IU67AD5',
+              },
+              productReviews: [],
+              similarProducts: [{
+                name: 'Instaprinter P2',
+                id: 546565686
+              }],
+            }
+          })
+        }
         >
           <BrowserRouter>
             <ProductPage />

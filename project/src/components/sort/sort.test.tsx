@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Sort from './sorts';
+import Sort from './sort';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { NameSpace } from '../../consts';

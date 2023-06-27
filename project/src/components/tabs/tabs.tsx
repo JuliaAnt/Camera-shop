@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import TabTitle from './tab-title/tab-title';
+import { useState, useEffect } from 'react';
+import TabTitle, { TabItem, TabType } from './tab-title/tab-title';
 import TabDescription from './tab-description/tab-description';
 import TabSpecs from './tab-specs/tab-specs';
+import { useSearchParams } from 'react-router-dom';
 
 type TabpProps = {
   vendorCode: string | undefined;
@@ -11,33 +12,44 @@ type TabpProps = {
   level: string | undefined;
 }
 
-const TAB_TITLES = [
+
+const TAB_TITLES: TabItem[] = [
   {
     title: 'Характеристики',
-    id: 0,
+    id: 'specs',
   },
   {
     title: 'Описание',
-    id: 1,
+    id: 'description',
   },
 ];
 
 function Tabs({ description, level, type, category, vendorCode }: TabpProps): JSX.Element {
-  const [selectedTabIndex, setTabIndex] = useState(TAB_TITLES[0].id);
+  const [activeTab, setActiveTab] = useState<TabType>(TAB_TITLES[0].id);
+  const [params] = useSearchParams();
+
+  useEffect(() => {
+    const tabParam = params.get('tab');
+    if (tabParam && tabParam !== activeTab) {
+      setActiveTab(tabParam as TabType);
+    }
+  }, [params, activeTab]);
 
   const tabContent = () => {
-    switch (selectedTabIndex) {
-      case 0:
-        return <TabSpecs level={level} type={type} category={category} vendorCode={vendorCode} id={0} selectedTabIndex={selectedTabIndex} />;
-      case 1:
-        return <TabDescription description={description} id={1} selectedTabIndex={selectedTabIndex} />;
+    switch (activeTab) {
+      case 'specs':
+        return <TabSpecs level={level} type={type} category={category} vendorCode={vendorCode} />;
+      case 'description':
+        return <TabDescription description={description} />;
     }
   };
 
   return (
     <div className="tabs product__tabs">
       <div className="tabs__controls product__tabs-controls">
-        {TAB_TITLES.map((tabItem) => <TabTitle key={tabItem.id} title={tabItem.title} id={tabItem.id} onClick={setTabIndex} selectedTabIndex={selectedTabIndex} />)}
+        {TAB_TITLES.map((tabItem) =>
+          (<TabTitle key={tabItem.id} tabItem={tabItem} isActive={activeTab === tabItem.id} onClick={() => setActiveTab(tabItem.id)} />)
+        )}
       </div>
       <div className="tabs__content">
         {tabContent()}

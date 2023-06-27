@@ -10,12 +10,13 @@ type PaginationProps = {
 
 function Pagination({ totalPageCount, nextPage, prevPage, setPage, page }: PaginationProps): JSX.Element {
 
+
   return (
     <ul className="pagination__list" data-testid={'pagination'}>
       <li className='pagination__item' style={{ visibility: `${page === 1 ? 'hidden' : 'visible'}` }}>
         <Link
           className="pagination__link pagination__link--text"
-          to={`?page_${page - 1}`}
+          to={`?page=${page - 1}`}
           onClick={prevPage}
         >Назад
         </Link>
@@ -25,7 +26,7 @@ function Pagination({ totalPageCount, nextPage, prevPage, setPage, page }: Pagin
           <li key={pageNumber + 1} className="pagination__item">
             <Link
               className={`pagination__link${page === pageNumber + 1 ? ' pagination__link--active' : ''}`}
-              to={`?page_${pageNumber + 1}`}
+              to={`?page=${pageNumber + 1}`}
               onClick={() => setPage(pageNumber + 1)}
             >{pageNumber + 1}
             </Link>
@@ -35,7 +36,7 @@ function Pagination({ totalPageCount, nextPage, prevPage, setPage, page }: Pagin
       <li className="pagination__item" style={{ visibility: `${page === totalPageCount ? 'hidden' : 'visible'}` }}>
         <Link
           className="pagination__link pagination__link--text"
-          to={`?page_${page + 1}`}
+          to={`?page=${page + 1}`}
           onClick={nextPage}
         >Далее
         </Link>

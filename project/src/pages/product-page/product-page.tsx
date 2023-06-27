@@ -13,6 +13,7 @@ import { AppRoute, RATINGS } from '../../consts';
 import RatingItem from '../../components/rating-item/rating-item';
 import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
 import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
+import FocusTrap from 'react-focus-trap';
 
 export type ReviewData = {
   userName: string;
@@ -168,7 +169,10 @@ function ProductPage(): JSX.Element {
             </section>
           </div>
         </div >
-        <PopupProductReview isModalOpen={isModalOpen} reviewData={reviewData} onChangeReview={handleChange} onModalClose={onModalClose} onSuccessModalOpen={onSuccessModalOpen} />
+        {/* @ts-expect-error children*/}
+        <FocusTrap active={isModalOpen} focusTrapOptions={{ initialFocus: '#name', onDeactivate: onModalClose }}>
+          <PopupProductReview isModalOpen={isModalOpen} reviewData={reviewData} onChangeReview={handleChange} onModalClose={onModalClose} onSuccessModalOpen={onSuccessModalOpen} />
+        </FocusTrap>
         <PopupProductReviewSuccess isSuccessModalActive={isSuccessModalActive} onSuccessModalClose={onSuccessModalClose} />
       </main >
       <button className="up-btn" onClick={handlerScrollUp}>

@@ -4,7 +4,7 @@ import { getFilteredProducts, getPromoProduct } from '../../store/catalog-data/c
 import { fetchProductsAction, fetchPromoProductAction } from '../../store/api-actions';
 import ProductCardList from '../../components/product-card-list/product-card-list';
 import Filters from '../../components/filters/filters';
-import Sort from '../../components/sorts/sorts';
+import Sort from '../../components/sort/sort';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
 import { AppRoute, PRODUCTS_PER_PAGE } from '../../consts';
