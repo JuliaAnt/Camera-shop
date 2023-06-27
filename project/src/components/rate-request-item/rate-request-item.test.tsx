@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, act } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import RateRequestItem from './rate-request-item';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ describe('Component: RateRequestItem', () => {
     expect(inputElement.disabled).toBe(false);
   });
 
-  it('handles rate change correctly', async () => {
+  it('handles rate change correctly', () => {
     const rating = 4;
     const title = 'Хорошо';
     const isDisabledForm = false;
@@ -54,9 +54,7 @@ describe('Component: RateRequestItem', () => {
 
     const inputElement: HTMLInputElement = screen.getByTestId(`rate-input-${rating}`);
 
-    // eslint-disable-next-line testing-library/no-unnecessary-act, @typescript-eslint/require-await
-    await act(async () => { fireEvent.click(inputElement); });
-
+    fireEvent.click(inputElement);
     expect(mockOnChange).toHaveBeenCalledTimes(1);
     expect(mockOnChange).toHaveBeenCalledWith(rating);
   });
