@@ -20,17 +20,6 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
   const { id: productId } = useParams<{ id: string }>();
   const [isDisabledForm, setDisabled] = useState<boolean>(false);
 
-  // const updateData = () => {
-  //   onChangeReview({
-  //     ...reviewData,
-  //     userName: '',
-  //     advantage: '',
-  //     disadvantage: '',
-  //     rating: 0,
-  //     review: '',
-  //   });
-  // };
-
   const onSubmit = (currentReview: ReviewRequest) => {
     setDisabled(true);
     dispatch(sendReviewAction({
