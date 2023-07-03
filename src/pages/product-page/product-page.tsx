@@ -1,11 +1,11 @@
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { fetchProductsAction, fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction } from '../../store/api-actions';
 import { getProductPageErrorStatus, getSelectedProduct, getSimilarProducts } from '../../store/product-data/product-data-selectors';
-import Tabs, { TAB_TITLES } from '../../components/tabs/tabs';
+import Tabs from '../../components/tabs/tabs';
 import Slider from '../../components/slider/slider';
 import { ProductCard } from '../../types/product-card';
 import ReviewsList from '../../components/reviews-list/reviews-list';
@@ -14,9 +14,10 @@ import RatingItem from '../../components/rating-item/rating-item';
 import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
 import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
 import FocusTrap from 'react-focus-trap';
-import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
+import { getLoadingStatus, getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import EmptyProductPage from '../empty-product-page/empty-product-page';
 import NotFoundPage from '../not-found-page/not-found-page';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 export type ReviewData = {
   userName: string;
@@ -40,7 +41,8 @@ function ProductPage(): JSX.Element {
     review: '',
     rating: 0,
   });
-  const [tabParams] = useSearchParams();
+  const location = useLocation();
+  const isLoading = useAppSelector(getLoadingStatus);
 
   const handleChange = (review: ReviewData) => {
     setReviewData(review);
@@ -111,10 +113,22 @@ function ProductPage(): JSX.Element {
     document.body.style.position = '';
   };
 
-  const tabParam = tabParams.get('tab');
-  const foundParamIndex = TAB_TITLES.findIndex((tabTitle) => tabTitle.id === tabParam);
-  if (foundParamIndex === -1) {
+  // const tabParam = tabParams.get('tab');
+  // const foundParamIndex = TAB_TITLES.findIndex((tabTitle) => tabTitle.id === tabParam);
+  // eslint-disable-next-line no-console
+  console.log(location.pathname);
+
+  const regexSearch = /^\?tab=(description|specs)$/;
+  const regexPathname = /^\/camera\/\d+$/;
+  const isSearchMatch = regexSearch.test(location.search);
+  const isPathnameMatch = regexPathname.test(location.pathname);
+
+  if (!isPathnameMatch || !isSearchMatch) {
     return <NotFoundPage />;
+  }
+
+  if (isLoading) {
+    return <LoadingScreen />;
   }
 
   let foundIndex = 0;

@@ -13,6 +13,7 @@ type InitialState = {
   sorts: SortsType;
   promoProduct: PromoProduct | null;
   hasError: boolean;
+  isLoading: boolean;
 }
 
 const initialState: InitialState = {
@@ -45,6 +46,7 @@ const initialState: InitialState = {
   },
   promoProduct: null,
   hasError: false,
+  isLoading: false,
 };
 
 describe('Reducer: catalog-data', () => {
@@ -61,6 +63,7 @@ describe('Reducer: catalog-data', () => {
       sorts: initialState.sorts,
       promoProduct: null,
       hasError: false,
+      isLoading: false,
     };
 
     expect(catalogData.reducer(state, changeFiltersAction({
@@ -74,6 +77,7 @@ describe('Reducer: catalog-data', () => {
         sorts: initialState.sorts,
         promoProduct: null,
         hasError: false,
+        isLoading: false,
       });
   });
 
@@ -85,6 +89,7 @@ describe('Reducer: catalog-data', () => {
       sorts: initialState.sorts,
       promoProduct: null,
       hasError: false,
+      isLoading: false,
     };
 
     expect(catalogData.reducer(state, resetFiltersAction()))
@@ -95,6 +100,7 @@ describe('Reducer: catalog-data', () => {
         sorts: initialState.sorts,
         promoProduct: null,
         hasError: false,
+        isLoading: false,
       });
   });
 
@@ -106,6 +112,7 @@ describe('Reducer: catalog-data', () => {
       sorts: initialState.sorts,
       promoProduct: null,
       hasError: false,
+      isLoading: false,
     };
 
     const sortedProducts = [...mockProductCards];
@@ -118,6 +125,7 @@ describe('Reducer: catalog-data', () => {
         sorts: mockSelectedSorts,
         promoProduct: null,
         hasError: false,
+        isLoading: false,
       });
   });
 
@@ -131,6 +139,7 @@ describe('Reducer: catalog-data', () => {
         sorts: initialState.sorts,
         promoProduct: initialState.promoProduct,
         hasError: false,
+        isLoading: false,
       });
   });
 
@@ -144,6 +153,7 @@ describe('Reducer: catalog-data', () => {
         sorts: initialState.sorts,
         promoProduct: mockPromoProduct,
         hasError: false,
+        isLoading: false,
       });
   });
 });
