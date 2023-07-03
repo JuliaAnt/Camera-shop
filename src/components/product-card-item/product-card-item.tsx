@@ -5,6 +5,7 @@ import { useState } from 'react';
 import PopupCatalogAddItem from '../popup/popup-catalog-add-item/popup-catalog-add-item';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import FocusTrap from 'react-focus-trap';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
@@ -66,10 +67,13 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
       <div className="product-card__buttons">
         <button className="btn btn--purple product-card__btn" type="button" onClick={onModalOpen}>Купить
         </button>
-        <Link className="btn btn--transparent" to={`/camera/${id}?tab=specs`}>Подробнее
+        <Link className="btn btn--transparent" to={`/camera/${id}?tab=description`}>Подробнее
         </Link>
       </div>
-      <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={onModalClose} />
+      {/* @ts-expect-error children*/}
+      <FocusTrap active={isModalOpen} focusTrapOptions={{ initialFocus: '#add-btn', onDeactivate: onModalClose }}>
+        <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={onModalClose} />
+      </FocusTrap>
     </div>
   );
 }

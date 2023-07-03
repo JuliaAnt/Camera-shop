@@ -55,6 +55,7 @@ describe('Component: CatalogPage', () => {
               name: 'Instaprinter P2',
               id: 1,
             },
+            hasError: false,
           }
         })}
         >

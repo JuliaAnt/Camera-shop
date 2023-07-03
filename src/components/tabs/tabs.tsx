@@ -13,7 +13,7 @@ type TabpProps = {
 }
 
 
-const TAB_TITLES: TabItem[] = [
+export const TAB_TITLES: TabItem[] = [
   {
     title: 'Характеристики',
     id: 'specs',
@@ -25,7 +25,7 @@ const TAB_TITLES: TabItem[] = [
 ];
 
 function Tabs({ description, level, type, category, vendorCode }: TabpProps): JSX.Element {
-  const [activeTab, setActiveTab] = useState<TabType>(TAB_TITLES[0].id);
+  const [activeTab, setActiveTab] = useState<TabType>(TAB_TITLES[1].id);
   const [params] = useSearchParams();
 
   useEffect(() => {

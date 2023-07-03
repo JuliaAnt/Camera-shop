@@ -12,7 +12,9 @@
     "react-hook-form": "^7.43.9",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "http-status-codes": "^2.2.0",
+    "react-toastify": "^9.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

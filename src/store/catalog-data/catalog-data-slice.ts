@@ -12,6 +12,7 @@ type InitialState = {
   filteredCards: ProductCard[];
   sorts: SortsType;
   promoProduct: PromoProduct | null;
+  hasError: boolean;
 };
 
 const initialState: InitialState = {
@@ -43,6 +44,7 @@ const initialState: InitialState = {
     sortOrder: 'up',
   },
   promoProduct: null,
+  hasError: false,
 };
 
 export const sortProducts = (filteredProducts: ProductCard[], sorts: SortsType): ProductCard[] => {
@@ -153,6 +155,10 @@ export const catalogData = createSlice({
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
         state.productCards = action.payload;
         state.filteredCards = action.payload;
+        state.hasError = false;
+      })
+      .addCase(fetchProductsAction.rejected, (state) => {
+        state.hasError = true;
       })
       .addCase(fetchPromoProductAction.fulfilled, (state, action) => {
         state.promoProduct = action.payload;

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { getFilteredProducts, getPromoProduct } from '../../store/catalog-data/catalog-data-selectors';
+import { getErrorStatus, getFilteredProducts, getPromoProduct } from '../../store/catalog-data/catalog-data-selectors';
 import { fetchProductsAction, fetchPromoProductAction } from '../../store/api-actions';
 import ProductCardList from '../../components/product-card-list/product-card-list';
 import Filters from '../../components/filters/filters';
@@ -11,12 +11,16 @@ import { AppRoute, PRODUCTS_PER_PAGE } from '../../consts';
 import { usePagination } from '../../hooks/use-pagination';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import EmptyCatalogPage from '../empty-catalog-page/empty-catalog-page';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const products = useAppSelector(getFilteredProducts);
   const promoProduct = useAppSelector(getPromoProduct);
+  const hasError = useAppSelector(getErrorStatus);
+  const [pageParams] = useSearchParams();
 
   useEffect(() => {
     dispatch(fetchProductsAction());
@@ -37,6 +41,20 @@ function CatalogPage(): JSX.Element {
     setPage,
     page,
   } = usePagination({ productsPerPage: PRODUCTS_PER_PAGE, productsCount: products.length });
+
+  const pageParam = pageParams.get('page');
+  let foundParamIndex = 0;
+  if (pageParam) {
+    foundParamIndex = [...Array(totalPageCount).keys()].findIndex((pageNumber) => pageNumber + 1 === +pageParam);
+  }
+
+  if (foundParamIndex === -1) {
+    return <NotFoundPage />;
+  }
+
+  if (hasError) {
+    return <EmptyCatalogPage promoProduct={promoProduct} promoProductCard={promoProductCard} />;
+  }
 
   return (
     <div className="wrapper">

@@ -64,8 +64,6 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
     <div className={`modal${isModalOpen ? ' is-active' : ''}`}>
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={onModalClose}></div>
-
-        {/* <FocusTrap active={isModalOpen} focusTrapOptions={{ initialFocus: '#name', onPostActivate: () => updateData() }}> */}
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
@@ -185,7 +183,11 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       value={reviewData.review}
                       {...register('review', {
                         required: 'Нужно добавить комментарий',
-                        minLength: 5,
+                        minLength:
+                        {
+                          value: 5,
+                          message: 'Введите не менее 5 символов',
+                        }
                       })}
                       onChange={(evt) => onChangeReview({ ...reviewData, review: evt.target.value })}
                     >
@@ -203,7 +205,6 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
             </svg>
           </button>
         </div>
-        {/* </FocusTrap> */}
       </div >
     </div >
   );

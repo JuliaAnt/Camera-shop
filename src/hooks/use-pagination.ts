@@ -25,9 +25,9 @@ export const usePagination = ({ productsPerPage, productsCount }: UsePaginationP
   }, [totalPageCount, setPage]);
 
   useEffect(() => {
-    const tabParam = params.get('page');
-    if (tabParam && tabParam !== page.toString()) {
-      selectPage(+tabParam);
+    const pageParam = params.get('page');
+    if (pageParam && pageParam !== page.toString()) {
+      selectPage(+pageParam);
     }
   }, [params, page, selectPage]);
 

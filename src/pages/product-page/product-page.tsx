@@ -1,11 +1,11 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction } from '../../store/api-actions';
-import { getSelectedProduct, getSimilarProducts } from '../../store/product-data/product-data-selectors';
-import Tabs from '../../components/tabs/tabs';
+import { fetchProductsAction, fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction } from '../../store/api-actions';
+import { getProductPageErrorStatus, getSelectedProduct, getSimilarProducts } from '../../store/product-data/product-data-selectors';
+import Tabs, { TAB_TITLES } from '../../components/tabs/tabs';
 import Slider from '../../components/slider/slider';
 import { ProductCard } from '../../types/product-card';
 import ReviewsList from '../../components/reviews-list/reviews-list';
@@ -14,6 +14,9 @@ import RatingItem from '../../components/rating-item/rating-item';
 import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
 import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
 import FocusTrap from 'react-focus-trap';
+import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
+import EmptyProductPage from '../empty-product-page/empty-product-page';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 export type ReviewData = {
   userName: string;
@@ -25,6 +28,8 @@ export type ReviewData = {
 
 function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
+  const products = useAppSelector(getProducts);
+  const hasProductPageError = useAppSelector(getProductPageErrorStatus);
   const { id: productId } = useParams<{ id: string }>();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isSuccessModalActive, setSuccessModalActive] = useState<boolean>(false);
@@ -35,6 +40,7 @@ function ProductPage(): JSX.Element {
     review: '',
     rating: 0,
   });
+  const [tabParams] = useSearchParams();
 
   const handleChange = (review: ReviewData) => {
     setReviewData(review);
@@ -42,6 +48,7 @@ function ProductPage(): JSX.Element {
 
   useEffect(() => {
     if (productId) {
+      dispatch(fetchProductsAction());
       dispatch(fetchSelectedProductAction(+productId));
       dispatch(fetchSimilarProductsAction(+productId));
       dispatch(fetchReviewsAction(+productId));
@@ -103,6 +110,25 @@ function ProductPage(): JSX.Element {
     setSuccessModalActive(false);
     document.body.style.position = '';
   };
+
+  const tabParam = tabParams.get('tab');
+  const foundParamIndex = TAB_TITLES.findIndex((tabTitle) => tabTitle.id === tabParam);
+  if (foundParamIndex === -1) {
+    return <NotFoundPage />;
+  }
+
+  let foundIndex = 0;
+  if (productId) {
+    foundIndex = products.findIndex((product) => product.id === +productId);
+  }
+
+  if (foundIndex === -1) {
+    return <NotFoundPage />;
+  }
+
+  if (hasProductPageError) {
+    return <EmptyProductPage />;
+  }
 
   return (
     <div className="wrapper">
@@ -173,7 +199,10 @@ function ProductPage(): JSX.Element {
         <FocusTrap active={isModalOpen} focusTrapOptions={{ initialFocus: '#name', onDeactivate: onModalClose }}>
           <PopupProductReview isModalOpen={isModalOpen} reviewData={reviewData} onChangeReview={handleChange} onModalClose={onModalClose} onSuccessModalOpen={onSuccessModalOpen} />
         </FocusTrap>
-        <PopupProductReviewSuccess isSuccessModalActive={isSuccessModalActive} onSuccessModalClose={onSuccessModalClose} />
+        {/* @ts-expect-error children*/}
+        <FocusTrap active={isSuccessModalActive} focusTrapOptions={{ initialFocus: '#name', onDeactivate: onSuccessModalClose }}>
+          <PopupProductReviewSuccess isSuccessModalActive={isSuccessModalActive} onSuccessModalClose={onSuccessModalClose} />
+        </FocusTrap>
       </main >
       <button className="up-btn" onClick={handlerScrollUp}>
         <svg width="12" height="18" aria-hidden="true">

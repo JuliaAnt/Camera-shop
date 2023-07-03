@@ -12,6 +12,7 @@ type InitialState = {
   filteredCards: ProductCard[];
   sorts: SortsType;
   promoProduct: PromoProduct | null;
+  hasError: boolean;
 }
 
 const initialState: InitialState = {
@@ -43,6 +44,7 @@ const initialState: InitialState = {
     sortOrder: 'up',
   },
   promoProduct: null,
+  hasError: false,
 };
 
 describe('Reducer: catalog-data', () => {
@@ -58,6 +60,7 @@ describe('Reducer: catalog-data', () => {
       filteredCards: mockProductCards,
       sorts: initialState.sorts,
       promoProduct: null,
+      hasError: false,
     };
 
     expect(catalogData.reducer(state, changeFiltersAction({
@@ -70,6 +73,7 @@ describe('Reducer: catalog-data', () => {
         filteredCards: [look54Card],
         sorts: initialState.sorts,
         promoProduct: null,
+        hasError: false,
       });
   });
 
@@ -80,6 +84,7 @@ describe('Reducer: catalog-data', () => {
       filteredCards: [look54Card],
       sorts: initialState.sorts,
       promoProduct: null,
+      hasError: false,
     };
 
     expect(catalogData.reducer(state, resetFiltersAction()))
@@ -89,6 +94,7 @@ describe('Reducer: catalog-data', () => {
         filteredCards: mockProductCards,
         sorts: initialState.sorts,
         promoProduct: null,
+        hasError: false,
       });
   });
 
@@ -99,6 +105,7 @@ describe('Reducer: catalog-data', () => {
       filteredCards: mockProductCards,
       sorts: initialState.sorts,
       promoProduct: null,
+      hasError: false,
     };
 
     const sortedProducts = [...mockProductCards];
@@ -110,6 +117,7 @@ describe('Reducer: catalog-data', () => {
         filteredCards: sortedProducts.sort((cardA: ProductCard, cardB: ProductCard): number => cardB.price - cardA.price),
         sorts: mockSelectedSorts,
         promoProduct: null,
+        hasError: false,
       });
   });
 
@@ -122,6 +130,7 @@ describe('Reducer: catalog-data', () => {
         filteredCards: mockProductCards,
         sorts: initialState.sorts,
         promoProduct: initialState.promoProduct,
+        hasError: false,
       });
   });
 
@@ -134,6 +143,7 @@ describe('Reducer: catalog-data', () => {
         filteredCards: initialState.filteredCards,
         sorts: initialState.sorts,
         promoProduct: mockPromoProduct,
+        hasError: false,
       });
   });
 });

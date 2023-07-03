@@ -8,12 +8,14 @@ type InitialState = {
   productReviews: Review[];
   selectedProduct: ProductCard | null;
   similarProducts: ProductCard[];
+  hasProductPageError: boolean;
 }
 
 const initialState: InitialState = {
   productReviews: [],
   selectedProduct: null,
   similarProducts: [],
+  hasProductPageError: false,
 };
 
 describe('Reducer: product-data', () => {
@@ -29,6 +31,7 @@ describe('Reducer: product-data', () => {
         productReviews: mockReviews,
         selectedProduct: initialState.selectedProduct,
         similarProducts: initialState.similarProducts,
+        hasProductPageError: false,
       });
   });
 
@@ -39,6 +42,7 @@ describe('Reducer: product-data', () => {
         productReviews: initialState.productReviews,
         selectedProduct: look54Card,
         similarProducts: initialState.similarProducts,
+        hasProductPageError: false,
       });
   });
 
@@ -49,6 +53,7 @@ describe('Reducer: product-data', () => {
         productReviews: initialState.productReviews,
         selectedProduct: initialState.selectedProduct,
         similarProducts: mockProductCards,
+        hasProductPageError: false,
       });
   });
 });

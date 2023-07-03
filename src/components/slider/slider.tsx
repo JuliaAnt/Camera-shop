@@ -27,7 +27,7 @@ function Slider({ similarProducts }: SliderProps): JSX.Element {
           type="button"
           aria-label="Предыдущий слайд"
           disabled={Boolean(slide === 1)}
-          style={{ pointerEvents: 'auto' }}
+          style={{ pointerEvents: `${slide === 1 ? 'none' : 'auto'}` }}
           onClick={prevSlide}
         >
           <svg width="7" height="12" aria-hidden="true">
@@ -39,7 +39,7 @@ function Slider({ similarProducts }: SliderProps): JSX.Element {
           type="button"
           aria-label="Следующий слайд"
           disabled={Boolean(slide === totalSlideCount)}
-          style={{ pointerEvents: 'auto' }}
+          style={{ pointerEvents: `${slide === totalSlideCount ? 'none' : 'auto'}` }}
           onClick={nextSlide}
         >
           <svg width="7" height="12" aria-hidden="true">

@@ -8,12 +8,14 @@ type InitialState = {
   productReviews: Review[];
   selectedProduct: ProductCard | null;
   similarProducts: ProductCard[];
+  hasProductPageError: boolean;
 }
 
 const initialState: InitialState = {
   productReviews: [],
   selectedProduct: null,
   similarProducts: [],
+  hasProductPageError: false,
 };
 
 export const productData = createSlice({
@@ -25,8 +27,12 @@ export const productData = createSlice({
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.productReviews = action.payload;
       })
+      .addCase(fetchSelectedProductAction.rejected, (state) => {
+        state.hasProductPageError = true;
+      })
       .addCase(fetchSelectedProductAction.fulfilled, (state, action) => {
         state.selectedProduct = action.payload;
+        state.hasProductPageError = false;
       })
       .addCase(fetchSimilarProductsAction.fulfilled, (state, action) => {
         state.similarProducts = action.payload;
