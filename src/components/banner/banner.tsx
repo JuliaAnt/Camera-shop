@@ -20,7 +20,7 @@ function Banner({ promoProduct, promoProductCard }: BannerProps): JSX.Element {
         <span className="banner__message">Новинка!</span>
         <span className="title title--h1" data-testid={'bannerTitle'}>{name}</span>
         <span className="banner__text" data-testid={'bannerDescription'}>Профессиональная камера от известного производителя</span>
-        <Link className="btn" to={`/camera/${promoProductCard.id}`}>Подробнее</Link>
+        <Link className="btn" to={`/camera/${promoProductCard.id}?tab=description`}>Подробнее</Link>
       </p>
     </div>
   );

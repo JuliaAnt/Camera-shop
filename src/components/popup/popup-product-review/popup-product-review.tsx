@@ -38,6 +38,7 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
 
   const { register, handleSubmit,
     control,
+    clearErrors,
     formState: { errors } } = useForm<ReviewData>();
 
   const submitHandler: SubmitHandler<ReviewData> = (data: ReviewData) => {
@@ -110,10 +111,13 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                           message: 'Invalid name'
                         }
                       })}
-                      onChange={(evt) => onChangeReview({ ...reviewData, userName: evt.target.value })}
+                      onChange={(evt) => {
+                        onChangeReview({ ...reviewData, userName: evt.target.value });
+                        clearErrors('userName');
+                      }}
                     />
                   </label>
-                  {errors.userName && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.userName.message}</p>}
+                  {errors.userName && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.userName?.message}</p>}
                 </div>
                 <div className="custom-input form-review__item">
                   <label>
@@ -132,7 +136,10 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       {...register('advantage', {
                         required: 'Нужно указать достоинства',
                       })}
-                      onChange={(evt) => onChangeReview({ ...reviewData, advantage: evt.target.value })}
+                      onChange={(evt) => {
+                        onChangeReview({ ...reviewData, advantage: evt.target.value });
+                        clearErrors('advantage');
+                      }}
                     />
                   </label>
                   {errors.advantage && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.advantage.message}</p>}
@@ -154,7 +161,10 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                       {...register('disadvantage', {
                         required: 'Нужно указать недостатки',
                       })}
-                      onChange={(evt) => onChangeReview({ ...reviewData, disadvantage: evt.target.value })}
+                      onChange={(evt) => {
+                        onChangeReview({ ...reviewData, disadvantage: evt.target.value });
+                        clearErrors('disadvantage');
+                      }}
                     />
                   </label>
                   {errors.disadvantage && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.disadvantage?.message}</p>}
@@ -180,7 +190,10 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
                           message: 'Введите не менее 5 символов',
                         }
                       })}
-                      onChange={(evt) => onChangeReview({ ...reviewData, review: evt.target.value })}
+                      onChange={(evt) => {
+                        onChangeReview({ ...reviewData, review: evt.target.value });
+                        clearErrors('review');
+                      }}
                     >
                     </textarea>
                   </label>
