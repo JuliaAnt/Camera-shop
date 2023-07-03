@@ -27,15 +27,6 @@ function PopupProductReview({ isModalOpen, reviewData, onChangeReview, onModalCl
       onSuccess: () => {
         dispatch(fetchReviewsAction(productId ? +productId : 0));
         setDisabled(false);
-
-        onChangeReview({
-          ...reviewData,
-          userName: '111',
-          advantage: '222',
-          disadvantage: '333',
-          rating: 0,
-          review: '444',
-        });
         onModalClose();
         onSuccessModalOpen();
       },

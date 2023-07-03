@@ -61,7 +61,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
         <p className="product-card__title" data-testid={`cardTitle-${id}`}>{name}</p>
         <p className="product-card__price" data-testid={'cardPrice'}>
           <span className="visually-hidden">Цена:</span>
-          {`${price} ₽`}
+          {`${price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ')} ₽`}
         </p>
       </div>
       <div className="product-card__buttons">
