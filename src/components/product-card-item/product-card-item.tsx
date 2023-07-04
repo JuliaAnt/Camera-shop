@@ -59,7 +59,7 @@ function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.
           </p>
         </div>
         <p className="product-card__title" data-testid={`cardTitle-${id}`}>{name}</p>
-        <p className="product-card__price" data-testid={'cardPrice'}>
+        <p className="product-card__price" data-testid={'cardPrice'} style={{ fontFamily: 'Arial, sans-serif' }}>
           <span className="visually-hidden">Цена:</span>
           {`${price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}`} &#x20BD;
         </p>

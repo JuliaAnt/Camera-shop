@@ -75,13 +75,13 @@ function Slider({ similarProducts }: SliderProps): JSX.Element {
           className="product-similar__slider-list"
           containerClass="sliderContainer"
           dotListClass=""
+          customTransition={'transform 1300ms'}
           draggable={false}
           focusOnSelect={false}
           infinite={false}
           itemClass=""
           keyBoardControl
           minimumTouchDrag={80}
-          pauseOnHover
           renderArrowsWhenDisabled={false}
           renderButtonGroupOutside={false}
           renderDotsOutside={false}
@@ -111,6 +111,7 @@ function Slider({ similarProducts }: SliderProps): JSX.Element {
               partialVisibilityGutter: 30
             }
           }}
+          ssr
           rewind={false}
           rewindWithAnimation={false}
           rtl={false}
