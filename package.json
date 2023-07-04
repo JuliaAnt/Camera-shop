@@ -6,15 +6,17 @@
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^0.27.2",
     "history": "^5.3.0",
+    "http-status-codes": "^2.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-trap": "^2.7.2",
     "react-hook-form": "^7.43.9",
+    "react-multi-carousel": "^2.8.4",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
-    "http-status-codes": "^2.2.0",
-    "react-toastify": "^9.0.8"
+    "react-toastify": "^9.0.8",
+    "swiper": "^10.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

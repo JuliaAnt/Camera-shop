@@ -1,53 +1,135 @@
-import { PRODUCTS_PER_SLIDE } from '../../consts';
-import { useSlider } from '../../hooks/use-slider';
+import { useRef, useState } from 'react';
 import { ProductCard } from '../../types/product-card';
-import SliderContent from './slider-content/slider-content';
+import ProductCardItem from '../product-card-item/product-card-item';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { PRODUCTS_PER_SLIDE } from '../../consts';
 
 type SliderProps = {
   similarProducts: ProductCard[];
 }
 
+type CustomArrowProps = {
+  onClick: () => void;
+  totalSlidesCount: number;
+  slide: number;
+}
+
+const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
+  <button
+    className="slider-controls slider-controls--prev"
+    type="button"
+    aria-label="Предыдущий слайд"
+    disabled={Boolean(slide === 0)}
+    style={{ pointerEvents: `${slide === 0 ? 'none' : 'auto'}` }}
+    onClick={() => onClick()}
+  >
+    <svg width="7" height="12" aria-hidden="true">
+      <use xlinkHref="#icon-arrow"></use>
+    </svg>
+  </button>
+);
+
+const CustomRightArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
+  <button
+    className="slider-controls slider-controls--next"
+    type="button"
+    aria-label="Следующий слайд"
+    disabled={Boolean(slide === totalSlidesCount - 1)}
+    style={{ pointerEvents: `${slide === (totalSlidesCount - 1) ? 'none' : 'auto'}` }}
+    onClick={() => onClick()}
+  >
+    <svg width="7" height="12" aria-hidden="true">
+      <use xlinkHref="#icon-arrow"></use>
+    </svg>
+  </button>
+);
+
 function Slider({ similarProducts }: SliderProps): JSX.Element {
-  const {
-    totalSlideCount,
-    nextSlide,
-    prevSlide,
-    firstProductIndex,
-    lastProductIndex,
-    slide,
-  } = useSlider({ productsCount: similarProducts.length, productsPerSlide: PRODUCTS_PER_SLIDE });
+  const carouselRef = useRef<Carousel>(null);
+  const [slide, setCurrentSlide] = useState(0);
+
+  const totalSlidesCount = Math.ceil(similarProducts.length / PRODUCTS_PER_SLIDE);
+
+  const handleNextClick = () => {
+    carouselRef.current?.next(3);
+  };
+
+  const handlePrevClick = () => {
+    carouselRef.current?.previous(3);
+  };
 
   return (
     <div className="container">
       <h2 className="title title--h3">Похожие товары</h2>
       <div className="product-similar__slider">
-        <SliderContent firstProductIndex={firstProductIndex} lastProductIndex={lastProductIndex} similarProducts={similarProducts} />
-        <button
-          className="slider-controls slider-controls--prev"
-          type="button"
-          aria-label="Предыдущий слайд"
-          disabled={Boolean(slide === 1)}
-          style={{ pointerEvents: `${slide === 1 ? 'none' : 'auto'}` }}
-          onClick={prevSlide}
+        <Carousel
+          afterChange={(previousSlide, { currentSlide }) => {
+            setCurrentSlide(Math.floor(currentSlide / 3));
+          }}
+          ref={carouselRef}
+          additionalTransfrom={0}
+          arrows={false}
+          autoPlaySpeed={3000}
+          centerMode={false}
+          className="product-similar__slider-list"
+          containerClass="sliderContainer"
+          dotListClass=""
+          draggable={false}
+          focusOnSelect={false}
+          infinite={false}
+          itemClass=""
+          keyBoardControl
+          minimumTouchDrag={80}
+          pauseOnHover
+          renderArrowsWhenDisabled={false}
+          renderButtonGroupOutside={false}
+          renderDotsOutside={false}
+          responsive={{
+            desktop: {
+              breakpoint: {
+                max: 3000,
+                min: 1024
+              },
+              items: 3,
+              partialVisibilityGutter: 40
+            },
+            mobile: {
+              breakpoint: {
+                max: 464,
+                min: 0
+              },
+              items: 1,
+              partialVisibilityGutter: 30
+            },
+            tablet: {
+              breakpoint: {
+                max: 1024,
+                min: 464
+              },
+              items: 2,
+              partialVisibilityGutter: 30
+            }
+          }}
+          rewind={false}
+          rewindWithAnimation={false}
+          rtl={false}
+          shouldResetAutoplay
+          showDots={false}
+          sliderClass=""
+          slidesToSlide={3}
+          swipeable
         >
-          <svg width="7" height="12" aria-hidden="true">
-            <use xlinkHref="#icon-arrow"></use>
-          </svg>
-        </button>
-        <button
-          className="slider-controls slider-controls--next"
-          type="button"
-          aria-label="Следующий слайд"
-          disabled={Boolean(slide === totalSlideCount)}
-          style={{ pointerEvents: `${slide === totalSlideCount ? 'none' : 'auto'}` }}
-          onClick={nextSlide}
-        >
-          <svg width="7" height="12" aria-hidden="true">
-            <use xlinkHref="#icon-arrow"></use>
-          </svg>
-        </button>
+          {
+            similarProducts.map((similarProduct, index) => <ProductCardItem key={similarProduct.id} productCard={similarProduct} className={'is-active'} />)
+          }
+        </Carousel>
+
+        <CustomLeftArrow onClick={handlePrevClick} slide={slide} totalSlidesCount={totalSlidesCount} />
+        <CustomRightArrow onClick={handleNextClick} slide={slide} totalSlidesCount={totalSlidesCount} />
+
       </div>
-    </div>
+    </div >
   );
 }
 
