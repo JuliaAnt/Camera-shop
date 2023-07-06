@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
 import { CATEGORY_FILTER_MAP } from '../../../consts';
@@ -14,31 +14,18 @@ function CategoryFilter(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedFilters = useAppSelector(getSelectedFilters);
 
-  const [categoryFilter, setCategoryFilter] = useState<CategoryFilterState>({
-    filterType: 'category',
-    filterValue: [],
-  });
-
-  const selectedCategoryFilter = selectedFilters.find((filter) => filter.filterType === categoryFilter.filterType);
-  let selectedCategoryFilterValue: string[];
-  if (Array.isArray(selectedCategoryFilter?.filterValue) && selectedCategoryFilter?.filterValue) {
-    selectedCategoryFilterValue = selectedCategoryFilter?.filterValue;
-  }
+  const selectedCategoryFilter = selectedFilters.find((filter) => filter.filterType === 'category') as CategoryFilterState;
+  const selectedCategoryFilterValue = [...selectedCategoryFilter.filterValue];
 
   const onFilterChange = (categoryTitle: string) => {
-    const newCategoryFilterValues = [...categoryFilter.filterValue];
-    const newCategoryFilterValueIndex = newCategoryFilterValues.findIndex((value) => value === categoryTitle);
+    const newCategoryFilterValueIndex = selectedCategoryFilterValue.findIndex((value) => value === categoryTitle);
     if (newCategoryFilterValueIndex > -1) {
-      newCategoryFilterValues.splice(newCategoryFilterValueIndex, 1);
+      selectedCategoryFilterValue.splice(newCategoryFilterValueIndex, 1);
     } else {
-      newCategoryFilterValues.push(categoryTitle);
+      selectedCategoryFilterValue.push(categoryTitle);
     }
-    setCategoryFilter({ ...categoryFilter, filterValue: newCategoryFilterValues });
+    dispatch(changeFiltersAction({ ...selectedCategoryFilter, filterValue: selectedCategoryFilterValue }));
   };
-
-  useEffect(() => {
-    dispatch(changeFiltersAction(categoryFilter));
-  }, [dispatch, categoryFilter]);
 
   return (
     <fieldset className="catalog-filter__block">

@@ -6,7 +6,6 @@ import { getSorts } from '../../store/catalog-data/catalog-data-selectors';
 
 function Sort(): JSX.Element {
   const dispatch = useAppDispatch();
-  const selectedSorts = useAppSelector(getSorts);
   const [sorts, setSorts] = useState<SortsType>({
     sortType: 'sortPopular',
     sortOrder: 'up',
@@ -28,45 +27,47 @@ function Sort(): JSX.Element {
     dispatch(changeSortsAction(sorts));
   }, [dispatch, sorts]);
 
+  const selectedSorts = useAppSelector(getSorts);
+
   return (
     <form action="#">
       <div className="catalog-sort__inner">
         <p className="title title--h5">Сортировать:</p>
         <div className="catalog-sort__type">
-          <div className="catalog-sort__btn-text">
+          <div key={`${selectedSorts.sortType}-sortPrice`} className="catalog-sort__btn-text">
             <input
               data-testid={'sortPrice'}
               className='sortType'
               type="radio"
               id="sortPrice"
               name="sort"
-              defaultChecked={Boolean(selectedSorts.sortType === 'sortPrice')}
+              checked={Boolean(selectedSorts.sortType === 'sortPrice')}
               onClick={sortChangeHandler}
             />
             <label htmlFor="sortPrice">по цене</label>
           </div>
-          <div className="catalog-sort__btn-text">
+          <div key={`${selectedSorts.sortType}-sortPopular`} className="catalog-sort__btn-text">
             <input
               data-testid={'sortPopular'}
               className='sortType'
               type="radio"
               id="sortPopular"
               name="sort"
-              defaultChecked={Boolean(selectedSorts.sortType === 'sortPopular')}
+              checked={Boolean(selectedSorts.sortType === 'sortPopular')}
               onClick={sortChangeHandler}
             />
             <label htmlFor="sortPopular">по популярности</label>
           </div>
         </div>
         <div className="catalog-sort__order">
-          <div className="catalog-sort__btn catalog-sort__btn--up">
+          <div key={`${selectedSorts.sortOrder}-up`} className="catalog-sort__btn catalog-sort__btn--up">
             <input
               className='sortOrder'
               type="radio"
               id="up"
               name="sort-icon"
               aria-label="По возрастанию"
-              defaultChecked={Boolean(selectedSorts.sortOrder === 'up')}
+              checked={Boolean(selectedSorts.sortOrder === 'up')}
               onClick={sortChangeHandler}
             />
             <label htmlFor="up">
@@ -75,14 +76,14 @@ function Sort(): JSX.Element {
               </svg>
             </label>
           </div>
-          <div className="catalog-sort__btn catalog-sort__btn--down">
+          <div key={`${selectedSorts.sortOrder}-down`} className="catalog-sort__btn catalog-sort__btn--down">
             <input
               className='sortOrder'
               type="radio"
               id="down"
               name="sort-icon"
               aria-label="По убыванию"
-              defaultChecked={Boolean(selectedSorts.sortOrder === 'down')}
+              checked={Boolean(selectedSorts.sortOrder === 'down')}
               onClick={sortChangeHandler}
             />
             <label htmlFor="down">

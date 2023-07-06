@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
 import { TYPE_FILTER_MAP } from '../../../consts';
@@ -13,31 +12,19 @@ type TypeFilterState = {
 function TypeFilter(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedFilters = useAppSelector(getSelectedFilters);
-  const [typeFilter, setTypeFilter] = useState<TypeFilterState>({
-    filterType: 'type',
-    filterValue: [],
-  });
+
+  const selectedTypeFilter = selectedFilters.find((filter) => filter.filterType === 'type') as TypeFilterState;
+  const selectedTypeFilterValue = [...selectedTypeFilter.filterValue];
 
   const onFilterChange = (typeTitle: string) => {
-    const newTypeFilterValues = [...typeFilter.filterValue];
-    const newTypeFilterValueIndex = newTypeFilterValues.findIndex((value) => value === typeTitle);
+    const newTypeFilterValueIndex = selectedTypeFilterValue.findIndex((value) => value === typeTitle);
     if (newTypeFilterValueIndex > -1) {
-      newTypeFilterValues.splice(newTypeFilterValueIndex, 1);
+      selectedTypeFilterValue.splice(newTypeFilterValueIndex, 1);
     } else {
-      newTypeFilterValues.push(typeTitle);
+      selectedTypeFilterValue.push(typeTitle);
     }
-    setTypeFilter({ ...typeFilter, filterValue: newTypeFilterValues });
+    dispatch(changeFiltersAction({ ...selectedTypeFilter, filterValue: selectedTypeFilterValue }));
   };
-
-  const selectedTypeFilter = selectedFilters.find((filter) => filter.filterType === typeFilter.filterType);
-  let selectedTypeFilterValue: string[];
-  if (Array.isArray(selectedTypeFilter?.filterValue) && selectedTypeFilter?.filterValue) {
-    selectedTypeFilterValue = selectedTypeFilter?.filterValue;
-  }
-
-  useEffect(() => {
-    dispatch(changeFiltersAction(typeFilter));
-  }, [dispatch, typeFilter]);
 
   return (
     <fieldset className="catalog-filter__block">

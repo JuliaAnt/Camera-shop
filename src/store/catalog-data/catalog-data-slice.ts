@@ -5,6 +5,7 @@ import { fetchProductsAction, fetchPromoProductAction } from '../api-actions';
 import { SelectedFilter } from '../../types/filters';
 import { SortsType } from '../../types/sorts';
 import { PromoProduct } from '../../types/promo';
+import { Review } from '../../types/review';
 
 type InitialState = {
   productCards: ProductCard[];
@@ -14,6 +15,7 @@ type InitialState = {
   promoProduct: PromoProduct | null;
   hasError: boolean;
   isLoading: boolean;
+  allReviews: Record<number, Review[]>[];
 };
 
 const initialState: InitialState = {
@@ -47,6 +49,7 @@ const initialState: InitialState = {
   promoProduct: null,
   hasError: false,
   isLoading: false,
+  allReviews: [],
 };
 
 export const sortProducts = (filteredProducts: ProductCard[], sorts: SortsType): ProductCard[] => {

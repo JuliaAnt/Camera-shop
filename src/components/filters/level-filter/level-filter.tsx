@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
 import { LEVEL_FILTER_MAP } from '../../../consts';
@@ -13,31 +12,19 @@ type LevelFilterState = {
 function LevelFilter(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedFilters = useAppSelector(getSelectedFilters);
-  const [levelFilter, setLevelFilter] = useState<LevelFilterState>({
-    filterType: 'level',
-    filterValue: [],
-  });
+
+  const selectedLevelFilter = selectedFilters.find((filter) => filter.filterType === 'level') as LevelFilterState;
+  const selectedLevelFilterValue = [...selectedLevelFilter.filterValue];
 
   const onFilterChange = (levelTitle: string) => {
-    const newLevelFilterValues = [...levelFilter.filterValue];
-    const newLevelFilterValueIndex = newLevelFilterValues.findIndex((value) => value === levelTitle);
+    const newLevelFilterValueIndex = selectedLevelFilterValue.findIndex((value) => value === levelTitle);
     if (newLevelFilterValueIndex > -1) {
-      newLevelFilterValues.splice(newLevelFilterValueIndex, 1);
+      selectedLevelFilterValue.splice(newLevelFilterValueIndex, 1);
     } else {
-      newLevelFilterValues.push(levelTitle);
+      selectedLevelFilterValue.push(levelTitle);
     }
-    setLevelFilter({ ...levelFilter, filterValue: newLevelFilterValues });
+    dispatch(changeFiltersAction({ ...selectedLevelFilter, filterValue: selectedLevelFilterValue }));
   };
-
-  const selectedLevelFilter = selectedFilters.find((filter) => filter.filterType === levelFilter.filterType);
-  let selectedLevelFilterValue: string[];
-  if (Array.isArray(selectedLevelFilter?.filterValue) && selectedLevelFilter?.filterValue) {
-    selectedLevelFilterValue = selectedLevelFilter?.filterValue;
-  }
-
-  useEffect(() => {
-    dispatch(changeFiltersAction(levelFilter));
-  }, [dispatch, levelFilter]);
 
   return (
     <fieldset className="catalog-filter__block">
