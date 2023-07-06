@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ProductCard } from '../../types/product-card';
 import { NameSpace } from '../../consts';
-import { fetchProductsAction, fetchPromoProductAction } from '../api-actions';
+import { fetchProductsAction, fetchPromoProductAction, fetchReviewsByIdAction } from '../api-actions';
 import { SelectedFilter } from '../../types/filters';
 import { SortsType } from '../../types/sorts';
 import { PromoProduct } from '../../types/promo';
@@ -15,7 +15,7 @@ type InitialState = {
   promoProduct: PromoProduct | null;
   hasError: boolean;
   isLoading: boolean;
-  allReviews: Record<number, Review[]>[];
+  allReviews: Record<number, Review[]>;
 };
 
 const initialState: InitialState = {
@@ -49,7 +49,7 @@ const initialState: InitialState = {
   promoProduct: null,
   hasError: false,
   isLoading: false,
-  allReviews: [],
+  allReviews: {},
 };
 
 export const sortProducts = (filteredProducts: ProductCard[], sorts: SortsType): ProductCard[] => {
@@ -173,6 +173,9 @@ export const catalogData = createSlice({
       })
       .addCase(fetchPromoProductAction.fulfilled, (state, action) => {
         state.promoProduct = action.payload;
+      })
+      .addCase(fetchReviewsByIdAction.fulfilled, (state, action) => {
+        state.allReviews = action.payload;
       });
   },
 });

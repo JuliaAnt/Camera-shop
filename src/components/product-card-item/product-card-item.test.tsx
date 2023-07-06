@@ -7,7 +7,7 @@ describe('Component: ProductCardItem', () => {
   it('should render correctly', () => {
     render(
       <BrowserRouter>
-        <ProductCardItem productCard={look54Card} className='' />
+        <ProductCardItem productCard={look54Card} className='' reviews={[]} />
       </BrowserRouter>
     );
 

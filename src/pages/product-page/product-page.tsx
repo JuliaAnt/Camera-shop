@@ -14,7 +14,7 @@ import RatingItem from '../../components/rating-item/rating-item';
 import PopupProductReview from '../../components/popup/popup-product-review/popup-product-review';
 import PopupProductReviewSuccess from '../../components/popup/popup-product-review-success/popup-product-review-success';
 import FocusTrap from 'react-focus-trap';
-import { getLoadingStatus, getProducts } from '../../store/catalog-data/catalog-data-selectors';
+import { getAllReviews, getLoadingStatus, getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import EmptyProductPage from '../empty-product-page/empty-product-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -31,6 +31,7 @@ function ProductPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const products = useAppSelector(getProducts);
   const hasProductPageError = useAppSelector(getProductPageErrorStatus);
+  const allReviews = useAppSelector(getAllReviews);
   const { id: productId } = useParams<{ id: string }>();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isSuccessModalActive, setSuccessModalActive] = useState<boolean>(false);
@@ -60,7 +61,7 @@ function ProductPage(): JSX.Element {
   const selectedProduct: ProductCard | null = useAppSelector(getSelectedProduct);
   const similarProducts: ProductCard[] = useAppSelector(getSimilarProducts);
 
-  const { name, price, vendorCode, level, type, category, description, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = selectedProduct || {};
+  const { id, name, price, vendorCode, level, type, category, description, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = selectedProduct || {};
 
   const handlerScrollUp = () => {
     window.scrollTo({
@@ -70,7 +71,13 @@ function ProductPage(): JSX.Element {
     });
   };
 
-  const rating = 2;
+  const reviewsById = allReviews[id || 0];
+  const sum = reviewsById
+    ?.filter((review) => review.cameraId === id)
+    .map((review) => review.rating)
+    .reduce((a, b) => a + b, 0);
+
+  const rating = Math.ceil(sum / reviewsById?.length);
 
   useEffect(() => {
     const onModalEscKeydown = (evt: KeyboardEvent) => {
@@ -112,11 +119,6 @@ function ProductPage(): JSX.Element {
     setSuccessModalActive(false);
     document.body.style.position = '';
   };
-
-  // const tabParam = tabParams.get('tab');
-  // const foundParamIndex = TAB_TITLES.findIndex((tabTitle) => tabTitle.id === tabParam);
-  // eslint-disable-next-line no-console
-  console.log(location.pathname);
 
   const regexSearch = /^\?tab=(description|specs)$/;
   const regexPathname = /^\/camera\/\d+$/;
@@ -187,7 +189,9 @@ function ProductPage(): JSX.Element {
                     <p className="visually-hidden">Рейтинг: 4</p>
                     <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{reviewCount || ''}</p>
                   </div>
-                  <p className="product__price"><span className="visually-hidden" style={{ fontFamily: 'Arial, sans-serif' }}>Цена:</span>{`${price?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') || ''}`} &#x20BD;</p>
+                  <p className="product__price">
+                    <span className="visually-hidden">Цена:</span>{`${price?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') || ''}`} &#x20BD;
+                  </p>
                   <button className="btn btn--purple" type="button">
                     <svg width="24" height="16" aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"></use>

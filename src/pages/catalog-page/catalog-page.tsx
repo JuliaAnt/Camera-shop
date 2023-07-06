@@ -26,9 +26,6 @@ function CatalogPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchProductsAction());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchPromoProductAction());
   }, [dispatch]);
 

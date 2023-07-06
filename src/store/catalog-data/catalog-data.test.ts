@@ -5,6 +5,7 @@ import { SortsType } from '../../types/sorts';
 import { look54Card, mockProductCards, mockPromoProduct, mockSelectedSorts, newMockSelectedFilters } from '../../mocks/mocks';
 import { fetchProductsAction, fetchPromoProductAction } from '../api-actions';
 import { catalogData, changeFiltersAction, changeSortsAction, resetFiltersAction } from './catalog-data-slice';
+import { Review } from '../../types/review';
 
 type InitialState = {
   productCards: ProductCard[];
@@ -14,6 +15,7 @@ type InitialState = {
   promoProduct: PromoProduct | null;
   hasError: boolean;
   isLoading: boolean;
+  allReviews: Record<number, Review[]>;
 }
 
 const initialState: InitialState = {
@@ -47,6 +49,7 @@ const initialState: InitialState = {
   promoProduct: null,
   hasError: false,
   isLoading: false,
+  allReviews: {},
 };
 
 describe('Reducer: catalog-data', () => {
@@ -64,6 +67,7 @@ describe('Reducer: catalog-data', () => {
       promoProduct: null,
       hasError: false,
       isLoading: false,
+      allReviews: {},
     };
 
     expect(catalogData.reducer(state, changeFiltersAction({
@@ -78,6 +82,7 @@ describe('Reducer: catalog-data', () => {
         promoProduct: null,
         hasError: false,
         isLoading: false,
+        allReviews: {},
       });
   });
 
@@ -90,6 +95,7 @@ describe('Reducer: catalog-data', () => {
       promoProduct: null,
       hasError: false,
       isLoading: false,
+      allReviews: {},
     };
 
     expect(catalogData.reducer(state, resetFiltersAction()))
@@ -101,6 +107,7 @@ describe('Reducer: catalog-data', () => {
         promoProduct: null,
         hasError: false,
         isLoading: false,
+        allReviews: {},
       });
   });
 
@@ -113,6 +120,7 @@ describe('Reducer: catalog-data', () => {
       promoProduct: null,
       hasError: false,
       isLoading: false,
+      allReviews: {},
     };
 
     const sortedProducts = [...mockProductCards];
@@ -126,6 +134,7 @@ describe('Reducer: catalog-data', () => {
         promoProduct: null,
         hasError: false,
         isLoading: false,
+        allReviews: {},
       });
   });
 
@@ -140,6 +149,7 @@ describe('Reducer: catalog-data', () => {
         promoProduct: initialState.promoProduct,
         hasError: false,
         isLoading: false,
+        allReviews: {},
       });
   });
 
@@ -154,6 +164,7 @@ describe('Reducer: catalog-data', () => {
         promoProduct: mockPromoProduct,
         hasError: false,
         isLoading: false,
+        allReviews: {},
       });
   });
 });
