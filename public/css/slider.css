@@ -5,3 +5,11 @@
 .product-similar .product-card:last-child{
   margin-right: 16px;
 }
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  background-color: #f4f4fc;
+}
