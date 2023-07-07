@@ -21,7 +21,7 @@ export const mockSelectedFilters: SelectedFilter[] = [
   },
   {
     filterType: 'category',
-    filterValue: [],
+    filterValue: '',
   },
 ];
 
@@ -43,7 +43,7 @@ export const newMockSelectedFilters: SelectedFilter[] = [
   },
   {
     filterType: 'category',
-    filterValue: [],
+    filterValue: '',
   },
 ];
 

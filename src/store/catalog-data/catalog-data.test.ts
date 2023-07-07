@@ -38,7 +38,7 @@ const initialState: InitialState = {
     },
     {
       filterType: 'category',
-      filterValue: [],
+      filterValue: '',
     },
   ],
   filteredCards: [],

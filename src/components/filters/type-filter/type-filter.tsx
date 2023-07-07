@@ -15,6 +15,7 @@ function TypeFilter(): JSX.Element {
 
   const selectedTypeFilter = selectedFilters.find((filter) => filter.filterType === 'type') as TypeFilterState;
   const selectedTypeFilterValue = [...selectedTypeFilter.filterValue];
+  const currentCategoryFilter = selectedFilters.find((filter) => filter.filterType === 'category')?.filterValue;
 
   const onFilterChange = (typeTitle: string) => {
     const newTypeFilterValueIndex = selectedTypeFilterValue.findIndex((value) => value === typeTitle);
@@ -29,8 +30,15 @@ function TypeFilter(): JSX.Element {
   return (
     <fieldset className="catalog-filter__block">
       <legend className="title title--h5">Тип камеры</legend>
-      {TYPE_FILTER_MAP.map((currentType) =>
-        <FilterItem key={currentType.name} currentItem={currentType} onFilterChange={onFilterChange} currentFilterValue={selectedTypeFilterValue} />)}
+      {TYPE_FILTER_MAP.map((currentType) => {
+        let disabled = false;
+        if (currentCategoryFilter === 'Видеокамера') {
+          if (currentType.title === 'Плёночная' || currentType.title === 'Моментальная') {
+            disabled = true;
+          }
+        }
+        return <FilterItem key={currentType.name} currentItem={currentType} onFilterChange={onFilterChange} currentFilterValue={selectedTypeFilterValue} disabled={disabled} />;
+      })}
     </fieldset>
   );
 }

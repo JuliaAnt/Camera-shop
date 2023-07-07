@@ -30,7 +30,7 @@ function LevelFilter(): JSX.Element {
     <fieldset className="catalog-filter__block">
       <legend className="title title--h5">Уровень</legend>
       {LEVEL_FILTER_MAP.map((currentLevel) =>
-        <FilterItem key={currentLevel.name} currentItem={currentLevel} onFilterChange={onFilterChange} currentFilterValue={selectedLevelFilterValue} />)}
+        <FilterItem key={currentLevel.name} currentItem={currentLevel} onFilterChange={onFilterChange} currentFilterValue={selectedLevelFilterValue} disabled={false} />)}
     </fieldset>
   );
 }

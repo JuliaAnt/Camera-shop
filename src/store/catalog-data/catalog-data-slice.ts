@@ -39,7 +39,7 @@ const initialState: InitialState = {
     },
     {
       filterType: 'category',
-      filterValue: [],
+      filterValue: '',
     },
   ],
   filteredCards: [],
@@ -146,7 +146,7 @@ export const catalogData = createSlice({
         },
         {
           filterType: 'category',
-          filterValue: [],
+          filterValue: '',
         },
       ];
       state.filteredCards = state.productCards;
@@ -154,11 +154,11 @@ export const catalogData = createSlice({
     changeSortsAction: (state, action: PayloadAction<SortsType>) => {
       state.sorts = action.payload;
 
-      if ((state.sorts.sortType !== '' || action.payload.sortType !== '') && (state.sorts.sortOrder === '' || action.payload.sortOrder === '')) {
+      if (action.payload.sortType !== '' && action.payload.sortOrder === '') {
         state.sorts.sortOrder = 'up';
       }
 
-      if (state.sorts.sortOrder !== '' && action.payload.sortOrder !== '' && state.sorts.sortType === '' && action.payload.sortType === '') {
+      if (action.payload.sortOrder !== '' && action.payload.sortType === '') {
         state.sorts.sortType = 'sortPrice';
       }
 

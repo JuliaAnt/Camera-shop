@@ -7,9 +7,12 @@ export type CameraLevel = 'Нулевой' | 'Любительский' | 'Пр�
 export type FilterType = 'category' | 'level' | 'price' | 'type';
 
 export type SelectedFilter = {
-  filterType: 'category' | 'level' | 'type';
+  filterType: 'level' | 'type';
   filterValue: string[];
 } | {
   filterType: 'price';
   filterValue: { from: number | null; to: number | null };
+} | {
+  filterType: 'category';
+  filterValue: string;
 }
