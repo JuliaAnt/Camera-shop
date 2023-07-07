@@ -18,6 +18,7 @@ import { getAllReviews, getLoadingStatus, getProducts } from '../../store/catalo
 import EmptyProductPage from '../empty-product-page/empty-product-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { getAverageRating } from '../../utils/utils';
 
 export type ReviewData = {
   userName: string;
@@ -72,12 +73,7 @@ function ProductPage(): JSX.Element {
   };
 
   const reviewsById = allReviews[id || 0];
-  const sum = reviewsById
-    ?.filter((review) => review.cameraId === id)
-    .map((review) => review.rating)
-    .reduce((a, b) => a + b, 0);
-
-  const rating = Math.ceil(sum / reviewsById?.length);
+  const rating = getAverageRating(reviewsById, id || 0);
 
   useEffect(() => {
     const onModalEscKeydown = (evt: KeyboardEvent) => {

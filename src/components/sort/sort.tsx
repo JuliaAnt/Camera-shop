@@ -1,33 +1,23 @@
-import { MouseEvent, useEffect, useState } from 'react';
-import { SortsType } from '../../types/sorts';
+import { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { changeSortsAction } from '../../store/catalog-data/catalog-data-slice';
 import { getSorts } from '../../store/catalog-data/catalog-data-selectors';
 
 function Sort(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [sorts, setSorts] = useState<SortsType>({
-    sortType: 'sortPopular',
-    sortOrder: 'up',
-  });
+  const selectedSorts = useAppSelector(getSorts);
 
   const sortChangeHandler = (evt: MouseEvent) => {
     evt.preventDefault();
     const target = evt.currentTarget;
 
     if (target.className === 'sortType') {
-      setSorts({ ...sorts, sortType: target.id });
+      dispatch(changeSortsAction({ ...selectedSorts, sortType: target.id }));
     }
     if (target.className === 'sortOrder') {
-      setSorts({ ...sorts, sortOrder: target.id });
+      dispatch(changeSortsAction({ ...selectedSorts, sortOrder: target.id }));
     }
   };
-
-  useEffect(() => {
-    dispatch(changeSortsAction(sorts));
-  }, [dispatch, sorts]);
-
-  const selectedSorts = useAppSelector(getSorts);
 
   return (
     <form action="#">

@@ -6,6 +6,7 @@ import { SelectedFilter } from '../../types/filters';
 import { SortsType } from '../../types/sorts';
 import { PromoProduct } from '../../types/promo';
 import { Review } from '../../types/review';
+import { getAverageRating } from '../../utils/utils';
 
 type InitialState = {
   productCards: ProductCard[];
@@ -43,8 +44,8 @@ const initialState: InitialState = {
   ],
   filteredCards: [],
   sorts: {
-    sortType: 'sortPopular',
-    sortOrder: 'up',
+    sortType: '',
+    sortOrder: '',
   },
   promoProduct: null,
   hasError: false,
@@ -52,15 +53,17 @@ const initialState: InitialState = {
   allReviews: {},
 };
 
-export const sortProducts = (filteredProducts: ProductCard[], sorts: SortsType): ProductCard[] => {
+export const sortProducts = (filteredProducts: ProductCard[], sorts: SortsType, allReviews: Record<number, Review[]>): ProductCard[] => {
   if (filteredProducts && sorts) {
     switch (sorts.sortType) {
       case 'sortPopular':
         if (sorts.sortOrder === 'up') {
-          return filteredProducts;
+          return filteredProducts.sort((cardA: ProductCard, cardB: ProductCard): number =>
+            getAverageRating(allReviews[cardA.id], cardA.id) - getAverageRating(allReviews[cardB.id], cardB.id));
         }
         if (sorts.sortOrder === 'down') {
-          return filteredProducts.reverse();
+          return filteredProducts.sort((cardA: ProductCard, cardB: ProductCard): number =>
+            getAverageRating(allReviews[cardB.id], cardB.id) - getAverageRating(allReviews[cardA.id], cardA.id));
         }
         break;
 
@@ -122,7 +125,7 @@ export const catalogData = createSlice({
       state.selectedFilters[filterIndex] = action.payload;
 
       state.filteredCards = filterProducts(state.selectedFilters, state.productCards);
-      state.filteredCards = sortProducts(state.filteredCards, state.sorts);
+      state.filteredCards = sortProducts(state.filteredCards, state.sorts, state.allReviews);
     },
     resetFiltersAction: (state) => {
       state.selectedFilters = [
@@ -151,8 +154,16 @@ export const catalogData = createSlice({
     changeSortsAction: (state, action: PayloadAction<SortsType>) => {
       state.sorts = action.payload;
 
+      if ((state.sorts.sortType !== '' || action.payload.sortType !== '') && (state.sorts.sortOrder === '' || action.payload.sortOrder === '')) {
+        state.sorts.sortOrder = 'up';
+      }
+
+      if (state.sorts.sortOrder !== '' && action.payload.sortOrder !== '' && state.sorts.sortType === '' && action.payload.sortType === '') {
+        state.sorts.sortType = 'sortPrice';
+      }
+
       const filteredProducts: ProductCard[] = filterProducts(state.selectedFilters, state.productCards);
-      state.filteredCards = sortProducts(filteredProducts, action.payload);
+      state.filteredCards = sortProducts(filteredProducts, action.payload, state.allReviews);
     }
   },
   extraReducers(builder) {

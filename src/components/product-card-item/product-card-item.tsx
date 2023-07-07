@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import FocusTrap from 'react-focus-trap';
 import { Review } from '../../types/review';
+import { getAverageRating } from '../../utils/utils';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
@@ -18,12 +19,7 @@ function ProductCardItem({ productCard, className, reviews }: ProductCardItemPro
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const sum = reviews
-    ?.filter((review) => review.cameraId === id)
-    .map((review) => review.rating)
-    .reduce((a, b) => a + b, 0);
-
-  const rating = Math.ceil(sum / reviews?.length);
+  const rating = getAverageRating(reviews, id);
 
   useEffect(() => {
     const onModalEscKeydown = (evt: KeyboardEvent) => {
