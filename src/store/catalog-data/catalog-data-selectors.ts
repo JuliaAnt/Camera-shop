@@ -14,3 +14,4 @@ export const getPromoProduct = (state: State): PromoProduct | null => state[Name
 export const getErrorStatus = (state: State): boolean => state[NameSpace.CatalogData].hasError;
 export const getLoadingStatus = (state: State): boolean => state[NameSpace.CatalogData].isLoading;
 export const getAllReviews = (state: State): Record<number, Review[]> => state[NameSpace.CatalogData].allReviews;
+export const getPriceRange = (state: State): { min: number | null; max: number | null } => state[NameSpace.CatalogData].priceRange;

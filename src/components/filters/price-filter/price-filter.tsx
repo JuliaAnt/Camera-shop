@@ -1,9 +1,9 @@
 import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
-import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
-import { getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
+import { changePriceFilterAction, validatePriceFilterAction } from '../../../store/catalog-data/catalog-data-slice';
+import { getPriceRange, getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
 
-type PriceFilterState = {
+export type PriceFilterState = {
   filterType: 'price';
   filterValue: {
     from: number | null;
@@ -14,15 +14,20 @@ type PriceFilterState = {
 function PriceFilter(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedFilters = useAppSelector(getSelectedFilters);
+  const priceRange = useAppSelector(getPriceRange);
 
   const selectedPriceFilter = selectedFilters.find((filter) => filter.filterType === 'price') as PriceFilterState;
 
   const onPriceFromChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeFiltersAction({ ...selectedPriceFilter, filterValue: { from: +evt.target?.value, to: selectedPriceFilter.filterValue.to } }));
+    dispatch(changePriceFilterAction({ ...selectedPriceFilter, filterValue: { from: +evt.target?.value, to: selectedPriceFilter.filterValue.to } }));
   };
 
   const onPriceToChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeFiltersAction({ ...selectedPriceFilter, filterValue: { from: selectedPriceFilter.filterValue.from, to: +evt.target.value } }));
+    dispatch(changePriceFilterAction({ ...selectedPriceFilter, filterValue: { from: selectedPriceFilter.filterValue.from, to: +evt.target.value } }));
+  };
+
+  const onBlurInput = () => {
+    dispatch(validatePriceFilterAction());
   };
 
   return (
@@ -34,9 +39,12 @@ function PriceFilter(): JSX.Element {
             <input
               type="number"
               name="price"
-              placeholder="от"
+              min={priceRange.min || undefined}
+              max={priceRange.max || undefined}
+              placeholder={priceRange.min?.toString()}
               value={selectedPriceFilter?.filterValue.from || ''}
               onChange={onPriceFromChange}
+              onBlur={onBlurInput}
             />
           </label>
         </div>
@@ -45,9 +53,12 @@ function PriceFilter(): JSX.Element {
             <input
               type="number"
               name="priceUp"
-              placeholder="до"
+              min={priceRange.min || undefined}
+              max={priceRange.max || undefined}
+              placeholder={priceRange.max?.toString()}
               value={selectedPriceFilter?.filterValue.to || ''}
               onChange={onPriceToChange}
+              onBlur={onBlurInput}
             />
           </label>
         </div>

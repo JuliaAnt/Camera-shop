@@ -17,7 +17,12 @@ function CategoryFilter(): JSX.Element {
   const selectedCategoryFilterValue = selectedCategoryFilter.filterValue;
 
   const onFilterChange = (categoryTitle: string) => {
-    dispatch(changeFiltersAction({ ...selectedCategoryFilter, filterValue: categoryTitle }));
+    if (selectedCategoryFilterValue !== categoryTitle) {
+      dispatch(changeFiltersAction({ ...selectedCategoryFilter, filterValue: categoryTitle }));
+    }
+    if (selectedCategoryFilterValue === categoryTitle) {
+      dispatch(changeFiltersAction({ ...selectedCategoryFilter, filterValue: '' }));
+    }
   };
 
   return (
