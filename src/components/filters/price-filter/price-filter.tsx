@@ -2,14 +2,8 @@ import { ChangeEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changePriceFilterAction, validatePriceFilterAction } from '../../../store/catalog-data/catalog-data-slice';
 import { getPriceRange, getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
+import { PriceFilterState } from '../../../types/filters';
 
-export type PriceFilterState = {
-  filterType: 'price';
-  filterValue: {
-    from: number | null;
-    to: number | null;
-  };
-}
 
 function PriceFilter(): JSX.Element {
   const dispatch = useAppDispatch();

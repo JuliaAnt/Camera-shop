@@ -2,12 +2,11 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ProductCard } from '../../types/product-card';
 import { NameSpace } from '../../consts';
 import { fetchProductsAction, fetchPromoProductAction, fetchReviewsByIdAction } from '../api-actions';
-import { SelectedFilter } from '../../types/filters';
+import { PriceFilterState, SelectedFilter } from '../../types/filters';
 import { SortsType } from '../../types/sorts';
 import { PromoProduct } from '../../types/promo';
 import { Review } from '../../types/review';
 import { getAverageRating, getMaxMinPrice } from '../../utils/utils';
-import { PriceFilterState } from '../../components/filters/price-filter/price-filter';
 
 type InitialState = {
   productCards: ProductCard[];
@@ -22,6 +21,7 @@ type InitialState = {
     min: number | null;
     max: number | null;
   };
+  page: number;
 };
 
 const initialState: InitialState = {
@@ -60,6 +60,7 @@ const initialState: InitialState = {
     min: null,
     max: null,
   },
+  page: 1,
 };
 
 export const sortProducts = (filteredProducts: ProductCard[], sorts: SortsType, allReviews: Record<number, Review[]>): ProductCard[] => {
@@ -96,6 +97,9 @@ export const filterProducts = (filters: SelectedFilter[], cards: ProductCard[]):
   cards.filter((card) => filters.every((filter) => {
     switch (filter.filterType) {
       case 'price':
+        if (!filter.filterValue.from && !filter.filterValue.to) {
+          return true;
+        }
         if (!filter.filterValue.from && filter.filterValue.to !== null) {
           return card.price <= filter.filterValue.to;
         }
@@ -105,6 +109,7 @@ export const filterProducts = (filters: SelectedFilter[], cards: ProductCard[]):
         if (filter.filterValue.from && filter.filterValue.to) {
           return card.price >= filter.filterValue.from && card.price <= filter.filterValue.to;
         }
+
         break;
 
       case 'category':
@@ -129,6 +134,11 @@ export const catalogData = createSlice({
   name: NameSpace.CatalogData,
   initialState,
   reducers: {
+    changeAllSelectedFiltersAction: (state, action: PayloadAction<SelectedFilter[]>) => {
+      state.selectedFilters = action.payload;
+      state.filteredCards = filterProducts(state.selectedFilters, state.productCards);
+      state.filteredCards = sortProducts(state.filteredCards, state.sorts, state.allReviews);
+    },
     changeFiltersAction: (state, action: PayloadAction<SelectedFilter>) => {
       const filterIndex = state.selectedFilters.findIndex((filter) => filter.filterType === action.payload.filterType);
       state.selectedFilters[filterIndex] = action.payload;
@@ -218,6 +228,9 @@ export const catalogData = createSlice({
 
       const filteredProducts: ProductCard[] = filterProducts(state.selectedFilters, state.productCards);
       state.filteredCards = sortProducts(filteredProducts, action.payload, state.allReviews);
+    },
+    changePaginationPageAction: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
     }
   },
   extraReducers(builder) {
@@ -228,6 +241,8 @@ export const catalogData = createSlice({
         state.hasError = false;
         state.isLoading = false;
         state.priceRange = getMaxMinPrice(state.filteredCards);
+        state.filteredCards = filterProducts(state.selectedFilters, state.productCards);
+        state.filteredCards = sortProducts(state.filteredCards, state.sorts, state.allReviews);
       })
       .addCase(fetchProductsAction.rejected, (state) => {
         state.hasError = true;
@@ -246,4 +261,12 @@ export const catalogData = createSlice({
   },
 });
 
-export const { changeFiltersAction, resetFiltersAction, changeSortsAction, validatePriceFilterAction, changePriceFilterAction } = catalogData.actions;
+export const {
+  changeFiltersAction,
+  resetFiltersAction,
+  changeSortsAction,
+  validatePriceFilterAction,
+  changePriceFilterAction,
+  changeAllSelectedFiltersAction,
+  changePaginationPageAction,
+} = catalogData.actions;

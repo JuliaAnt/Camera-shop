@@ -14,12 +14,14 @@ function ProductCardList({ productCards, firstProductIndex, lastProductIndex }: 
 
   return (
     <div className="cards catalog__cards">
-      {productCards.slice(firstProductIndex, lastProductIndex).map((card) => {
-        const reviewsById = allReviews[card.id];
-        return (
-          <ProductCardItem key={card.id} productCard={card} className={''} reviews={reviewsById} />
-        );
-      })}
+      {productCards.length ?
+        productCards.slice(firstProductIndex, lastProductIndex).map((card) => {
+          const reviewsById = allReviews[card.id];
+          return (
+            <ProductCardItem key={card.id} productCard={card} className={''} reviews={reviewsById} />
+          );
+        })
+        : <h3>По вашему запросу ничего не найдено</h3>}
     </div>
   );
 }

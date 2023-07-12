@@ -4,7 +4,7 @@ import { TYPE_FILTER_MAP } from '../../../consts';
 import FilterItem from '../filter-item';
 import { getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
 
-type TypeFilterState = {
+export type TypeFilterState = {
   filterType: 'type';
   filterValue: string[];
 }

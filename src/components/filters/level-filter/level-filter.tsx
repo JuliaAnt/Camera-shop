@@ -4,7 +4,7 @@ import { LEVEL_FILTER_MAP } from '../../../consts';
 import FilterItem from '../filter-item';
 import { getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
 
-type LevelFilterState = {
+export type LevelFilterState = {
   filterType: 'level';
   filterValue: string[];
 }

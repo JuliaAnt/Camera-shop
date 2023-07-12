@@ -15,3 +15,4 @@ export const getErrorStatus = (state: State): boolean => state[NameSpace.Catalog
 export const getLoadingStatus = (state: State): boolean => state[NameSpace.CatalogData].isLoading;
 export const getAllReviews = (state: State): Record<number, Review[]> => state[NameSpace.CatalogData].allReviews;
 export const getPriceRange = (state: State): { min: number | null; max: number | null } => state[NameSpace.CatalogData].priceRange;
+export const getPaginationPage = (state: State): number => state[NameSpace.CatalogData].page;
