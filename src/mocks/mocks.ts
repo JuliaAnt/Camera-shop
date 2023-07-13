@@ -149,3 +149,28 @@ export const mockReview: ReviewRequest = {
   review: 'Это моя первая камера. Я в восторге, нареканий нет',
   rating: 5,
 };
+
+export const mockAllReviews: Record<number, Review[]> = {
+  6: [],
+  7: [{
+    id: 'f1d10ddd-2a21-4f71-9e1e-5f511703fbgg',
+    createAt: '2022-07-09T13:24:57.980Z',
+    cameraId: 7,
+    userName: 'Кирилл',
+    advantage: 'Легкая в плане веса, удобная в интерфейсе',
+    disadvantage: 'Быстро садиться зарядка',
+    review: 'Это моя первая камера. Я в восторге, нареканий нет',
+    rating: 5,
+  },
+  {
+    id: '7875a537-1aa6-4856-8e06-34cad32a3079',
+    createAt: '2022-07-08T13:24:57.980Z',
+    cameraId: 7,
+    userName: 'Сергей Горский',
+    advantage: 'Надёжная, хорошо лежит в руке, необычно выглядит',
+    disadvantage: 'Тяжеловата, сложно найти плёнку',
+    review: 'Раз в полгода достаю из-под стекла, стираю пыль, заряжаю — работает как часы.',
+    rating: 5,
+  },
+  ],
+};

@@ -17,7 +17,7 @@ type CustomArrowProps = {
   slide: number;
 }
 
-const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
+export const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
   <button
     className="slider-controls slider-controls--prev"
     type="button"
@@ -32,7 +32,7 @@ const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps)
   </button>
 );
 
-const CustomRightArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
+export const CustomRightArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
   <button
     className="slider-controls slider-controls--next"
     type="button"

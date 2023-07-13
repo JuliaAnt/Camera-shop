@@ -14,6 +14,6 @@ describe('Component: ProductCardItem', () => {
     expect(screen.getByTestId('cardTitle-7').innerHTML).toMatch('Look 54');
     expect(screen.getByText('Подробнее')).toBeInTheDocument();
     expect(screen.getByText('Купить')).toBeInTheDocument();
-    expect(screen.getByTestId('cardPrice').innerHTML).toMatch('96490 ₽');
+    expect(screen.getByTestId('cardPrice').innerHTML).toMatch('96 490 ₽');
   });
 });

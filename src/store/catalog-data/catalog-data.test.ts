@@ -16,6 +16,11 @@ type InitialState = {
   hasError: boolean;
   isLoading: boolean;
   allReviews: Record<number, Review[]>;
+  priceRange: {
+    min: number | null;
+    max: number | null;
+  };
+  page: number;
 }
 
 const initialState: InitialState = {
@@ -43,13 +48,18 @@ const initialState: InitialState = {
   ],
   filteredCards: [],
   sorts: {
-    sortType: 'sortPopular',
-    sortOrder: 'up',
+    sortType: '',
+    sortOrder: '',
   },
   promoProduct: null,
   hasError: false,
   isLoading: false,
   allReviews: {},
+  priceRange: {
+    min: null,
+    max: null,
+  },
+  page: 1,
 };
 
 describe('Reducer: catalog-data', () => {
@@ -68,6 +78,11 @@ describe('Reducer: catalog-data', () => {
       hasError: false,
       isLoading: false,
       allReviews: {},
+      priceRange: {
+        min: null,
+        max: null,
+      },
+      page: 1,
     };
 
     expect(catalogData.reducer(state, changeFiltersAction({
@@ -83,6 +98,11 @@ describe('Reducer: catalog-data', () => {
         hasError: false,
         isLoading: false,
         allReviews: {},
+        priceRange: {
+          min: 96490,
+          max: 96490,
+        },
+        page: 1,
       });
   });
 
@@ -96,6 +116,11 @@ describe('Reducer: catalog-data', () => {
       hasError: false,
       isLoading: false,
       allReviews: {},
+      priceRange: {
+        min: null,
+        max: null,
+      },
+      page: 1,
     };
 
     expect(catalogData.reducer(state, resetFiltersAction()))
@@ -108,6 +133,11 @@ describe('Reducer: catalog-data', () => {
         hasError: false,
         isLoading: false,
         allReviews: {},
+        priceRange: {
+          min: 9490,
+          max: 96490,
+        },
+        page: 1,
       });
   });
 
@@ -121,6 +151,11 @@ describe('Reducer: catalog-data', () => {
       hasError: false,
       isLoading: false,
       allReviews: {},
+      priceRange: {
+        min: null,
+        max: null,
+      },
+      page: 1,
     };
 
     const sortedProducts = [...mockProductCards];
@@ -135,6 +170,11 @@ describe('Reducer: catalog-data', () => {
         hasError: false,
         isLoading: false,
         allReviews: {},
+        priceRange: {
+          min: null,
+          max: null,
+        },
+        page: 1,
       });
   });
 
@@ -150,6 +190,11 @@ describe('Reducer: catalog-data', () => {
         hasError: false,
         isLoading: false,
         allReviews: {},
+        priceRange: {
+          min: 9490,
+          max: 96490,
+        },
+        page: 1,
       });
   });
 
@@ -165,6 +210,11 @@ describe('Reducer: catalog-data', () => {
         hasError: false,
         isLoading: false,
         allReviews: {},
+        priceRange: {
+          min: null,
+          max: null,
+        },
+        page: 1,
       });
   });
 });

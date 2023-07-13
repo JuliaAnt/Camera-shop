@@ -21,6 +21,7 @@ function SearchResultItem({ product, searchString }: SearchResultItemProps): JSX
       <li
         className="form-search__select-item"
         id={'search'}
+        data-testid={'search-item'}
         tabIndex={1}
         style={{ visibility: `${searchString ? 'visible' : 'hidden'}` }}
         onKeyDown={handleKeyDown}

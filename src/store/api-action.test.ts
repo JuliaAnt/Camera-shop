@@ -6,7 +6,7 @@ import { Action } from 'redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { APIRoute } from '../consts';
 import { look54Card, mockProductCards, mockPromoProduct, mockReview, mockReviews } from '../mocks/mocks';
-import { fetchProductsAction, fetchPromoProductAction, fetchReviewsAction, fetchSelectedProductAction, fetchSimilarProductsAction, sendReviewAction } from './api-actions';
+import { fetchProductsAction, fetchPromoProductAction, fetchReviewsAction, fetchReviewsByIdAction, fetchSelectedProductAction, fetchSimilarProductsAction, sendReviewAction } from './api-actions';
 
 describe('Async actions', () => {
   const api = createApi();
@@ -32,6 +32,7 @@ describe('Async actions', () => {
 
     expect(actions).toEqual([
       fetchProductsAction.pending.type,
+      fetchReviewsByIdAction.pending.type,
       fetchProductsAction.fulfilled.type
     ]);
   });

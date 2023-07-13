@@ -38,7 +38,7 @@ function Search(): JSX.Element {
             <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
               <use xlinkHref="#icon-lens"></use>
             </svg>
-            <input className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" value={searchString} onChange={onChange} />
+            <input className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" data-testid={'search-bar'} value={searchString} onChange={onChange} />
           </label>
           <ul
             className="form-search__select-list scroller"
@@ -48,7 +48,13 @@ function Search(): JSX.Element {
           </ul>
 
         </form>
-        <button className="form-search__reset" type="button" style={{ display: `${searchString ? 'flex' : 'none'}` }} onClick={onResetClick}>
+        <button
+          className="form-search__reset"
+          data-testid={'search-reset-btn'}
+          type="button"
+          style={{ display: `${searchString ? 'flex' : 'none'}` }}
+          onClick={onResetClick}
+        >
           <svg width="10" height="10" aria-hidden="true">
             <use xlinkHref="#icon-close"></use>
           </svg><span className="visually-hidden">Сбросить поиск</span>

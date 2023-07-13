@@ -32,7 +32,11 @@ describe('Component: Filters', () => {
               filterType: 'category',
               filterValue: [],
             },
-          ]
+          ],
+          priceRange: {
+            min: 1000,
+            max: 10000,
+          },
         }
       })}
       >

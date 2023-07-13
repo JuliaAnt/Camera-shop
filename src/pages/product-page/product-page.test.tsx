@@ -5,6 +5,7 @@ import ProductPage from './product-page';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import { NameSpace } from '../../consts';
+import { mockAllReviews, mockProductCards } from '../../mocks/mocks';
 
 const mockStore = configureMockStore();
 
@@ -16,15 +17,22 @@ describe('Component: ProductPage', () => {
         <Provider store={
           mockStore({
             [NameSpace.ProductData]: {
+              productCards: [],
               selectedProduct: {
-                name: 'Ретрокамера Dus Auge lV',
-                vendorCode: 'DA4IU67AD5',
+                id: 7,
+                name: 'Look 54',
+                vendorCode: 'NB54Y',
               },
               productReviews: [],
               similarProducts: [{
                 name: 'Instaprinter P2',
                 id: 546565686
               }],
+              allReviews: mockAllReviews,
+              hasError: false,
+            },
+            [NameSpace.CatalogData]: {
+              productCards: mockProductCards,
             }
           })
         }
@@ -36,10 +44,10 @@ describe('Component: ProductPage', () => {
       </ React.StrictMode >
     );
 
-    expect(screen.getByTestId('productTitle').innerHTML).toMatch('Ретрокамера Dus Auge lV');
+    expect(screen.getByTestId('productTitle').innerHTML).toMatch('Look 54');
     expect(screen.getByText('Характеристики')).toBeInTheDocument();
     expect(screen.getByText('Описание')).toBeInTheDocument();
-    expect(screen.getByText('DA4IU67AD5')).toBeInTheDocument();
+    expect(screen.getByText('NB54Y')).toBeInTheDocument();
     expect(screen.getByText(/Похожие товары/i)).toBeInTheDocument();
     expect(screen.getByText(/Отзывы/i)).toBeInTheDocument();
     expect(screen.getByTestId('footer')).toBeInTheDocument();
