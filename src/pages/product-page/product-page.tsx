@@ -45,8 +45,6 @@ function ProductPage(): JSX.Element {
   });
   const location = useLocation();
   const isLoading = useAppSelector(getLoadingStatus);
-  // eslint-disable-next-line no-console
-  console.log(allReviews);
 
   const handleChange = (review: ReviewData) => {
     setReviewData(review);

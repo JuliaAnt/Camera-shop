@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { UsePaginationReturn } from '../types/pagination';
 import { useAppDispatch, useAppSelector } from './redux-hooks';
-import { changePaginationPageAction } from '../store/catalog-data/catalog-data-slice';
+import { changePageAction } from '../store/catalog-data/catalog-data-slice';
 import { getPaginationPage } from '../store/catalog-data/catalog-data-selectors';
 
 type UsePaginationProps = {
@@ -18,25 +18,25 @@ export const usePagination = ({ productsPerPage, productsCount }: UsePaginationP
 
   const selectPage = useCallback((pageNumber: number) => {
     if (pageNumber > totalPageCount) {
-      dispatch(changePaginationPageAction(totalPageCount));
+      dispatch(changePageAction(totalPageCount));
     } else if (pageNumber < 1) {
-      dispatch(changePaginationPageAction(1));
+      dispatch(changePageAction(1));
     } else {
-      dispatch(changePaginationPageAction(pageNumber));
+      dispatch(changePageAction(pageNumber));
     }
   }, [totalPageCount, dispatch]);
 
   const changePageWithDirection = (direction: boolean) => {
     if (direction) {
       if (paginationPage === totalPageCount) {
-        dispatch(changePaginationPageAction(paginationPage));
+        dispatch(changePageAction(paginationPage));
       }
-      dispatch(changePaginationPageAction(paginationPage + 1));
+      dispatch(changePageAction(paginationPage + 1));
     } else {
       if (paginationPage === 1) {
-        dispatch(changePaginationPageAction(paginationPage));
+        dispatch(changePageAction(paginationPage));
       }
-      dispatch(changePaginationPageAction(paginationPage - 1));
+      dispatch(changePageAction(paginationPage - 1));
     }
   };
 

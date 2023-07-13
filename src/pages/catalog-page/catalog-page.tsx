@@ -7,7 +7,7 @@ import Filters from '../../components/filters/filters';
 import Sort from '../../components/sort/sort';
 import Banner from '../../components/banner/banner';
 import Pagination from '../../components/pagination/pagination';
-import { AppRoute, PRODUCTS_PER_PAGE } from '../../consts';
+import { AppRoute, FilterTypeList, PRODUCTS_PER_PAGE } from '../../consts';
 import { usePagination } from '../../hooks/use-pagination';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
@@ -16,7 +16,7 @@ import EmptyCatalogPage from '../empty-catalog-page/empty-catalog-page';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { SelectedFilter } from '../../types/filters';
 import { checkEmptyFilters } from '../../utils/utils';
-import { changeAllSelectedFiltersAction, changePaginationPageAction, changeSortsAction } from '../../store/catalog-data/catalog-data-slice';
+import { changeAllSelectedFiltersAction, changePageAction, changeSortsAction } from '../../store/catalog-data/catalog-data-slice';
 import { SortsType } from '../../types/sorts';
 
 function CatalogPage(): JSX.Element {
@@ -74,19 +74,19 @@ function CatalogPage(): JSX.Element {
   useEffect(() => {
     const filtersFromUrl: SelectedFilter[] = [
       {
-        filterType: 'category',
-        filterValue: searchParams.get('category') || '',
+        filterType: FilterTypeList.Category,
+        filterValue: searchParams.get(FilterTypeList.Category) || '',
       },
       {
-        filterType: 'type',
-        filterValue: searchParams.getAll('type') || [],
+        filterType: FilterTypeList.Type,
+        filterValue: searchParams.getAll(FilterTypeList.Type) || [],
       },
       {
-        filterType: 'level',
-        filterValue: searchParams.getAll('level') || [],
+        filterType: FilterTypeList.Level,
+        filterValue: searchParams.getAll(FilterTypeList.Level) || [],
       },
       {
-        filterType: 'price',
+        filterType: FilterTypeList.Price,
         filterValue: {
           from: +(searchParams.get('price_from') || '0'),
           to: +(searchParams.get('price_to') || '0'),
@@ -106,11 +106,11 @@ function CatalogPage(): JSX.Element {
     const pageParam = searchParams.get('page');
     if (pageParam && pageParam !== page.toString()) {
       if (+pageParam > totalPageCount) {
-        dispatch(changePaginationPageAction(+totalPageCount));
+        dispatch(changePageAction(+totalPageCount));
       } else if (+pageParam < 1) {
-        dispatch(changePaginationPageAction(1));
+        dispatch(changePageAction(1));
       } else {
-        dispatch(changePaginationPageAction(+pageParam));
+        dispatch(changePageAction(+pageParam));
       }
     }
 

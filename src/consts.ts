@@ -94,3 +94,10 @@ export const RATINGS_REQUEST = [
     title: 'Ужасно',
   },
 ];
+
+export enum FilterTypeList {
+  Type = 'type',
+  Category = 'category',
+  Level = 'level',
+  Price = 'price',
+}

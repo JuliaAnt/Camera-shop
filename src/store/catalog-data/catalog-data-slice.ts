@@ -229,7 +229,7 @@ export const catalogData = createSlice({
       const filteredProducts: ProductCard[] = filterProducts(state.selectedFilters, state.productCards);
       state.filteredCards = sortProducts(filteredProducts, action.payload, state.allReviews);
     },
-    changePaginationPageAction: (state, action: PayloadAction<number>) => {
+    changePageAction: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     }
   },
@@ -268,5 +268,5 @@ export const {
   validatePriceFilterAction,
   changePriceFilterAction,
   changeAllSelectedFiltersAction,
-  changePaginationPageAction,
+  changePageAction,
 } = catalogData.actions;
