@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
-import { LEVEL_FILTER_MAP } from '../../../consts';
+import { FilterTypeList, LEVEL_FILTER_MAP } from '../../../consts';
 import FilterItem from '../filter-item';
 import { getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
 
 export type LevelFilterState = {
-  filterType: 'level';
+  filterType: FilterTypeList.Level;
   filterValue: string[];
 }
 
@@ -13,7 +13,7 @@ function LevelFilter(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedFilters = useAppSelector(getSelectedFilters);
 
-  const selectedLevelFilter = selectedFilters.find((filter) => filter.filterType === 'level') as LevelFilterState;
+  const selectedLevelFilter = selectedFilters.find((filter) => filter.filterType === FilterTypeList.Level) as LevelFilterState;
   const selectedLevelFilterValue = [...selectedLevelFilter.filterValue];
 
   const onFilterChange = (levelTitle: string) => {

@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
-import { CATEGORY_FILTER_MAP } from '../../../consts';
+import { CATEGORY_FILTER_MAP, FilterTypeList } from '../../../consts';
 import FilterItem from '../filter-item';
 import { getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
 
 type CategoryFilterState = {
-  filterType: 'category';
+  filterType: FilterTypeList.Category;
   filterValue: string;
 }
 
@@ -13,7 +13,7 @@ function CategoryFilter(): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedFilters = useAppSelector(getSelectedFilters);
 
-  const selectedCategoryFilter = selectedFilters.find((filter) => filter.filterType === 'category') as CategoryFilterState;
+  const selectedCategoryFilter = selectedFilters.find((filter) => filter.filterType === FilterTypeList.Category) as CategoryFilterState;
   const selectedCategoryFilterValue = selectedCategoryFilter.filterValue;
 
   const onFilterChange = (categoryTitle: string) => {

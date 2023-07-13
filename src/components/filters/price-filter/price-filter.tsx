@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changePriceFilterAction, validatePriceFilterAction } from '../../../store/catalog-data/catalog-data-slice';
 import { getPriceRange, getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
 import { PriceFilterState } from '../../../types/filters';
+import { FilterTypeList } from '../../../consts';
 
 
 function PriceFilter(): JSX.Element {
@@ -10,7 +11,7 @@ function PriceFilter(): JSX.Element {
   const selectedFilters = useAppSelector(getSelectedFilters);
   const priceRange = useAppSelector(getPriceRange);
 
-  const selectedPriceFilter = selectedFilters.find((filter) => filter.filterType === 'price') as PriceFilterState;
+  const selectedPriceFilter = selectedFilters.find((filter) => filter.filterType === FilterTypeList.Price) as PriceFilterState;
 
   const onPriceFromChange = (evt: ChangeEvent<HTMLInputElement>) => {
     dispatch(changePriceFilterAction({ ...selectedPriceFilter, filterValue: { from: +evt.target?.value, to: selectedPriceFilter.filterValue.to } }));
