@@ -6,16 +6,20 @@ import PopupCatalogAddItem from '../popup/popup-catalog-add-item/popup-catalog-a
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import FocusTrap from 'react-focus-trap';
+import { Review } from '../../types/review';
+import { getAverageRating } from '../../utils/utils';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
   className: string;
+  reviews: Review[];
 }
 
-function ProductCardItem({ productCard, className }: ProductCardItemProps): JSX.Element {
+function ProductCardItem({ productCard, className, reviews }: ProductCardItemProps): JSX.Element {
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
   const [isModalOpen, setModalOpen] = useState(false);
-  const rating = 2;
+
+  const rating = getAverageRating(reviews, id);
 
   useEffect(() => {
     const onModalEscKeydown = (evt: KeyboardEvent) => {

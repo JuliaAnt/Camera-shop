@@ -48,10 +48,10 @@ describe('Tabs component', () => {
       </BrowserRouter>
     );
 
-    const tabSpecsContent = screen.getByText(vendorCode);
+    const tabDescription = screen.getByText(description);
 
-    expect(tabSpecsContent).toBeInTheDocument();
-    expect(screen.queryByTestId('tab-description')).not.toBeInTheDocument();
+    expect(tabDescription).toBeInTheDocument();
+    expect(screen.queryByTestId('tab-specs')).not.toBeInTheDocument();
   });
 
   test('should switch tab content on tab title click', () => {
@@ -76,15 +76,15 @@ describe('Tabs component', () => {
     const tabTitle1 = screen.getByText('Характеристики');
     const tabTitle2 = screen.getByText('Описание');
 
-    expect(screen.getByTestId('tab-specs')).toBeInTheDocument();
-    expect(screen.queryByTestId('tab-description')).not.toBeInTheDocument();
-
-    fireEvent.click(tabTitle2);
     expect(screen.getByTestId('tab-description')).toBeInTheDocument();
     expect(screen.queryByTestId('tab-specs')).not.toBeInTheDocument();
 
     fireEvent.click(tabTitle1);
     expect(screen.getByTestId('tab-specs')).toBeInTheDocument();
     expect(screen.queryByTestId('tab-description')).not.toBeInTheDocument();
+
+    fireEvent.click(tabTitle2);
+    expect(screen.getByTestId('tab-description')).toBeInTheDocument();
+    expect(screen.queryByTestId('tab-specs')).not.toBeInTheDocument();
   });
 });

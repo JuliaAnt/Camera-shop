@@ -5,6 +5,7 @@ import { SortsType } from '../../types/sorts';
 import { look54Card, mockProductCards, mockPromoProduct, mockSelectedSorts, newMockSelectedFilters } from '../../mocks/mocks';
 import { fetchProductsAction, fetchPromoProductAction } from '../api-actions';
 import { catalogData, changeFiltersAction, changeSortsAction, resetFiltersAction } from './catalog-data-slice';
+import { Review } from '../../types/review';
 
 type InitialState = {
   productCards: ProductCard[];
@@ -14,6 +15,12 @@ type InitialState = {
   promoProduct: PromoProduct | null;
   hasError: boolean;
   isLoading: boolean;
+  allReviews: Record<number, Review[]>;
+  priceRange: {
+    min: number | null;
+    max: number | null;
+  };
+  page: number;
 }
 
 const initialState: InitialState = {
@@ -36,17 +43,23 @@ const initialState: InitialState = {
     },
     {
       filterType: 'category',
-      filterValue: [],
+      filterValue: '',
     },
   ],
   filteredCards: [],
   sorts: {
-    sortType: 'sortPopular',
-    sortOrder: 'up',
+    sortType: '',
+    sortOrder: '',
   },
   promoProduct: null,
   hasError: false,
   isLoading: false,
+  allReviews: {},
+  priceRange: {
+    min: null,
+    max: null,
+  },
+  page: 1,
 };
 
 describe('Reducer: catalog-data', () => {
@@ -64,6 +77,12 @@ describe('Reducer: catalog-data', () => {
       promoProduct: null,
       hasError: false,
       isLoading: false,
+      allReviews: {},
+      priceRange: {
+        min: null,
+        max: null,
+      },
+      page: 1,
     };
 
     expect(catalogData.reducer(state, changeFiltersAction({
@@ -78,6 +97,12 @@ describe('Reducer: catalog-data', () => {
         promoProduct: null,
         hasError: false,
         isLoading: false,
+        allReviews: {},
+        priceRange: {
+          min: 96490,
+          max: 96490,
+        },
+        page: 1,
       });
   });
 
@@ -90,6 +115,12 @@ describe('Reducer: catalog-data', () => {
       promoProduct: null,
       hasError: false,
       isLoading: false,
+      allReviews: {},
+      priceRange: {
+        min: null,
+        max: null,
+      },
+      page: 1,
     };
 
     expect(catalogData.reducer(state, resetFiltersAction()))
@@ -101,6 +132,12 @@ describe('Reducer: catalog-data', () => {
         promoProduct: null,
         hasError: false,
         isLoading: false,
+        allReviews: {},
+        priceRange: {
+          min: 9490,
+          max: 96490,
+        },
+        page: 1,
       });
   });
 
@@ -113,6 +150,12 @@ describe('Reducer: catalog-data', () => {
       promoProduct: null,
       hasError: false,
       isLoading: false,
+      allReviews: {},
+      priceRange: {
+        min: null,
+        max: null,
+      },
+      page: 1,
     };
 
     const sortedProducts = [...mockProductCards];
@@ -126,6 +169,12 @@ describe('Reducer: catalog-data', () => {
         promoProduct: null,
         hasError: false,
         isLoading: false,
+        allReviews: {},
+        priceRange: {
+          min: null,
+          max: null,
+        },
+        page: 1,
       });
   });
 
@@ -140,6 +189,12 @@ describe('Reducer: catalog-data', () => {
         promoProduct: initialState.promoProduct,
         hasError: false,
         isLoading: false,
+        allReviews: {},
+        priceRange: {
+          min: 9490,
+          max: 96490,
+        },
+        page: 1,
       });
   });
 
@@ -154,6 +209,12 @@ describe('Reducer: catalog-data', () => {
         promoProduct: mockPromoProduct,
         hasError: false,
         isLoading: false,
+        allReviews: {},
+        priceRange: {
+          min: null,
+          max: null,
+        },
+        page: 1,
       });
   });
 });

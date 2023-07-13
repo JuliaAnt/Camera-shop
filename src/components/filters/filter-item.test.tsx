@@ -10,7 +10,7 @@ describe('Component: FilterItem', () => {
   it('should render correctly', () => {
     render(
       <BrowserRouter>
-        <FilterItem currentItem={mockFilter} currentFilterValue={mockFilterValue} onFilterChange={jest.fn()} />
+        <FilterItem currentItem={mockFilter} currentFilterValue={mockFilterValue} onFilterChange={jest.fn()} disabled={false} />
       </ BrowserRouter>
     );
 

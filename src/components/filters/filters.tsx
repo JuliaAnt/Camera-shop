@@ -9,17 +9,19 @@ function Filters(): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
-    <form action="#" method="post" onReset={(evt) => {
-      evt.preventDefault();
-      dispatch(resetFiltersAction());
-    }}
-    >
+    <form action="#" method="post">
       <h2 className="visually-hidden">Фильтр</h2>
       <PriceFilter />
       <CategoryFilter />
       <TypeFilter />
       <LevelFilter />
-      <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
+      <button className="btn catalog-filter__reset-btn"
+        type="button"
+        onClick={(evt) => {
+          evt.preventDefault();
+          dispatch(resetFiltersAction());
+        }}
+      >Сбросить фильтры
       </button>
     </form >
   );

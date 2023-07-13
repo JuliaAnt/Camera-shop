@@ -10,61 +10,56 @@ import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import thunk from 'redux-thunk';
 import { api } from '../../store';
+import { look54Card, mockProductCards } from '../../mocks/mocks';
 
 const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore(middlewares);
+
+const initialState = {
+  filteredCards: mockProductCards,
+  sorts: {
+    sortType: 'sortPopular',
+    sortOrder: 'up',
+  },
+  promoProduct: {
+    name: 'Instaprinter P2',
+    id: 1,
+  },
+  productCards: mockProductCards,
+  selectedFilters: [
+    {
+      filterType: 'price',
+      filterValue: {
+        from: null,
+        to: null,
+      },
+    },
+    {
+      filterType: 'level',
+      filterValue: [],
+    },
+    {
+      filterType: 'type',
+      filterValue: [],
+    },
+    {
+      filterType: 'category',
+      filterValue: [],
+    },
+  ],
+  priceRange: {
+    min: null,
+    max: null,
+  },
+  page: 1,
+  allReviews: {}
+};
 
 describe('App component', () => {
   test('renders CatalogPage component when on the Catalog route', () => {
     render(
       <Provider store={mockStore({
-        [NameSpace.CatalogData]: {
-          filteredCards: [{
-            name: 'Instaprinter P2',
-            id: 1,
-          },
-          {
-            name: 'Ретрокамера Dus Auge lV',
-            id: 2,
-          }],
-          sorts: {
-            sortType: 'sortPopular',
-            sortOrder: 'up',
-          },
-          promoProduct: {
-            name: 'Instaprinter P2',
-            id: 1,
-          },
-          productCards: [{
-            name: 'Instaprinter P2',
-            id: 1,
-          },
-          {
-            name: 'Ретрокамера Dus Auge lV',
-            id: 2,
-          }],
-          selectedFilters: [
-            {
-              filterType: 'price',
-              filterValue: {
-                from: null,
-                to: null,
-              },
-            },
-            {
-              filterType: 'level',
-              filterValue: [],
-            },
-            {
-              filterType: 'type',
-              filterValue: [],
-            },
-            {
-              filterType: 'category',
-              filterValue: [],
-            },
-          ]
-        }
+        [NameSpace.CatalogData]: initialState
       })}
       >
         <MemoryRouter initialEntries={[AppRoute.Catalog]}>
@@ -85,19 +80,17 @@ describe('App component', () => {
     render(
       <Provider store={mockStore({
         [NameSpace.ProductData]: {
-          selectedProduct: {
-            name: 'Ретрокамера Dus Auge lV',
-            vendorCode: 'DA4IU67AD5',
-          },
+          selectedProduct: look54Card,
           productReviews: [],
           similarProducts: [{
             name: 'Instaprinter P2',
             id: 546565686
           }],
-        }
+        },
+        [NameSpace.CatalogData]: initialState
       })}
       >
-        <MemoryRouter initialEntries={[AppRoute.Camera]}>
+        <MemoryRouter initialEntries={['/camera/7?tab=description']}>
           <Routes>
             <Route path={AppRoute.Catalog} element={<CatalogPage />} />
             <Route path={AppRoute.Camera} element={<ProductPage />} />
@@ -108,7 +101,7 @@ describe('App component', () => {
       </Provider>
     );
 
-    expect(screen.getByTestId('productTitle').innerHTML).toMatch('Ретрокамера Dus Auge lV');
+    expect(screen.getByTestId('productTitle').innerHTML).toMatch('Look 54');
   });
 
   test('renders BasketPage component when on the Basket route', () => {

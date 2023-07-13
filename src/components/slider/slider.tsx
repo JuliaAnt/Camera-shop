@@ -4,6 +4,8 @@ import ProductCardItem from '../product-card-item/product-card-item';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { PRODUCTS_PER_SLIDE } from '../../consts';
+import { getAllReviews } from '../../store/catalog-data/catalog-data-selectors';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 type SliderProps = {
   similarProducts: ProductCard[];
@@ -15,7 +17,7 @@ type CustomArrowProps = {
   slide: number;
 }
 
-const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
+export const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
   <button
     className="slider-controls slider-controls--prev"
     type="button"
@@ -30,7 +32,7 @@ const CustomLeftArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps)
   </button>
 );
 
-const CustomRightArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
+export const CustomRightArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps) => (
   <button
     className="slider-controls slider-controls--next"
     type="button"
@@ -46,6 +48,7 @@ const CustomRightArrow = ({ onClick, totalSlidesCount, slide }: CustomArrowProps
 );
 
 function Slider({ similarProducts }: SliderProps): JSX.Element {
+  const allReviews = useAppSelector(getAllReviews);
   const carouselRef = useRef<Carousel>(null);
   const [slide, setCurrentSlide] = useState(0);
 
@@ -122,7 +125,10 @@ function Slider({ similarProducts }: SliderProps): JSX.Element {
           swipeable
         >
           {
-            similarProducts.map((similarProduct, index) => <ProductCardItem key={similarProduct.id} productCard={similarProduct} className={'is-active'} />)
+            similarProducts.map((similarProduct) => {
+              const reviewsById = allReviews[similarProduct.id];
+              return <ProductCardItem key={similarProduct.id} productCard={similarProduct} className="is-active" reviews={reviewsById} />;
+            })
           }
         </Carousel>
 

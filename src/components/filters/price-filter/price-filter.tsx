@@ -1,31 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks/redux-hooks';
-import { changeFiltersAction } from '../../../store/catalog-data/catalog-data-slice';
+import { ChangeEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { changePriceFilterAction, validatePriceFilterAction } from '../../../store/catalog-data/catalog-data-slice';
+import { getPriceRange, getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
+import { PriceFilterState } from '../../../types/filters';
 
-type PriceFilterState = {
-  filterType: 'price';
-  filterValue: {
-    from: number | null;
-    to: number | null;
-  };
-}
 
 function PriceFilter(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [priceFilter, setPriceFilter] = useState<PriceFilterState>({
-    filterType: 'price',
-    filterValue: {
-      from: null,
-      to: null,
-    }
-  });
+  const selectedFilters = useAppSelector(getSelectedFilters);
+  const priceRange = useAppSelector(getPriceRange);
 
-  useEffect(() => {
-    dispatch(changeFiltersAction(priceFilter));
-  }, [priceFilter, dispatch]);
+  const selectedPriceFilter = selectedFilters.find((filter) => filter.filterType === 'price') as PriceFilterState;
+
+  const onPriceFromChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changePriceFilterAction({ ...selectedPriceFilter, filterValue: { from: +evt.target?.value, to: selectedPriceFilter.filterValue.to } }));
+  };
+
+  const onPriceToChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changePriceFilterAction({ ...selectedPriceFilter, filterValue: { from: selectedPriceFilter.filterValue.from, to: +evt.target.value } }));
+  };
+
+  const onBlurInput = () => {
+    dispatch(validatePriceFilterAction());
+  };
 
   return (
-    <fieldset className="catalog-filter__block">
+    <fieldset key={`${selectedPriceFilter.filterType}-priceRange`} className="catalog-filter__block">
       <legend className="title title--h5">Цена, ₽</legend>
       <div className="catalog-filter__price-range" data-testid={'priceRange'}>
         <div className="custom-input">
@@ -33,10 +33,12 @@ function PriceFilter(): JSX.Element {
             <input
               type="number"
               name="price"
-              placeholder="от"
-              onChange={(evt) => {
-                setPriceFilter({ ...priceFilter, filterValue: { from: +evt.target.value, to: priceFilter.filterValue.to } });
-              }}
+              min={priceRange.min || undefined}
+              max={priceRange.max || undefined}
+              placeholder={priceRange.min?.toString()}
+              value={selectedPriceFilter?.filterValue.from || ''}
+              onChange={onPriceFromChange}
+              onBlur={onBlurInput}
             />
           </label>
         </div>
@@ -45,10 +47,12 @@ function PriceFilter(): JSX.Element {
             <input
               type="number"
               name="priceUp"
-              placeholder="до"
-              onChange={(evt) => {
-                setPriceFilter({ ...priceFilter, filterValue: { from: priceFilter.filterValue.from, to: +evt.target.value } });
-              }}
+              min={priceRange.min || undefined}
+              max={priceRange.max || undefined}
+              placeholder={priceRange.max?.toString()}
+              value={selectedPriceFilter?.filterValue.to || ''}
+              onChange={onPriceToChange}
+              onBlur={onBlurInput}
             />
           </label>
         </div>

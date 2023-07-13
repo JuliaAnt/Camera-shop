@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { getErrorStatus, getFilteredProducts, getLoadingStatus, getPromoProduct } from '../../store/catalog-data/catalog-data-selectors';
+import { getErrorStatus, getFilteredProducts, getLoadingStatus, getPaginationPage, getPromoProduct, getSelectedFilters, getSorts } from '../../store/catalog-data/catalog-data-selectors';
 import { fetchProductsAction, fetchPromoProductAction } from '../../store/api-actions';
 import ProductCardList from '../../components/product-card-list/product-card-list';
 import Filters from '../../components/filters/filters';
@@ -11,28 +11,24 @@ import { AppRoute, PRODUCTS_PER_PAGE } from '../../consts';
 import { usePagination } from '../../hooks/use-pagination';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import EmptyCatalogPage from '../empty-catalog-page/empty-catalog-page';
-import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { SelectedFilter } from '../../types/filters';
+import { checkEmptyFilters } from '../../utils/utils';
+import { changeAllSelectedFiltersAction, changePaginationPageAction, changeSortsAction } from '../../store/catalog-data/catalog-data-slice';
+import { SortsType } from '../../types/sorts';
 
 function CatalogPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const products = useAppSelector(getFilteredProducts);
   const promoProduct = useAppSelector(getPromoProduct);
   const hasError = useAppSelector(getErrorStatus);
-  const location = useLocation();
   const isLoading = useAppSelector(getLoadingStatus);
-
-  useEffect(() => {
-    dispatch(fetchProductsAction());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchPromoProductAction());
-  }, [dispatch]);
-
-  const promoProductCard = products.find((product) => product.id === promoProduct?.id);
+  const selectedFilters = useAppSelector(getSelectedFilters);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paginationPage = useAppSelector(getPaginationPage);
+  const selectedSort = useAppSelector(getSorts);
 
   const {
     firstProductIndex,
@@ -44,12 +40,91 @@ function CatalogPage(): JSX.Element {
     page,
   } = usePagination({ productsPerPage: PRODUCTS_PER_PAGE, productsCount: products.length });
 
-  const regex = /^(\?page=\d+)?$/;
-  const isMatch = regex.test(location.search);
+  useEffect(() => {
+    const newSearchParams = selectedFilters.reduce((params, filter) => {
+      if (filter.filterType !== 'price') {
+        if (filter.filterValue.length) {
+          const filterType = filter.filterType;
+          const filterValue = filter.filterValue;
+          params[filterType as string] = filterValue;
+        }
+      } else {
+        if (filter.filterValue.from) {
+          params['price_from'] = filter.filterValue.from.toString();
+        }
+        if (filter.filterValue.to) {
+          params['price_to'] = filter.filterValue.to.toString();
+        }
+      }
+      return params;
 
-  if (location.pathname !== '/' || !isMatch) {
-    return <NotFoundPage />;
-  }
+    }, {} as Record<string, string[] | string>);
+
+    newSearchParams['page'] = paginationPage.toString();
+    if (selectedSort.sortType) {
+      newSearchParams['sortType'] = selectedSort.sortType;
+    }
+    if (selectedSort.sortOrder) {
+      newSearchParams['sortOrder'] = selectedSort.sortOrder;
+    }
+
+    setSearchParams(newSearchParams);
+  }, [selectedFilters, paginationPage, selectedSort, setSearchParams]);
+
+  useEffect(() => {
+    const filtersFromUrl: SelectedFilter[] = [
+      {
+        filterType: 'category',
+        filterValue: searchParams.get('category') || '',
+      },
+      {
+        filterType: 'type',
+        filterValue: searchParams.getAll('type') || [],
+      },
+      {
+        filterType: 'level',
+        filterValue: searchParams.getAll('level') || [],
+      },
+      {
+        filterType: 'price',
+        filterValue: {
+          from: +(searchParams.get('price_from') || '0'),
+          to: +(searchParams.get('price_to') || '0'),
+        },
+      },
+    ];
+
+    const sortFromUrl: SortsType = {
+      sortType: searchParams.get('sortType') || '',
+      sortOrder: searchParams.get('sortOrder') || '',
+    };
+
+    if (checkEmptyFilters(selectedFilters)) {
+      dispatch(changeAllSelectedFiltersAction(filtersFromUrl));
+    }
+
+    const pageParam = searchParams.get('page');
+    if (pageParam && pageParam !== page.toString()) {
+      if (+pageParam > totalPageCount) {
+        dispatch(changePaginationPageAction(+totalPageCount));
+      } else if (+pageParam < 1) {
+        dispatch(changePaginationPageAction(1));
+      } else {
+        dispatch(changePaginationPageAction(+pageParam));
+      }
+    }
+
+    if (!selectedSort.sortType && !selectedSort.sortOrder) {
+      dispatch(changeSortsAction(sortFromUrl));
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchProductsAction());
+    dispatch(fetchPromoProductAction());
+  }, [dispatch]);
+
+  const promoProductCard = products.find((product) => product.id === promoProduct?.id);
 
   if (hasError) {
     return <EmptyCatalogPage promoProduct={promoProduct} promoProductCard={promoProductCard} />;

@@ -1,8 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import ProductCardList from './product-card-list';
-import { PRODUCTS_PER_PAGE } from '../../consts';
-import { mockProductCards } from '../../mocks/mocks';
+import { NameSpace, PRODUCTS_PER_PAGE } from '../../consts';
+import { mockProductCards, mockReviews } from '../../mocks/mocks';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureMockStore } from '@jedmao/redux-mock-store';
+
+const mockStore = configureMockStore();
 
 describe('Component: ProductCardList', () => {
   it('should renders product card items correctly', () => {
@@ -11,23 +15,30 @@ describe('Component: ProductCardList', () => {
     const elementCount = mockProductCards.length;
 
     render(
-      <BrowserRouter>
-        <ProductCardList
-          productCards={mockProductCards}
-          firstProductIndex={firstProductIndex}
-          lastProductIndex={lastProductIndex}
-        />
-      </BrowserRouter>
+      <Provider store={mockStore({
+        [NameSpace.CatalogData]: {
+          allReviews: mockReviews,
+        }
+      })}
+      >
+        <BrowserRouter>
+          <ProductCardList
+            productCards={mockProductCards}
+            firstProductIndex={firstProductIndex}
+            lastProductIndex={lastProductIndex}
+          />
+        </BrowserRouter>
+      </Provider>
     );
 
     const productCardItems = screen.getAllByTestId('product-card-item');
     expect(productCardItems).toHaveLength(elementCount);
     expect(productCardItems[0]).toHaveTextContent('Click Sap');
-    expect(productCardItems[0]).toHaveTextContent('9490');
+    expect(productCardItems[0]).toHaveTextContent('9 490');
     expect(productCardItems[1]).toHaveTextContent('Look 54');
-    expect(productCardItems[1]).toHaveTextContent('96490');
+    expect(productCardItems[1]).toHaveTextContent('96 490');
     expect(productCardItems[2]).toHaveTextContent('Look SF3');
-    expect(productCardItems[2]).toHaveTextContent('63800');
+    expect(productCardItems[2]).toHaveTextContent('63 800');
   });
 });
 

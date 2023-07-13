@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ProductCard } from '../types/product-card';
 import { AppDispatch, State } from '../types/state';
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { APIRoute } from '../consts';
 import { Review, ReviewRequest } from '../types/review';
 import { PromoProduct } from '../types/promo';
@@ -12,8 +12,9 @@ export const fetchProductsAction = createAsyncThunk<ProductCard[], undefined, {
   extra: AxiosInstance;
 }>(
   'fetchProducts',
-  async (_arg, { extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<ProductCard[]>(APIRoute.Products);
+    dispatch(fetchReviewsByIdAction(data.map((product) => product.id)));
     return data;
   }
 );
@@ -82,5 +83,24 @@ export const sendReviewAction = createAsyncThunk<void, SendReviewProps, {
     catch (error) {
       onError();
     }
+  }
+);
+
+type fetchReviewsByIdProps = Record<number, Review[]>;
+
+export const fetchReviewsByIdAction = createAsyncThunk<fetchReviewsByIdProps, number[], {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchReviewsById',
+  async (cameraIdList, { extra: api }) => {
+    const requests = cameraIdList.map((id) => api.get<Review[]>(`/cameras/${id}/reviews`));
+    const data = await Promise.all(requests);
+    const reviewMap: Record<number, Review[]> = {};
+    data.forEach((response: AxiosResponse<Review[]>) => {
+      reviewMap[response.data[0].cameraId] = response.data;
+    });
+    return reviewMap;
   }
 );

@@ -1,13 +1,25 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Header from './header';
+import { configureMockStore } from '@jedmao/redux-mock-store';
+import { Provider } from 'react-redux';
+import { mockProductCards } from '../../mocks/mocks';
+import { NameSpace } from '../../consts';
 
-describe('Component: Footer', () => {
+const mockStore = configureMockStore();
+describe('Component: Header', () => {
   it('should render correctly', () => {
     render(
-      <BrowserRouter>
-        <Header />
-      </ BrowserRouter>
+      <Provider store={mockStore({
+        [NameSpace.CatalogData]: {
+          productCards: mockProductCards,
+        }
+      })}
+      >
+        <BrowserRouter>
+          <Header />
+        </ BrowserRouter>
+      </Provider>
     );
 
     expect(screen.getByTestId('header-logo')).toBeInTheDocument();

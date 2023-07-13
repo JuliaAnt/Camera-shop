@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { UsePaginationReturn } from '../types/pagination';
-import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from './redux-hooks';
+import { changePaginationPageAction } from '../store/catalog-data/catalog-data-slice';
+import { getPaginationPage } from '../store/catalog-data/catalog-data-selectors';
 
 type UsePaginationProps = {
   productsPerPage: number;
@@ -8,43 +10,34 @@ type UsePaginationProps = {
 }
 
 export const usePagination = ({ productsPerPage, productsCount }: UsePaginationProps): UsePaginationReturn => {
-  const [page, setPage] = useState(1);
+  const dispatch = useAppDispatch();
+  const paginationPage = useAppSelector(getPaginationPage);
   const totalPageCount: number = Math.ceil(productsCount / productsPerPage);
-  const lastProductIndex = page * productsPerPage;
+  const lastProductIndex = paginationPage * productsPerPage;
   const firstProductIndex = lastProductIndex - productsPerPage;
-  const [params] = useSearchParams();
 
   const selectPage = useCallback((pageNumber: number) => {
     if (pageNumber > totalPageCount) {
-      setPage(totalPageCount);
+      dispatch(changePaginationPageAction(totalPageCount));
     } else if (pageNumber < 1) {
-      setPage(1);
+      dispatch(changePaginationPageAction(1));
     } else {
-      setPage(pageNumber);
+      dispatch(changePaginationPageAction(pageNumber));
     }
-  }, [totalPageCount, setPage]);
-
-  useEffect(() => {
-    const pageParam = params.get('page');
-    if (pageParam && pageParam !== page.toString()) {
-      selectPage(+pageParam);
-    }
-  }, [params, page, selectPage]);
+  }, [totalPageCount, dispatch]);
 
   const changePageWithDirection = (direction: boolean) => {
-    setPage((currentPage) => {
-      if (direction) {
-        if (currentPage === totalPageCount) {
-          return currentPage;
-        }
-        return currentPage + 1;
-      } else {
-        if (currentPage === 1) {
-          return currentPage;
-        }
-        return currentPage - 1;
+    if (direction) {
+      if (paginationPage === totalPageCount) {
+        dispatch(changePaginationPageAction(paginationPage));
       }
-    });
+      dispatch(changePaginationPageAction(paginationPage + 1));
+    } else {
+      if (paginationPage === 1) {
+        dispatch(changePaginationPageAction(paginationPage));
+      }
+      dispatch(changePaginationPageAction(paginationPage - 1));
+    }
   };
 
   return {
@@ -54,7 +47,7 @@ export const usePagination = ({ productsPerPage, productsCount }: UsePaginationP
     setPage: selectPage,
     firstProductIndex,
     lastProductIndex,
-    page,
+    page: paginationPage,
   };
 };
 

@@ -7,6 +7,7 @@ import { NameSpace } from '../../consts';
 import CatalogPage from './catalog-page';
 import thunk from 'redux-thunk';
 import { api } from '../../store';
+import { look54Card, mockAllReviews, mockProductCards } from '../../mocks/mocks';
 
 const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore(middlewares);
@@ -18,14 +19,7 @@ describe('Component: CatalogPage', () => {
       <React.StrictMode>
         <Provider store={mockStore({
           [NameSpace.CatalogData]: {
-            filteredCards: [{
-              name: 'Instaprinter P2',
-              id: 1,
-            },
-            {
-              name: 'Ретрокамера Dus Auge lV',
-              id: 2,
-            }],
+            filteredCards: mockProductCards,
             selectedFilters: [
               {
                 filterType: 'price',
@@ -51,11 +45,14 @@ describe('Component: CatalogPage', () => {
               sortType: 'sortPopular',
               sortOrder: 'up',
             },
-            promoProduct: {
-              name: 'Instaprinter P2',
-              id: 1,
-            },
+            promoProduct: look54Card,
             hasError: false,
+            priceRange: {
+              min: null,
+              max: null,
+            },
+            page: 1,
+            allReviews: mockAllReviews,
           }
         })}
         >
@@ -66,9 +63,9 @@ describe('Component: CatalogPage', () => {
       </ React.StrictMode >
     );
 
-    expect(screen.getByTestId('cardTitle-2').innerHTML).toMatch('Ретрокамера Dus Auge lV');
+    expect(screen.getByTestId('cardTitle-6').innerHTML).toMatch('Click Sap');
     expect(screen.getByText('Каталог фото- и видеотехники')).toBeInTheDocument();
-    expect(screen.getByTestId('bannerTitle').innerHTML).toMatch('Instaprinter P2');
+    expect(screen.getByTestId('bannerTitle').innerHTML).toMatch('Look 54');
     expect(screen.getByText('Сортировать:')).toBeInTheDocument();
     expect(screen.getByText(/Цена, ₽/i)).toBeInTheDocument();
     expect(screen.getByText(/Сбросить фильтры/i)).toBeInTheDocument();
