@@ -127,7 +127,7 @@ function Slider({ similarProducts }: SliderProps): JSX.Element {
           {
             similarProducts.map((similarProduct) => {
               const reviewsById = allReviews[similarProduct.id];
-              return <ProductCardItem key={similarProduct.id} productCard={similarProduct} className={'is-active'} reviews={reviewsById} />;
+              return <ProductCardItem key={similarProduct.id} productCard={similarProduct} className="is-active" reviews={reviewsById} />;
             })
           }
         </Carousel>

@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { UsePaginationReturn } from '../types/pagination';
-// import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './redux-hooks';
 import { changePaginationPageAction } from '../store/catalog-data/catalog-data-slice';
 import { getPaginationPage } from '../store/catalog-data/catalog-data-selectors';
