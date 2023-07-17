@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { changePriceFilterAction, validatePriceFilterAction } from '../../../store/catalog-data/catalog-data-slice';
 import { getPriceRange, getSelectedFilters } from '../../../store/catalog-data/catalog-data-selectors';
@@ -25,6 +25,12 @@ function PriceFilter(): JSX.Element {
     dispatch(validatePriceFilterAction());
   };
 
+  const onKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Enter') {
+      dispatch(validatePriceFilterAction());
+    }
+  };
+
   return (
     <fieldset key={`${selectedPriceFilter.filterType}-priceRange`} className="catalog-filter__block">
       <legend className="title title--h5">Цена, ₽</legend>
@@ -40,6 +46,7 @@ function PriceFilter(): JSX.Element {
               value={selectedPriceFilter?.filterValue.from || ''}
               onChange={onPriceFromChange}
               onBlur={onBlurInput}
+              onKeyDown={onKeyDown}
             />
           </label>
         </div>
@@ -54,6 +61,7 @@ function PriceFilter(): JSX.Element {
               value={selectedPriceFilter?.filterValue.to || ''}
               onChange={onPriceToChange}
               onBlur={onBlurInput}
+              onKeyDown={onKeyDown}
             />
           </label>
         </div>

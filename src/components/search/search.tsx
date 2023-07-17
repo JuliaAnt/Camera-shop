@@ -24,42 +24,45 @@ function Search(): JSX.Element {
 
   return (
     <div className="form-search" data-testid={'form-search'}>
-      {/* @ts-expect-error children */}
-      <FocusTrap
-        focusTrapOptions={{
-          initialFocus: '#search',
-          isKeyForward: (event: KeyboardEvent) => event.key === 'ArrowDown',
-          isKeyBackward: (event: KeyboardEvent) => event.key === 'ArrowUp',
-          clickOutsideDeactivates: true,
-        }}
-      >
-        <form>
-          <label>
-            <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
-              <use xlinkHref="#icon-lens"></use>
-            </svg>
-            <input className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" data-testid={'search-bar'} value={searchString} onChange={onChange} />
-          </label>
+      <form>
+        <label>
+          <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
+            <use xlinkHref="#icon-lens"></use>
+          </svg>
+          <input className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" data-testid={'search-bar'} value={searchString} onChange={onChange} />
+        </label>
+        {/* @ts-expect-error children */}
+        <FocusTrap
+          active={Boolean(searchResultsList.length)}
+          focusTrapOptions={{
+            initialFocus: '#search',
+            isKeyForward: (event: KeyboardEvent) => event.key === 'ArrowDown',
+            isKeyBackward: (event: KeyboardEvent) => event.key === 'ArrowUp',
+            clickOutsideDeactivates: true,
+          }}
+        >
           <ul
             className="form-search__select-list scroller"
             style={{ visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`, opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}` }}
           >
-            {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
-          </ul>
 
-        </form>
-        <button
-          className="form-search__reset"
-          data-testid={'search-reset-btn'}
-          type="button"
-          style={{ display: `${searchString ? 'flex' : 'none'}` }}
-          onClick={onResetClick}
-        >
-          <svg width="10" height="10" aria-hidden="true">
-            <use xlinkHref="#icon-close"></use>
-          </svg><span className="visually-hidden">Сбросить поиск</span>
-        </button>
-      </FocusTrap>
+
+            {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
+
+          </ul>
+        </FocusTrap>
+      </form>
+      <button
+        className="form-search__reset"
+        data-testid={'search-reset-btn'}
+        type="button"
+        style={{ display: `${searchString ? 'flex' : 'none'}` }}
+        onClick={onResetClick}
+      >
+        <svg width="10" height="10" aria-hidden="true">
+          <use xlinkHref="#icon-close"></use>
+        </svg><span className="visually-hidden">Сбросить поиск</span>
+      </button>
     </div>
   );
 }
