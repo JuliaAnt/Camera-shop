@@ -12,7 +12,7 @@ function SearchResultItem({ product, searchString }: SearchResultItemProps): JSX
   const listItemRef = useRef<HTMLLIElement>(null);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' || event.key === 'Enter' || event.keyCode === 13) {
       navigate(`/camera/${product.id}?tab=description`);
     }
   };
