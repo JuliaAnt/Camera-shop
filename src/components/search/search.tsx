@@ -20,6 +20,7 @@ function Search(): JSX.Element {
 
   const onResetClick = () => {
     setSearchString('');
+    setSearchResultsList([]);
   };
 
   return (
