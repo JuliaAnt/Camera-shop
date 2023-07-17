@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks/redux-hooks';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import SearchResultItem from './search-result-item/search-result-item';
 import { ProductCard } from '../../types/product-card';
-// import FocusTrap from 'react-focus-trap';
+import FocusTrap from 'react-focus-trap';
 
 function Search(): JSX.Element {
   const products = useAppSelector(getProducts);
@@ -40,7 +40,7 @@ function Search(): JSX.Element {
             onChange={onChange}
           />
         </label>
-        {/* @ts-expect-error children
+        {/* @ts-expect-error children */}
         <FocusTrap
           // active={Boolean(searchResultsList.length)}
           focusTrapOptions={{
@@ -49,18 +49,18 @@ function Search(): JSX.Element {
             isKeyBackward: (event: KeyboardEvent) => event.code === 'ArrowUp',
             clickOutsideDeactivates: true,
           }}
-        > */}
-        <ul
-          className="form-search__select-list scroller"
-          style={{
-            visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
-            opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
-          }}
-          tabIndex={0}
         >
-          {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
-        </ul>
-        {/* </FocusTrap> */}
+          <ul
+            className="form-search__select-list scroller"
+            style={{
+              visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
+              opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
+            }}
+            tabIndex={0}
+          >
+            {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
+          </ul>
+        </FocusTrap>
       </form>
       <button
         className="form-search__reset"
