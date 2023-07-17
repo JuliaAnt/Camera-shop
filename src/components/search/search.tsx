@@ -3,7 +3,6 @@ import { useAppSelector } from '../../hooks/redux-hooks';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import SearchResultItem from './search-result-item/search-result-item';
 import { ProductCard } from '../../types/product-card';
-import FocusTrap from 'react-focus-trap';
 
 function Search(): JSX.Element {
   const products = useAppSelector(getProducts);
@@ -25,33 +24,30 @@ function Search(): JSX.Element {
 
   return (
     <div className="form-search" data-testid={'form-search'}>
-      <form>
+      <form tabIndex={-1}>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
           </svg>
-          <input className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" data-testid={'search-bar'} value={searchString} onChange={onChange} />
+          <input
+            className="form-search__input"
+            type="text"
+            autoComplete="off"
+            placeholder="Поиск по сайту"
+            data-testid={'search-bar'}
+            value={searchString}
+            onChange={onChange}
+          />
         </label>
-        {/* @ts-expect-error children */}
-        <FocusTrap
-          active={Boolean(searchResultsList.length)}
-          focusTrapOptions={{
-            initialFocus: '#search',
-            isKeyForward: (event: KeyboardEvent) => event.key === 'ArrowDown',
-            isKeyBackward: (event: KeyboardEvent) => event.key === 'ArrowUp',
-            clickOutsideDeactivates: true,
+        <ul
+          className="form-search__select-list scroller"
+          style={{
+            visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
+            opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
           }}
         >
-          <ul
-            className="form-search__select-list scroller"
-            style={{ visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`, opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}` }}
-          >
-
-
-            {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
-
-          </ul>
-        </FocusTrap>
+          {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
+        </ul>
       </form>
       <button
         className="form-search__reset"
@@ -64,7 +60,7 @@ function Search(): JSX.Element {
           <use xlinkHref="#icon-close"></use>
         </svg><span className="visually-hidden">Сбросить поиск</span>
       </button>
-    </div>
+    </div >
   );
 }
 
