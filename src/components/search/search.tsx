@@ -82,7 +82,7 @@ function Search(): JSX.Element {
 
   return (
     <div className="form-search" data-testid={'form-search'}>
-      <form tabIndex={-1}>
+      <form>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
@@ -101,9 +101,9 @@ function Search(): JSX.Element {
         <FocusTrap
           // active={Boolean(searchResultsList.length)}
           focusTrapOptions={{
-            initialFocus: '#search',
-            isKeyForward: (event: KeyboardEvent) => event.code === 'ArrowDown',
-            isKeyBackward: (event: KeyboardEvent) => event.code === 'ArrowUp',
+            // initialFocus: '#search',
+            isKeyForward: (event: KeyboardEvent) => event.key === 'ArrowDown',
+            isKeyBackward: (event: KeyboardEvent) => event.key === 'ArrowUp',
             clickOutsideDeactivates: true,
           }}
         >
@@ -113,9 +113,9 @@ function Search(): JSX.Element {
               visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
               opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
             }}
-            // tabIndex={0}
+          // tabIndex={0}
           >
-            {searchResultsList.map((result, index) => <SearchResultItem key={result.id} product={result} searchString={searchString} index={index}/>)}
+            {searchResultsList.map((result, index) => <SearchResultItem key={result.id} product={result} searchString={searchString} index={index} />)}
           </ul>
         </FocusTrap>
       </form>

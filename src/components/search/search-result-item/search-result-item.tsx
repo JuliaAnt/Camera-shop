@@ -26,7 +26,7 @@ function SearchResultItem({ product, searchString, index }: SearchResultItemProp
       className="form-search__select-item"
       id={'search'}
       data-testid={'search-item'}
-      tabIndex={index + 1}
+      tabIndex={0}
       style={{ visibility: `${searchString ? 'visible' : 'hidden'}` }}
       onClick={() => navigate(`/camera/${product.id}?tab=description`)}
       onKeyDown={handleKeyDown}
