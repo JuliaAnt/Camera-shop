@@ -13,3 +13,7 @@
 :focus-visible {
   background-color: #f4f4fc;
 }
+
+.active-result {
+  background-color: #f4f4fc;
+}

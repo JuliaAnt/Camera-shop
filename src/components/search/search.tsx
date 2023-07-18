@@ -5,10 +5,67 @@ import SearchResultItem from './search-result-item/search-result-item';
 import { ProductCard } from '../../types/product-card';
 import FocusTrap from 'react-focus-trap';
 
+// const useKeyPress = function (targetKey: string) {
+//   const [keyPressed, setKeyPressed] = useState(false);
+
+//   useEffect(() => {
+//     function downHandler({ key }: { key: string }) {
+//       if (key === targetKey) {
+//         setKeyPressed(true);
+//       }
+//     }
+
+//     const upHandler = ({ key }: { key: string }) => {
+//       if (key === targetKey) {
+//         setKeyPressed(false);
+//       }
+//     };
+
+//     window.addEventListener('keydown', downHandler);
+//     window.addEventListener('keyup', upHandler);
+
+//     return () => {
+//       window.removeEventListener('keydown', downHandler);
+//       window.removeEventListener('keyup', upHandler);
+//     };
+//   }, [targetKey]);
+
+//   return keyPressed;
+// };
+
 function Search(): JSX.Element {
   const products = useAppSelector(getProducts);
   const [searchString, setSearchString] = useState('');
   const [searchResultsList, setSearchResultsList] = useState<ProductCard[]>([]);
+  // const downPress = useKeyPress('ArrowDown');
+  // const upPress = useKeyPress('ArrowUp');
+  // const enterPress = useKeyPress('Enter');
+  // const [cursor, setCursor] = useState(0);
+  // const [selected, setSelected] = useState(undefined);
+  // const [hovered, setHovered] = useState(undefined);
+
+  // useEffect(() => {
+  //   if (searchResultsList.length && enterPress) {
+  //     setSelected(searchResultsList[cursor]);
+  //   }
+  // }, [cursor, enterPress, searchResultsList]);
+  // useEffect(() => {
+  //   if (items.length && hovered) {
+  //     setCursor(items.indexOf(hovered));
+  //   }
+  // }, [hovered]);
+  // useEffect(() => {
+  //   if (searchResultsList.length && downPress) {
+  //     setCursor((prevState) =>
+  //       prevState < searchResultsList.length - 1 ? prevState + 1 : prevState
+  //     );
+  //   }
+  // }, [downPress, searchResultsList]);
+  // useEffect(() => {
+  //   if (searchResultsList.length && upPress) {
+  //     setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+  //   }
+  // }, [upPress, searchResultsList]);
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setSearchString(evt.target.value.toLowerCase());
@@ -56,9 +113,9 @@ function Search(): JSX.Element {
               visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
               opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
             }}
-            tabIndex={0}
+            // tabIndex={0}
           >
-            {searchResultsList.map((result) => <SearchResultItem key={result.id} product={result} searchString={searchString} />)}
+            {searchResultsList.map((result, index) => <SearchResultItem key={result.id} product={result} searchString={searchString} index={index}/>)}
           </ul>
         </FocusTrap>
       </form>
