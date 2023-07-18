@@ -12,12 +12,20 @@ const useKeyPress = function (targetKey: string) {
     function downHandler({ key }: { key: string }) {
       if (key === targetKey) {
         setKeyPressed(true);
+        // eslint-disable-next-line no-console
+        console.log(key);
+        // eslint-disable-next-line no-console
+        console.log(targetKey);
       }
     }
 
     const upHandler = ({ key }: { key: string }) => {
       if (key === targetKey) {
         setKeyPressed(false);
+        // eslint-disable-next-line no-console
+        console.log(key);
+        // eslint-disable-next-line no-console
+        console.log(targetKey);
       }
     };
 
