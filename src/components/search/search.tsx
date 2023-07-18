@@ -96,7 +96,7 @@ function Search(): JSX.Element {
   return (
     <div className="form-search" data-testid={'form-search'}>
       <form>
-        <label tabIndex={-1}>
+        <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
           </svg>
