@@ -83,20 +83,6 @@ function Search(): JSX.Element {
   return (
     <div className="form-search" data-testid={'form-search'}>
       <form>
-        <label>
-          <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-lens"></use>
-          </svg>
-          <input
-            className="form-search__input"
-            type="text"
-            autoComplete="off"
-            placeholder="Поиск по сайту"
-            data-testid={'search-bar'}
-            value={searchString}
-            onChange={onChange}
-          />
-        </label>
         {/* @ts-expect-error children */}
         <FocusTrap
           // active={Boolean(searchResultsList.length)}
@@ -107,6 +93,23 @@ function Search(): JSX.Element {
             clickOutsideDeactivates: true,
           }}
         >
+
+          <label>
+            <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
+              <use xlinkHref="#icon-lens"></use>
+            </svg>
+            <input
+              className="form-search__input"
+              type="text"
+              autoComplete="off"
+              placeholder="Поиск по сайту"
+              data-testid={'search-bar'}
+              value={searchString}
+              onChange={onChange}
+            />
+          </label>
+
+
           <ul
             className="form-search__select-list scroller"
             style={{
