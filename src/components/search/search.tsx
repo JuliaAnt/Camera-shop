@@ -1,71 +1,76 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import SearchResultItem from './search-result-item/search-result-item';
 import { ProductCard } from '../../types/product-card';
-import FocusTrap from 'react-focus-trap';
+import { useNavigate } from 'react-router-dom';
 
-// const useKeyPress = function (targetKey: string) {
-//   const [keyPressed, setKeyPressed] = useState(false);
+const useKeyPress = function (targetKey: string) {
+  const [keyPressed, setKeyPressed] = useState(false);
 
-//   useEffect(() => {
-//     function downHandler({ key }: { key: string }) {
-//       if (key === targetKey) {
-//         setKeyPressed(true);
-//       }
-//     }
+  useEffect(() => {
+    function downHandler({ key }: { key: string }) {
+      if (key === targetKey) {
+        setKeyPressed(true);
+      }
+    }
 
-//     const upHandler = ({ key }: { key: string }) => {
-//       if (key === targetKey) {
-//         setKeyPressed(false);
-//       }
-//     };
+    const upHandler = ({ key }: { key: string }) => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    };
 
-//     window.addEventListener('keydown', downHandler);
-//     window.addEventListener('keyup', upHandler);
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
 
-//     return () => {
-//       window.removeEventListener('keydown', downHandler);
-//       window.removeEventListener('keyup', upHandler);
-//     };
-//   }, [targetKey]);
+    return () => {
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
+    };
+  }, [targetKey]);
 
-//   return keyPressed;
-// };
+  return keyPressed;
+};
 
 function Search(): JSX.Element {
   const products = useAppSelector(getProducts);
   const [searchString, setSearchString] = useState('');
   const [searchResultsList, setSearchResultsList] = useState<ProductCard[]>([]);
-  // const downPress = useKeyPress('ArrowDown');
-  // const upPress = useKeyPress('ArrowUp');
-  // const enterPress = useKeyPress('Enter');
-  // const [cursor, setCursor] = useState(0);
-  // const [selected, setSelected] = useState(undefined);
-  // const [hovered, setHovered] = useState(undefined);
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (searchResultsList.length && enterPress) {
-  //     setSelected(searchResultsList[cursor]);
-  //   }
-  // }, [cursor, enterPress, searchResultsList]);
-  // useEffect(() => {
-  //   if (items.length && hovered) {
-  //     setCursor(items.indexOf(hovered));
-  //   }
-  // }, [hovered]);
-  // useEffect(() => {
-  //   if (searchResultsList.length && downPress) {
-  //     setCursor((prevState) =>
-  //       prevState < searchResultsList.length - 1 ? prevState + 1 : prevState
-  //     );
-  //   }
-  // }, [downPress, searchResultsList]);
-  // useEffect(() => {
-  //   if (searchResultsList.length && upPress) {
-  //     setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
-  //   }
-  // }, [upPress, searchResultsList]);
+  const downPress = useKeyPress('ArrowDown');
+  const upPress = useKeyPress('ArrowUp');
+  const enterPress = useKeyPress('Enter');
+  const [cursor, setCursor] = useState(0);
+  const [selected, setSelected] = useState<ProductCard>();
+  const [hovered, setHovered] = useState<ProductCard | null>();
+
+  useEffect(() => {
+    if (searchResultsList.length && enterPress) {
+      setSelected(searchResultsList[cursor]);
+      if (selected) {
+        navigate(`/camera/${selected?.id}?tab=description`);
+      }
+    }
+  }, [cursor, enterPress, searchResultsList, navigate, selected]);
+  useEffect(() => {
+    if (searchResultsList.length && hovered) {
+      setCursor(searchResultsList.indexOf(hovered));
+    }
+  }, [hovered, searchResultsList]);
+  useEffect(() => {
+    if (searchResultsList.length && downPress) {
+      setCursor((prevState) =>
+        prevState < searchResultsList.length - 1 ? prevState + 1 : prevState
+      );
+    }
+  }, [downPress, searchResultsList]);
+  useEffect(() => {
+    if (searchResultsList.length && upPress) {
+      setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+    }
+  }, [upPress, searchResultsList]);
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setSearchString(evt.target.value.toLowerCase());
@@ -83,44 +88,38 @@ function Search(): JSX.Element {
   return (
     <div className="form-search" data-testid={'form-search'}>
       <form>
-        {/* @ts-expect-error children */}
-        <FocusTrap
-          // active={Boolean(searchResultsList.length)}
-          focusTrapOptions={{
-            // initialFocus: '#search',
-            isKeyForward: (event: KeyboardEvent) => event.key === 'ArrowDown',
-            isKeyBackward: (event: KeyboardEvent) => event.key === 'ArrowUp',
-            clickOutsideDeactivates: true,
+        <label tabIndex={-1}>
+          <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
+            <use xlinkHref="#icon-lens"></use>
+          </svg>
+          <input
+            className="form-search__input"
+            type="text"
+            autoComplete="off"
+            placeholder="Поиск по сайту"
+            data-testid={'search-bar'}
+            value={searchString}
+            onChange={onChange}
+          />
+        </label>
+        <ul
+          className="form-search__select-list scroller"
+          style={{
+            visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
+            opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
           }}
         >
-
-          <label>
-            <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
-              <use xlinkHref="#icon-lens"></use>
-            </svg>
-            <input
-              className="form-search__input"
-              type="text"
-              autoComplete="off"
-              placeholder="Поиск по сайту"
-              data-testid={'search-bar'}
-              value={searchString}
-              onChange={onChange}
-            />
-          </label>
-
-
-          <ul
-            className="form-search__select-list scroller"
-            style={{
-              visibility: `${searchResultsList.length !== 0 && searchString ? 'visible' : 'hidden'}`,
-              opacity: `${searchResultsList.length !== 0 && searchString ? 1 : 0}`
-            }}
-          // tabIndex={0}
-          >
-            {searchResultsList.map((result, index) => <SearchResultItem key={result.id} product={result} searchString={searchString} index={index} />)}
-          </ul>
-        </FocusTrap>
+          {searchResultsList.map((result, index) => (
+            <SearchResultItem
+              key={result.id}
+              product={result}
+              searchString={searchString}
+              activeClass={index === cursor ? 'active-result' : ''}
+              setSelected={setSelected}
+              setHovered={setHovered}
+              tabIndex={index === cursor ? 0 : -1}
+            />))}
+        </ul>
       </form>
       <button
         className="form-search__reset"
