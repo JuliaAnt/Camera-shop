@@ -14,6 +14,6 @@
   background-color: #f4f4fc;
 }
 
-.active-result {
+.active-result:focus-visible {
   background-color: #f4f4fc;
 }

@@ -7,7 +7,7 @@ describe('SearchResultItem', () => {
   it('renders product name', () => {
     render(
       <BrowserRouter>
-        <SearchResultItem product={look54Card} searchString="" index={0} />
+        <SearchResultItem product={look54Card} searchString="" tabIndex={0} activeClass='' setSelected={jest.fn()} setHovered={jest.fn()} />
       </BrowserRouter>
     );
 
@@ -18,7 +18,7 @@ describe('SearchResultItem', () => {
   it('renders hidden item if search string is empty', () => {
     render(
       <BrowserRouter>
-        <SearchResultItem product={look54Card} searchString="" index={0} />
+        <SearchResultItem product={look54Card} searchString="" tabIndex={0} activeClass='' setSelected={jest.fn()} setHovered={jest.fn()} />
       </BrowserRouter>
     );
 
@@ -29,7 +29,7 @@ describe('SearchResultItem', () => {
   it('renders visible item if search string is not empty', () => {
     render(
       <BrowserRouter>
-        <SearchResultItem product={look54Card} searchString="Product" index={0} />
+        <SearchResultItem product={look54Card} searchString="Product" tabIndex={0} activeClass='' setSelected={jest.fn()} setHovered={jest.fn()} />
       </BrowserRouter>
     );
 
