@@ -12,20 +12,12 @@ const useKeyPress = function (targetKey: string) {
     function downHandler({ key }: { key: string }) {
       if (key === targetKey) {
         setKeyPressed(true);
-        // eslint-disable-next-line no-console
-        console.log(key);
-        // eslint-disable-next-line no-console
-        console.log(targetKey);
       }
     }
 
     const upHandler = ({ key }: { key: string }) => {
       if (key === targetKey) {
         setKeyPressed(false);
-        // eslint-disable-next-line no-console
-        console.log(key);
-        // eslint-disable-next-line no-console
-        console.log(targetKey);
       }
     };
 
@@ -125,7 +117,7 @@ function Search(): JSX.Element {
               activeClass={index === cursor ? 'active-result' : ''}
               setSelected={setSelected}
               setHovered={setHovered}
-              tabIndex={index === cursor ? 0 : -1}
+              tabIndex={index === cursor ? 1 : 0}
             />))}
         </ul>
       </form>

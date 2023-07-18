@@ -16,7 +16,7 @@ function SearchResultItem({ product, searchString, tabIndex, activeClass, setSel
       className={`form-search__select-item ${activeClass}`}
       id={'search'}
       data-testid={'search-item'}
-      // tabIndex={tabIndex}
+      tabIndex={tabIndex}
       style={{ visibility: `${searchString ? 'visible' : 'hidden'}` }}
       onClick={() => setSelected(product)}
       onMouseEnter={() => setHovered(product)}
