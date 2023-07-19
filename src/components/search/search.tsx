@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, MutableRefObject, createRef, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import SearchResultItem from './search-result-item/search-result-item';
@@ -45,6 +45,15 @@ function Search(): JSX.Element {
   const [cursor, setCursor] = useState(0);
   const [selected, setSelected] = useState<ProductCard>();
   const [hovered, setHovered] = useState<ProductCard | null>();
+
+  const resultCount = searchResultsList.length;
+  const resultRefs = useRef<MutableRefObject<HTMLLIElement | null>[]>([]);
+
+  if (resultRefs.current.length !== resultCount) {
+    resultRefs.current = Array(resultCount)
+      .fill(0)
+      .map((_, i) => resultRefs.current[i] || createRef());
+  }
 
   useEffect(() => {
     if (searchResultsList.length && enterPress) {
@@ -115,9 +124,10 @@ function Search(): JSX.Element {
               product={result}
               searchString={searchString}
               activeClass={index === cursor ? 'active-result' : ''}
+              tabIndex={index === cursor ? 1 : 0}
+              ref={resultRefs.current[index]}
               setSelected={setSelected}
               setHovered={setHovered}
-              tabIndex={index === cursor ? 1 : 0}
             />))}
         </ul>
       </form>

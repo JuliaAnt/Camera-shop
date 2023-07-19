@@ -1,3 +1,4 @@
+import { forwardRef, useEffect } from 'react';
 import { ProductCard } from '../../../types/product-card';
 
 type SearchResultItemProps = {
@@ -9,10 +10,16 @@ type SearchResultItemProps = {
   setHovered: (value: ProductCard | null) => void;
 }
 
-function SearchResultItem({ product, searchString, tabIndex, activeClass, setSelected, setHovered }: SearchResultItemProps): JSX.Element {
+const SearchResultItem = forwardRef<HTMLLIElement | null, SearchResultItemProps>(({ product, searchString, tabIndex, activeClass, setSelected, setHovered }, ref) => {
+  useEffect(() => {
+    if (activeClass === 'active-result' && ref && typeof ref !== 'function') {
+      ref.current?.focus();
+    }
+  }, [activeClass, ref]);
 
   return (
     <li
+      ref={ref}
       className={`form-search__select-item ${activeClass}`}
       id={'search'}
       data-testid={'search-item'}
@@ -24,6 +31,7 @@ function SearchResultItem({ product, searchString, tabIndex, activeClass, setSel
     > {product.name}
     </li >
   );
-}
+});
 
+SearchResultItem.displayName = 'SearchResultItem';
 export default SearchResultItem;
