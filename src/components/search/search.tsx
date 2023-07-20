@@ -101,7 +101,12 @@ function Search(): JSX.Element {
   };
 
   return (
-    <div className="form-search" data-testid={'form-search'}>
+    <div
+      className="form-search"
+      data-testid={'form-search'}
+      onFocus={() => { document.body.style.position = 'fixed'; }}
+      onBlur={() => { document.body.style.position = ''; }}
+    >
       <form>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
