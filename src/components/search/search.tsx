@@ -104,8 +104,8 @@ function Search(): JSX.Element {
     <div
       className="form-search"
       data-testid={'form-search'}
-      onFocus={() => { document.body.style.position = 'fixed'; }}
-      onBlur={() => { document.body.style.position = ''; }}
+    // onFocus={() => { document.body.style.position = 'fixed'; }}
+    // onBlur={() => { document.body.style.position = ''; }}
     >
       <form>
         <label>
