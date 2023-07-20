@@ -5,18 +5,24 @@ import SearchResultItem from './search-result-item/search-result-item';
 import { ProductCard } from '../../types/product-card';
 import { useNavigate } from 'react-router-dom';
 
-const useKeyPress = function (targetKey: string) {
+const useKeyPress = function (targetKey: string, cursor: number, results: ProductCard[]) {
   const [keyPressed, setKeyPressed] = useState(false);
 
   useEffect(() => {
-    function downHandler({ key }: { key: string }) {
-      if (key === targetKey) {
+    function downHandler(evt: KeyboardEvent) {
+      if (evt.key === targetKey) {
+        if (cursor === results.length - 1) {
+          evt.preventDefault();
+        }
         setKeyPressed(true);
       }
     }
 
-    const upHandler = ({ key }: { key: string }) => {
-      if (key === targetKey) {
+    const upHandler = (evt: KeyboardEvent) => {
+      if (evt.key === targetKey) {
+        if (cursor === results.length - 1) {
+          evt.preventDefault();
+        }
         setKeyPressed(false);
       }
     };
@@ -28,7 +34,7 @@ const useKeyPress = function (targetKey: string) {
       window.removeEventListener('keydown', downHandler);
       window.removeEventListener('keyup', upHandler);
     };
-  }, [targetKey]);
+  }, [targetKey, cursor, results]);
 
   return keyPressed;
 };
@@ -39,12 +45,12 @@ function Search(): JSX.Element {
   const [searchResultsList, setSearchResultsList] = useState<ProductCard[]>([]);
   const navigate = useNavigate();
 
-  const downPress = useKeyPress('ArrowDown');
-  const upPress = useKeyPress('ArrowUp');
-  const enterPress = useKeyPress('Enter');
   const [cursor, setCursor] = useState(0);
   const [selected, setSelected] = useState<ProductCard>();
   const [hovered, setHovered] = useState<ProductCard | null>();
+  const downPress = useKeyPress('ArrowDown', cursor, products);
+  const upPress = useKeyPress('ArrowUp', cursor, products);
+  const enterPress = useKeyPress('Enter', cursor, products);
 
   const resultCount = searchResultsList.length;
   const resultRefs = useRef<MutableRefObject<HTMLLIElement | null>[]>([]);
