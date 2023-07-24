@@ -19,6 +19,8 @@ import EmptyProductPage from '../empty-product-page/empty-product-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { getAverageRating } from '../../utils/utils';
+import PopupCatalogAddItem from '../../components/popup/popup-catalog-add-item/popup-catalog-add-item';
+import PopupCatalogAddItemSuccess from '../../components/popup/popup-catalog-add-item-success/popup-catalog-add-item-success';
 
 export type ReviewData = {
   userName: string;
@@ -45,6 +47,29 @@ function ProductPage(): JSX.Element {
   });
   const location = useLocation();
   const isLoading = useAppSelector(getLoadingStatus);
+
+  const [isAddingProductModalOpen, setAddingProductModalOpen] = useState<boolean>(false);
+  const [isAddingProductSuccessModalOpen, setAddingProductSuccessModalOpen] = useState<boolean>(false);
+
+  const onAddingProductModalOpen = () => {
+    setAddingProductModalOpen(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onAddingProductModalClose = () => {
+    setAddingProductModalOpen(false);
+    document.body.style.position = '';
+  };
+
+  const onAddingProductSuccessModalOpen = () => {
+    setAddingProductSuccessModalOpen(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onAddingProductSuccessModalClose = () => {
+    setAddingProductSuccessModalOpen(false);
+    document.body.style.position = '';
+  };
 
   const handleChange = (review: ReviewData) => {
     setReviewData(review);
@@ -81,6 +106,8 @@ function ProductPage(): JSX.Element {
         evt.preventDefault();
         onModalClose();
         onSuccessModalClose();
+        onAddingProductModalClose();
+        onAddingProductSuccessModalClose();
       }
     };
 
@@ -188,7 +215,7 @@ function ProductPage(): JSX.Element {
                   <p className="product__price">
                     <span className="visually-hidden">Цена:</span>{`${price?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') || ''}`} &#x20BD;
                   </p>
-                  <button className="btn btn--purple" type="button">
+                  <button className="btn btn--purple" type="button" onClick={onAddingProductModalOpen}>
                     <svg width="24" height="16" aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"></use>
                     </svg>Добавить в корзину
@@ -216,6 +243,20 @@ function ProductPage(): JSX.Element {
         {/* @ts-expect-error children*/}
         <FocusTrap active={isSuccessModalActive} focusTrapOptions={{ initialFocus: '#name', onDeactivate: onSuccessModalClose }}>
           <PopupProductReviewSuccess isSuccessModalActive={isSuccessModalActive} onSuccessModalClose={onSuccessModalClose} />
+        </FocusTrap>
+        {/* @ts-expect-error children*/}
+        <FocusTrap active={isAddingProductModalOpen} focusTrapOptions={{ initialFocus: '#add-btn', onDeactivate: onAddingProductModalClose }}>
+          {!!selectedProduct &&
+            <PopupCatalogAddItem
+              isModalOpen={isAddingProductModalOpen}
+              productCard={selectedProduct}
+              onModalClose={onAddingProductModalClose}
+              onAddingProductSuccessModalOpen={onAddingProductSuccessModalOpen}
+            />}
+        </FocusTrap>
+        {/* @ts-expect-error children*/}
+        <FocusTrap active={isAddingProductSuccessModalOpen} focusTrapOptions={{ initialFocus: '#continue', onDeactivate: onAddingProductSuccessModalClose }}>
+          <PopupCatalogAddItemSuccess isAddingProductSuccessModalOpen={isAddingProductSuccessModalOpen} onAddingProductSuccessModalClose={onAddingProductSuccessModalClose} />
         </FocusTrap>
       </main >
       <button className="up-btn" onClick={handlerScrollUp}>

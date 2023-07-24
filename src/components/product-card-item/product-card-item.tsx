@@ -1,13 +1,16 @@
 import { ProductCard } from '../../types/product-card';
-import { RATINGS } from '../../consts';
+import { AppRoute, RATINGS } from '../../consts';
 import RatingItem from '../rating-item/rating-item';
 import { useState } from 'react';
 import PopupCatalogAddItem from '../popup/popup-catalog-add-item/popup-catalog-add-item';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import FocusTrap from 'react-focus-trap';
 import { Review } from '../../types/review';
 import { getAverageRating } from '../../utils/utils';
+import PopupCatalogAddItemSuccess from '../popup/popup-catalog-add-item-success/popup-catalog-add-item-success';
+import { getAddedProducts } from '../../store/basket-data/basket-data-selectors';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 type ProductCardItemProps = {
   productCard: ProductCard;
@@ -16,8 +19,11 @@ type ProductCardItemProps = {
 }
 
 function ProductCardItem({ productCard, className, reviews }: ProductCardItemProps): JSX.Element {
+  const addedProducts = useAppSelector(getAddedProducts);
   const { id, name, price, reviewCount, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isAddingProductSuccessModalOpen, setAddingProductSuccessModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const rating = getAverageRating(reviews, id);
 
@@ -26,6 +32,7 @@ function ProductCardItem({ productCard, className, reviews }: ProductCardItemPro
       if (evt.key === 'Escape') {
         evt.preventDefault();
         onModalClose();
+        onAddingProductSuccessModalClose();
       }
     };
 
@@ -41,6 +48,16 @@ function ProductCardItem({ productCard, className, reviews }: ProductCardItemPro
 
   const onModalClose = () => {
     setModalOpen(false);
+    document.body.style.position = '';
+  };
+
+  const onAddingProductSuccessModalOpen = () => {
+    setAddingProductSuccessModalOpen(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onAddingProductSuccessModalClose = () => {
+    setAddingProductSuccessModalOpen(false);
     document.body.style.position = '';
   };
 
@@ -69,14 +86,24 @@ function ProductCardItem({ productCard, className, reviews }: ProductCardItemPro
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button" onClick={onModalOpen}>Купить
+        {addedProducts[id] > 0 ?
+          <button className="btn btn--purple-border" onClick={() => navigate(AppRoute.Basket)}>
+            <svg width="16" height="16" aria-hidden="true">
+              <use xlinkHref="#icon-basket"></use>
+            </svg>В корзине
+          </button> :
+          <button className="btn btn--purple product-card__btn" type="button" onClick={onModalOpen}>Купить
+          </button>}
+        <button className="btn btn--transparent" onClick={() => navigate(`/camera/${id}?tab=description`)}>Подробнее
         </button>
-        <Link className="btn btn--transparent" to={`/camera/${id}?tab=description`}>Подробнее
-        </Link>
       </div>
       {/* @ts-expect-error children*/}
       <FocusTrap active={isModalOpen} focusTrapOptions={{ initialFocus: '#add-btn', onDeactivate: onModalClose }}>
-        <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={onModalClose} />
+        <PopupCatalogAddItem isModalOpen={isModalOpen} productCard={productCard} onModalClose={onModalClose} onAddingProductSuccessModalOpen={onAddingProductSuccessModalOpen} />
+      </FocusTrap>
+      {/* @ts-expect-error children*/}
+      <FocusTrap active={isAddingProductSuccessModalOpen} focusTrapOptions={{ initialFocus: '#continue', onDeactivate: onAddingProductSuccessModalClose }}>
+        <PopupCatalogAddItemSuccess isAddingProductSuccessModalOpen={isAddingProductSuccessModalOpen} onAddingProductSuccessModalClose={onAddingProductSuccessModalClose} />
       </FocusTrap>
     </div>
   );

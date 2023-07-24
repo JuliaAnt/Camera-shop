@@ -7,7 +7,7 @@ export enum AppRoute {
 export enum NameSpace {
   CatalogData = 'CATALOG_DATA',
   ProductData = 'PRODUCT_DATA',
-  Basket = 'BASKET',
+  BasketData = 'BASKET',
 }
 
 export enum APIRoute {
