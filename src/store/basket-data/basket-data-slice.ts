@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-// import { ProductCard } from '../../types/product-card';
 import { NameSpace } from '../../consts';
 
 type InitialState = {

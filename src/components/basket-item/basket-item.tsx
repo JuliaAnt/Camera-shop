@@ -1,4 +1,7 @@
+import FocusTrap from 'react-focus-trap';
 import { ProductCard } from '../../types/product-card';
+import PopupBasketRemoveItem from '../popup/popup-basket-remove-item/popup-basket-remove-item';
+import { useState } from 'react';
 
 type BasketItemProps = {
   product: ProductCard;
@@ -8,6 +11,17 @@ type BasketItemProps = {
 function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
   const { id, name, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, vendorCode, category, level, type } = product;
   const productCost = price * amount;
+  const [isRemovingModalOpen, setRemovingModalOpen] = useState<boolean>(false);
+
+  const onRemovingModalOpen = () => {
+    setRemovingModalOpen(true);
+    document.body.style.position = 'fixed';
+  };
+
+  const onRemovingModalClose = () => {
+    setRemovingModalOpen(false);
+    document.body.style.position = '';
+  };
 
   return (
     <li key={id} className="basket-item">
@@ -44,11 +58,20 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
       <div className="basket-item__total-price">
         <span className="visually-hidden">Общая цена:</span>{`${productCost?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ')}`} &#x20BD;
       </div>
-      <button className="cross-btn" type="button" aria-label="Удалить товар">
+      <button
+        className="cross-btn"
+        type="button"
+        aria-label="Удалить товар"
+        onClick={onRemovingModalOpen}
+      >
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
         </svg>
       </button>
+      {/* @ts-expect-error children*/}
+      <FocusTrap active={isRemovingModalOpen} focusTrapOptions={{ initialFocus: '#remove-button', onDeactivate: onRemovingModalClose }}>
+        <PopupBasketRemoveItem product={product} onRemovingModalClose={onRemovingModalClose} isRemovingModalOpen={isRemovingModalOpen} />
+      </FocusTrap>
     </li>
   );
 }

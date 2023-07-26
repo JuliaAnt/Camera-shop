@@ -11,6 +11,7 @@ describe('Component: popupCatalogAddItem', () => {
           isModalOpen
           productCard={look54Card}
           onModalClose={jest.fn()}
+          onAddingProductSuccessModalOpen={jest.fn()}
         />
       </BrowserRouter>
     );
