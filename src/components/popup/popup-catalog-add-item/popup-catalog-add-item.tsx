@@ -44,7 +44,7 @@ function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose, onAddingP
                 <li className="basket-item__list-item">{`${type} ${category === 'Фотоаппарат' ? 'фотокамера' : 'видеокамера'}`}</li>
                 <li className="basket-item__list-item">{`${level} уровень`}</li>
               </ul>
-              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${price} ₽`}</p>
+              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${price?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') || ''}`} &#x20BD;</p>
             </div>
           </div>
           <div className="modal__buttons">

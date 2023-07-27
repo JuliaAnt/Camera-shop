@@ -5,9 +5,20 @@ import { AppRoute } from '../../consts';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { getAddedProducts } from '../../store/basket-data/basket-data-selectors';
 import BasketList from '../../components/basket-list/basket-list';
+import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 
 function BasketPage(): JSX.Element {
   const addedProducts = useAppSelector(getAddedProducts);
+  const products = useAppSelector(getProducts);
+  const ids = Object.keys(addedProducts);
+  let totalCost = 0;
+  ids.forEach((productId) => {
+    const currentProduct = products.find((product) => product.id === +productId);
+    if (currentProduct) {
+      totalCost += currentProduct.price * addedProducts[+productId];
+    }
+    return totalCost;
+  });
 
   return (
     <div className="wrapper">
@@ -58,7 +69,7 @@ function BasketPage(): JSX.Element {
                   </div>
                 </div>
                 <div className="basket__summary-order">
-                  <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">111 390 ₽</span></p>
+                  <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{`${totalCost ? totalCost?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') : 0}`} &#x20BD;</span></p>
                   <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">0 ₽</span></p>
                   <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">111 390 ₽</span></p>
                   <button className="btn btn--purple" type="submit">Оформить заказ

@@ -21,7 +21,7 @@ function PopupBasketRemoveItem({ product, isRemovingModalOpen, onRemovingModalCl
     <div key={id} className={`modal${isRemovingModalOpen ? ' is-active' : ''}`}>
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={onRemovingModalClose}></div>
-        <div className="modal__content">
+        <div className="modal__content" style={{ width: '490px' }}>
           <p className="title title--h4">Удалить этот товар?</p>
           <div className="basket-item basket-item--short">
             <div className="basket-item__img">

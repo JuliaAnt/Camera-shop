@@ -22,8 +22,14 @@ export const basketData = createSlice({
     },
     removeProductsFromBasket: (state, action: PayloadAction<number>) => {
       state.productsInBasket[action.payload] = 0;
+    },
+    increaseAmountProduct: (state, action: PayloadAction<number>) => {
+      state.productsInBasket[action.payload] += 1;
+    },
+    decreaseAmountProduct: (state, action: PayloadAction<number>) => {
+      state.productsInBasket[action.payload] -= 1;
     }
   }
 });
 
-export const { addProductsToBasket, removeProductsFromBasket } = basketData.actions;
+export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct } = basketData.actions;
