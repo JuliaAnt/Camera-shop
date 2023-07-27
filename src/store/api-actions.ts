@@ -5,6 +5,7 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import { APIRoute } from '../consts';
 import { Review, ReviewRequest } from '../types/review';
 import { PromoProduct } from '../types/promo';
+import { Coupon } from '../types/coupon';
 
 export const fetchProductsAction = createAsyncThunk<ProductCard[], undefined, {
   dispatch: AppDispatch;
@@ -102,5 +103,17 @@ export const fetchReviewsByIdAction = createAsyncThunk<fetchReviewsByIdProps, nu
       reviewMap[response.data[0].cameraId] = response.data;
     });
     return reviewMap;
+  }
+);
+
+export const fetchDiscontAction = createAsyncThunk<number, Coupon, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'fetchDiscont',
+  async (coupon, { extra: api }) => {
+    const { data } = await api.post<number>(APIRoute.Coupons, coupon);
+    return data;
   }
 );

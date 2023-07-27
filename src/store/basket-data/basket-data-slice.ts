@@ -1,12 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../consts';
+import { fetchDiscontAction } from '../api-actions';
 
 type InitialState = {
   productsInBasket: Record<number, number>;
+  discont: number;
 }
 
 const initialState: InitialState = {
   productsInBasket: {},
+  discont: 0,
 };
 
 export const basketData = createSlice({
@@ -29,7 +32,13 @@ export const basketData = createSlice({
     decreaseAmountProduct: (state, action: PayloadAction<number>) => {
       state.productsInBasket[action.payload] -= 1;
     }
-  }
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchDiscontAction.fulfilled, (state, action) => {
+        state.discont = action.payload;
+      });
+  },
 });
 
 export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct } = basketData.actions;
