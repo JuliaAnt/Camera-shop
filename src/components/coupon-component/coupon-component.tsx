@@ -1,13 +1,20 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Coupon } from '../../types/coupon';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { fetchDiscontAction } from '../../store/api-actions';
-import { useState } from 'react';
+import { getAddedProducts, getCoupon } from '../../store/basket-data/basket-data-selectors';
+import { addCoupon } from '../../store/basket-data/basket-data-slice';
+import { useEffect, useState } from 'react';
 
 function CouponComponent(): JSX.Element {
   const dispatch = useAppDispatch();
+  const submittedCoupon = useAppSelector(getCoupon);
+  const addedProducts = useAppSelector(getAddedProducts);
+
   const [currentCoupon, setCurrentCoupon] = useState<Coupon>({ coupon: '' });
+
   const onSubmit = (coupon: Coupon) => {
+    dispatch(addCoupon(coupon));
     dispatch(fetchDiscontAction(coupon));
   };
 
@@ -21,6 +28,14 @@ function CouponComponent(): JSX.Element {
     });
   };
 
+  const totalAmount = Object.values(addedProducts).reduce((sum, amount) => sum + +amount, 0);
+
+  useEffect(() => {
+    if (totalAmount === 0) {
+      setCurrentCoupon({ coupon: '' });
+    }
+  }, [dispatch, totalAmount]);
+
   return (
     <div className="basket__promo">
       <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
@@ -32,7 +47,8 @@ function CouponComponent(): JSX.Element {
               <input
                 type="text"
                 placeholder="Введите промокод"
-                value={currentCoupon.coupon}
+                value={submittedCoupon.coupon ? submittedCoupon.coupon : currentCoupon.coupon}
+                disabled={Boolean(submittedCoupon.coupon)}
                 {...register('coupon', {
                   pattern: {
                     value: /^(camera-(333|444|555))$/,
@@ -48,7 +64,7 @@ function CouponComponent(): JSX.Element {
             {errors.coupon && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.coupon.message}</p>}
             {isSubmitted && isValid && <p className="custom-input__success" style={{ opacity: 1 }}>Промокод принят!</p>}
           </div>
-          <button className="btn" type="submit">Применить
+          <button className="btn" type="submit" disabled={Boolean(submittedCoupon.coupon)}>Применить
           </button>
         </form>
       </div>

@@ -8,6 +8,7 @@ import BasketList from '../../components/basket-list/basket-list';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import CouponComponent from '../../components/coupon-component/coupon-component';
 
+
 function BasketPage(): JSX.Element {
   const addedProducts = useAppSelector(getAddedProducts);
   const products = useAppSelector(getProducts);
