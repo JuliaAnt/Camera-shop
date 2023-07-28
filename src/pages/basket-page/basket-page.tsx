@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks/redux-hooks';
 import { getAddedProducts, getDiscont } from '../../store/basket-data/basket-data-selectors';
 import BasketList from '../../components/basket-list/basket-list';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
-import CouponComponent from '../../components/coupon/coupon';
+import CouponComponent from '../../components/coupon-component/coupon-component';
 
 function BasketPage(): JSX.Element {
   const addedProducts = useAppSelector(getAddedProducts);
@@ -22,7 +22,7 @@ function BasketPage(): JSX.Element {
     return totalCost;
   });
 
-  const discontSum = totalCost * (discont / 100);
+  const discontSum = Math.round(totalCost * (discont / 100));
   const totalCostWithDiscont = totalCost - discontSum;
 
   return (
@@ -65,7 +65,7 @@ function BasketPage(): JSX.Element {
                   </p>
                   <p className="basket__summary-item">
                     <span className="basket__summary-text">Скидка:</span>
-                    <span className="basket__summary-value basket__summary-value--bonus">
+                    <span className="basket__summary-value basket__summary-value--bonus" style={{ color: `${discontSum ? 'red' : 'black'}` }}>
                       {`${discontSum ? discontSum?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') : 0}`} &#x20BD;
                     </span>
                   </p>

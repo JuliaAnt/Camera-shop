@@ -31,6 +31,9 @@ export const basketData = createSlice({
     },
     decreaseAmountProduct: (state, action: PayloadAction<number>) => {
       state.productsInBasket[action.payload] -= 1;
+    },
+    changeAmountProduct: (state, action: PayloadAction<{ id: number; amount: number }>) => {
+      state.productsInBasket[action.payload.id] = action.payload.amount;
     }
   },
   extraReducers(builder) {
@@ -41,4 +44,4 @@ export const basketData = createSlice({
   },
 });
 
-export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct } = basketData.actions;
+export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct, changeAmountProduct } = basketData.actions;

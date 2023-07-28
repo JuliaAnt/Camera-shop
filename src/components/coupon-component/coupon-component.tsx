@@ -13,7 +13,7 @@ function CouponComponent(): JSX.Element {
 
   const { register, handleSubmit,
     clearErrors,
-    formState: { errors } } = useForm<Coupon>();
+    formState: { errors, isValid, isSubmitted } } = useForm<Coupon>();
 
   const submitHandler: SubmitHandler<Coupon> = (data: Coupon) => {
     onSubmit({
@@ -45,8 +45,8 @@ function CouponComponent(): JSX.Element {
                 }}
               />
             </label>
-            {errors.coupon && <p role='alert' className="custom-input__error">{errors.coupon?.message}</p>}
-            <p className="custom-input__success">Промокод принят!</p>
+            {errors.coupon && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.coupon.message}</p>}
+            {isSubmitted && isValid && <p className="custom-input__success" style={{ opacity: 1 }}>Промокод принят!</p>}
           </div>
           <button className="btn" type="submit">Применить
           </button>
