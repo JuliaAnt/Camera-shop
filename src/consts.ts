@@ -18,6 +18,7 @@ export enum APIRoute {
   ReviewRequest = '/reviews',
   Reviews = '/cameras/{cameraId}/reviews',
   Coupons = '/coupons',
+  Order = '/orders',
 }
 
 export const LEVEL_FILTER_MAP = [

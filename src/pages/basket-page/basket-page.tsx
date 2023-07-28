@@ -2,17 +2,56 @@ import { Link } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { AppRoute } from '../../consts';
-import { useAppSelector } from '../../hooks/redux-hooks';
-import { getAddedProducts, getDiscont } from '../../store/basket-data/basket-data-selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { getAddedProducts, getCoupon, getDiscont, getOrderStatus } from '../../store/basket-data/basket-data-selectors';
 import BasketList from '../../components/basket-list/basket-list';
 import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import CouponComponent from '../../components/coupon-component/coupon-component';
-
+import { sendOrderAction } from '../../store/api-actions';
+import { addError, resetBasket } from '../../store/basket-data/basket-data-slice';
+import OrderErrorPage from '../order-error-page/order-error-page';
+import { useEffect, useState } from 'react';
+import FocusTrap from 'react-focus-trap';
+import PopupBasketOrderSuccess from '../../components/popup/popup-basket-order-success/popup-basket-order-success';
 
 function BasketPage(): JSX.Element {
+  const dispatch = useAppDispatch();
   const addedProducts = useAppSelector(getAddedProducts);
   const products = useAppSelector(getProducts);
   const discont = useAppSelector(getDiscont);
+  const submittedCoupon = useAppSelector(getCoupon);
+  const totalAmount = Object.values(addedProducts).reduce((sum, amount) => sum + +amount, 0);
+
+  const [isDisabled, setDisabled] = useState<boolean>(false);
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (totalAmount === 0) {
+      setDisabled(true);
+    }
+  }, [totalAmount]);
+
+  const onSuccessModalOpen = () => {
+    setSuccessModalOpen(true);
+  };
+
+  const onSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+  };
+
+  useEffect(() => {
+    const onModalEscKeydown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        onSuccessModalClose();
+      }
+    };
+
+    window.addEventListener('keydown', onModalEscKeydown);
+    return () => window.removeEventListener('keydown', onModalEscKeydown);
+
+  }, []);
+
   const ids = Object.keys(addedProducts);
   let totalCost = 0;
   ids.forEach((productId) => {
@@ -25,6 +64,33 @@ function BasketPage(): JSX.Element {
 
   const discontSum = Math.round(totalCost * (discont / 100));
   const totalCostWithDiscont = totalCost - discontSum;
+
+  const idsNum = ids.map((currentId) => +currentId);
+
+
+  const onOrderSubmit = () => {
+    setDisabled(true);
+    dispatch(sendOrderAction({
+      camerasIds: idsNum,
+      coupon: submittedCoupon.coupon ? submittedCoupon.coupon : null,
+      onSuccess: () => {
+        dispatch(resetBasket());
+        dispatch(addError(false));
+        setDisabled(false);
+        onSuccessModalOpen();
+      },
+      onError: () => {
+        dispatch(addError(true));
+        setDisabled(false);
+      },
+    }));
+  };
+
+  const hasError = useAppSelector(getOrderStatus);
+
+  if (hasError) {
+    return <OrderErrorPage />;
+  }
 
   return (
     <div className="wrapper">
@@ -72,17 +138,21 @@ function BasketPage(): JSX.Element {
                   </p>
                   <p className="basket__summary-item">
                     <span className="basket__summary-text basket__summary-text--total">К оплате:</span>
-                    <span className="basket__summary-value basket__summary-value--total">
+                    <span className="basket__summary-value basket__summary-value--total" style={{ fontWeight: '700' }}>
                       {`${totalCostWithDiscont ? totalCostWithDiscont?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') : 0}`} &#x20BD;
                     </span>
                   </p>
-                  <button className="btn btn--purple" type="submit">Оформить заказ
+                  <button className="btn btn--purple" type="submit" disabled={isDisabled} onClick={onOrderSubmit}>Оформить заказ
                   </button>
                 </div>
               </div>
             </div>
           </section>
         </div>
+        {/* @ts-expect-error children*/}
+        <FocusTrap active={isSuccessModalOpen} focusTrapOptions={{ initialFocus: '#back-btn', onDeactivate: onSuccessModalClose }}>
+          <PopupBasketOrderSuccess onSuccessModalClose={onSuccessModalClose} isSuccessModalOpen={isSuccessModalOpen} />
+        </FocusTrap>
       </main>
       <Footer />
     </div>

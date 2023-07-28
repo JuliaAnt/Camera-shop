@@ -7,6 +7,7 @@ type InitialState = {
   productsInBasket: Record<number, number>;
   discont: number;
   submittedCoupon: Coupon;
+  hasOrderError: boolean;
 }
 
 const initialState: InitialState = {
@@ -15,6 +16,7 @@ const initialState: InitialState = {
   submittedCoupon: {
     coupon: '',
   },
+  hasOrderError: false,
 };
 
 export const basketData = createSlice({
@@ -47,6 +49,14 @@ export const basketData = createSlice({
     },
     addCoupon: (state, action: PayloadAction<Coupon>) => {
       state.submittedCoupon = action.payload;
+    },
+    resetBasket: (state) => {
+      state.productsInBasket = {};
+      state.submittedCoupon = { coupon: '' };
+      state.discont = 0;
+    },
+    addError: (state, action: PayloadAction<boolean>) => {
+      state.hasOrderError = action.payload;
     }
   },
   extraReducers(builder) {
@@ -57,4 +67,4 @@ export const basketData = createSlice({
   },
 });
 
-export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct, changeAmountProduct, addCoupon } = basketData.actions;
+export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct, changeAmountProduct, addCoupon, resetBasket, addError } = basketData.actions;

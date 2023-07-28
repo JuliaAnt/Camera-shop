@@ -36,6 +36,13 @@ function CouponComponent(): JSX.Element {
     }
   }, [dispatch, totalAmount]);
 
+  let color = '';
+  if (errors.coupon) {
+    color = '#ed6041';
+  } else if (submittedCoupon.coupon) {
+    color = '#65cd54';
+  }
+
   return (
     <div className="basket__promo">
       <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
@@ -49,6 +56,7 @@ function CouponComponent(): JSX.Element {
                 placeholder="Введите промокод"
                 value={submittedCoupon.coupon ? submittedCoupon.coupon : currentCoupon.coupon}
                 disabled={Boolean(submittedCoupon.coupon)}
+                style={{ borderColor: `${color}` }}
                 {...register('coupon', {
                   pattern: {
                     value: /^(camera-(333|444|555))$/,
@@ -62,7 +70,7 @@ function CouponComponent(): JSX.Element {
               />
             </label>
             {errors.coupon && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.coupon.message}</p>}
-            {isSubmitted && isValid && <p className="custom-input__success" style={{ opacity: 1 }}>Промокод принят!</p>}
+            {isSubmitted && isValid && submittedCoupon.coupon && <p className="custom-input__success" style={{ opacity: 1 }}>Промокод принят!</p>}
           </div>
           <button className="btn" type="submit" disabled={Boolean(submittedCoupon.coupon)}>Применить
           </button>

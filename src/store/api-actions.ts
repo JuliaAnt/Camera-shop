@@ -6,6 +6,7 @@ import { APIRoute } from '../consts';
 import { Review, ReviewRequest } from '../types/review';
 import { PromoProduct } from '../types/promo';
 import { Coupon } from '../types/coupon';
+import { OrderType } from '../types/order';
 
 export const fetchProductsAction = createAsyncThunk<ProductCard[], undefined, {
   dispatch: AppDispatch;
@@ -115,5 +116,24 @@ export const fetchDiscontAction = createAsyncThunk<number, Coupon, {
   async (coupon, { extra: api }) => {
     const { data } = await api.post<number>(APIRoute.Coupons, coupon);
     return data;
+  }
+);
+
+export type SendOrderProps = OrderType & { onSuccess(): void; onError(): void };
+
+export const sendOrderAction = createAsyncThunk<void, SendOrderProps, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'sendOrder',
+  async ({ camerasIds, coupon, onSuccess, onError }, { extra: api }) => {
+    try {
+      await api.post<OrderType>(APIRoute.Order, { camerasIds, coupon });
+      onSuccess();
+    }
+    catch (error) {
+      onError();
+    }
   }
 );

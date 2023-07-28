@@ -1,7 +1,7 @@
 import FocusTrap from 'react-focus-trap';
 import { ProductCard } from '../../types/product-card';
 import PopupBasketRemoveItem from '../popup/popup-basket-remove-item/popup-basket-remove-item';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { changeAmountProduct, decreaseAmountProduct, increaseAmountProduct } from '../../store/basket-data/basket-data-slice';
 
@@ -25,6 +25,19 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
     setRemovingModalOpen(false);
     document.body.style.position = '';
   };
+
+  useEffect(() => {
+    const onModalEscKeydown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        onRemovingModalClose();
+      }
+    };
+
+    window.addEventListener('keydown', onModalEscKeydown);
+    return () => window.removeEventListener('keydown', onModalEscKeydown);
+
+  }, []);
 
   const onNextButtonClick = () => {
     dispatch(increaseAmountProduct(id));
