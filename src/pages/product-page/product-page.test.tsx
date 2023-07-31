@@ -29,7 +29,10 @@ describe('Component: ProductPage', () => {
               productCards: mockProductCards,
               allReviews: mockAllReviews,
               hasError: false,
-            }
+            },
+            [NameSpace.BasketData]: {
+              productsInBasket: {},
+            },
           })
         }
         >

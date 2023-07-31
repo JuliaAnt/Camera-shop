@@ -13,7 +13,10 @@ describe('Component: Header', () => {
       <Provider store={mockStore({
         [NameSpace.CatalogData]: {
           productCards: mockProductCards,
-        }
+        },
+        [NameSpace.BasketData]: {
+          productsInBasket: {},
+        },
       })}
       >
         <BrowserRouter>

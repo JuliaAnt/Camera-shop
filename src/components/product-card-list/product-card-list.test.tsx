@@ -18,7 +18,10 @@ describe('Component: ProductCardList', () => {
       <Provider store={mockStore({
         [NameSpace.CatalogData]: {
           allReviews: mockReviews,
-        }
+        },
+        [NameSpace.BasketData]: {
+          productsInBasket: {},
+        },
       })}
       >
         <BrowserRouter>

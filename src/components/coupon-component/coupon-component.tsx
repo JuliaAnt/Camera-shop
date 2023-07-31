@@ -48,11 +48,12 @@ function CouponComponent(): JSX.Element {
       <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
       <div className="basket-form">
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form action="#" onSubmit={handleSubmit(submitHandler)}>
+        <form action="#" data-testid='promo-form' onSubmit={handleSubmit(submitHandler)}>
           <div className="custom-input">
             <label><span className="custom-input__label">Промокод</span>
               <input
                 type="text"
+                data-testid='basket-promo'
                 placeholder="Введите промокод"
                 value={submittedCoupon.coupon ? submittedCoupon.coupon : currentCoupon.coupon}
                 disabled={Boolean(submittedCoupon.coupon)}
@@ -72,7 +73,7 @@ function CouponComponent(): JSX.Element {
             {errors.coupon && <p role='alert' className="custom-input__error" style={{ opacity: 1 }}>{errors.coupon.message}</p>}
             {isSubmitted && isValid && submittedCoupon.coupon && <p className="custom-input__success" style={{ opacity: 1 }}>Промокод принят!</p>}
           </div>
-          <button className="btn" type="submit" disabled={Boolean(submittedCoupon.coupon)}>Применить
+          <button className="btn" type="submit" data-testid='promo-button' disabled={Boolean(submittedCoupon.coupon)}>Применить
           </button>
         </form>
       </div>

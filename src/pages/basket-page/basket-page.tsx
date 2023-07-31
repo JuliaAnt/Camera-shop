@@ -20,23 +20,18 @@ function BasketPage(): JSX.Element {
   const products = useAppSelector(getProducts);
   const discont = useAppSelector(getDiscont);
   const submittedCoupon = useAppSelector(getCoupon);
-  const totalAmount = Object.values(addedProducts).reduce((sum, amount) => sum + +amount, 0);
 
   const [isDisabled, setDisabled] = useState<boolean>(false);
   const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (totalAmount === 0) {
-      setDisabled(true);
-    }
-  }, [totalAmount]);
-
   const onSuccessModalOpen = () => {
     setSuccessModalOpen(true);
+    document.body.style.position = 'fixed';
   };
 
   const onSuccessModalClose = () => {
     setSuccessModalOpen(false);
+    document.body.style.position = '';
   };
 
   useEffect(() => {
@@ -151,7 +146,7 @@ function BasketPage(): JSX.Element {
         </div>
         {/* @ts-expect-error children*/}
         <FocusTrap active={isSuccessModalOpen} focusTrapOptions={{ initialFocus: '#back-btn', onDeactivate: onSuccessModalClose }}>
-          <PopupBasketOrderSuccess onSuccessModalClose={onSuccessModalClose} isSuccessModalOpen={isSuccessModalOpen} />
+          <PopupBasketOrderSuccess isSuccessModalOpen={isSuccessModalOpen} onSuccessModalClose={onSuccessModalClose} />
         </FocusTrap>
       </main>
       <Footer />

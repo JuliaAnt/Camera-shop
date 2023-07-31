@@ -38,13 +38,13 @@ export const basketData = createSlice({
         state.submittedCoupon = { coupon: '' };
       }
     },
-    increaseAmountProduct: (state, action: PayloadAction<number>) => {
+    increaseProductAmount: (state, action: PayloadAction<number>) => {
       state.productsInBasket[action.payload] += 1;
     },
-    decreaseAmountProduct: (state, action: PayloadAction<number>) => {
+    decreaseProductAmount: (state, action: PayloadAction<number>) => {
       state.productsInBasket[action.payload] -= 1;
     },
-    changeAmountProduct: (state, action: PayloadAction<{ id: number; amount: number }>) => {
+    changeProductAmount: (state, action: PayloadAction<{ id: number; amount: number }>) => {
       state.productsInBasket[action.payload.id] = action.payload.amount;
     },
     addCoupon: (state, action: PayloadAction<Coupon>) => {
@@ -67,4 +67,4 @@ export const basketData = createSlice({
   },
 });
 
-export const { addProductsToBasket, removeProductsFromBasket, increaseAmountProduct, decreaseAmountProduct, changeAmountProduct, addCoupon, resetBasket, addError } = basketData.actions;
+export const { addProductsToBasket, removeProductsFromBasket, increaseProductAmount, decreaseProductAmount, changeProductAmount, addCoupon, resetBasket, addError } = basketData.actions;

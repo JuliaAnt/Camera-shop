@@ -5,7 +5,7 @@ type PopupBasketOrderSuccessProps = {
 
 function PopupBasketOrderSuccess({ isSuccessModalOpen, onSuccessModalClose }: PopupBasketOrderSuccessProps): JSX.Element {
   return (
-    <div className={`modal modal--narrow ${isSuccessModalOpen ? 'is-active' : ''}`}>
+    <div className={`modal${isSuccessModalOpen ? ' is-active' : ''} modal--narrow`}>
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={onSuccessModalClose}></div>
         <div className="modal__content">
@@ -14,7 +14,7 @@ function PopupBasketOrderSuccess({ isSuccessModalOpen, onSuccessModalClose }: Po
             <use xlinkHref="#icon-review-success"></use>
           </svg>
           <div className="modal__buttons">
-            <button className="btn btn--purple modal__btn modal__btn--fit-width" id='back-btn' type="button" onClick={onSuccessModalClose}>Вернуться к покупкам
+            <button className="btn btn--purple modal__btn modal__btn--fit-width" id="back-btn" type="button" onClick={onSuccessModalClose}>Вернуться к покупкам
             </button>
           </div>
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onSuccessModalClose}>

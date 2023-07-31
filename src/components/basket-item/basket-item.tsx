@@ -3,7 +3,7 @@ import { ProductCard } from '../../types/product-card';
 import PopupBasketRemoveItem from '../popup/popup-basket-remove-item/popup-basket-remove-item';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { changeAmountProduct, decreaseAmountProduct, increaseAmountProduct } from '../../store/basket-data/basket-data-slice';
+import { changeProductAmount, decreaseProductAmount, increaseProductAmount } from '../../store/basket-data/basket-data-slice';
 
 type BasketItemProps = {
   product: ProductCard;
@@ -40,20 +40,20 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
   }, []);
 
   const onNextButtonClick = () => {
-    dispatch(increaseAmountProduct(id));
+    dispatch(increaseProductAmount(id));
   };
 
   const onPrevButtonClick = () => {
-    dispatch(decreaseAmountProduct(id));
+    dispatch(decreaseProductAmount(id));
   };
 
   const onAmountChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeAmountProduct({ id: id, amount: +evt.target.value }));
+    dispatch(changeProductAmount({ id: id, amount: +evt.target.value }));
   };
 
   return (
     <>
-      <li key={id} className="basket-item">
+      <li key={id} className="basket-item" data-testid={`cardTitle-${id}`}>
         <div className="basket-item__img">
           <picture>
             <source type="image/webp" srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`} />
@@ -82,7 +82,7 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
             </svg>
           </button>
           <label className="visually-hidden" htmlFor="counter1"></label>
-          <input type="number" id="counter1" value={amount} min="1" max="99" aria-label="количество товара" onChange={onAmountChange} />
+          <input type="number" id="counter1" value={amount} min="1" max="99" data-testid='amount' aria-label="количество товара" onChange={onAmountChange} />
           <button
             className="btn-icon btn-icon--next"
             aria-label="увеличить количество товара"

@@ -17,7 +17,7 @@ function PopupCatalogAddItemSuccess({ isAddingProductSuccessModalOpen, onAddingP
   return (
     <div className={`modal modal--narrow${isAddingProductSuccessModalOpen ? ' is-active' : ''}`}>
       <div className="modal__wrapper">
-        <div className="modal__overlay" onClick={onAddingProductSuccessModalClose}></div>
+        <div className="modal__overlay" data-testid='overlay' onClick={onAddingProductSuccessModalClose}></div>
         <div className="modal__content">
           <p className="title title--h4">Товар успешно добавлен в корзину</p>
           <svg className="modal__icon" width="86" height="80" aria-hidden="true">
