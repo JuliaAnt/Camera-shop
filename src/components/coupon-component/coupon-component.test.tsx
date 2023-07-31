@@ -3,10 +3,7 @@ import { Provider } from 'react-redux';
 import CouponComponent from './coupon-component';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { NameSpace } from '../../consts';
-// import thunk from 'redux-thunk';
-// import { api } from '../../store';
 
-// const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore();
 
 describe('CouponComponent', () => {

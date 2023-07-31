@@ -28,11 +28,8 @@ describe('BasketList', () => {
       </Provider>
     );
 
-    // Verify that BasketItem for product 1 and product 2 is rendered
     expect(screen.getByText('Click Sap')).toBeInTheDocument();
     expect(screen.getByText('Look 54')).toBeInTheDocument();
-
-    // Verify that BasketItem for product 3 is not rendered
     expect(screen.queryByText('Look SF3')).not.toBeInTheDocument();
   });
 
@@ -49,7 +46,6 @@ describe('BasketList', () => {
       </Provider>
     );
 
-    // Verify that BasketItem for product 1 is not rendered
     expect(screen.queryByText('Click Sap')).not.toBeInTheDocument();
   });
 });
