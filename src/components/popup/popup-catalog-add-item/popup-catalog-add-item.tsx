@@ -1,13 +1,23 @@
+import { useAppDispatch } from '../../../hooks/redux-hooks';
+import { addProductsToBasket } from '../../../store/basket-data/basket-data-slice';
 import { ProductCard } from '../../../types/product-card';
 
 type PopupCatalogAddItemProps = {
   isModalOpen: boolean;
   productCard: ProductCard;
   onModalClose: () => void;
+  onAddingProductSuccessModalOpen: () => void;
 }
 
-function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose }: PopupCatalogAddItemProps): JSX.Element {
-  const { name, vendorCode, type, category, level, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
+function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose, onAddingProductSuccessModalOpen }: PopupCatalogAddItemProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const { id, name, vendorCode, type, category, level, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x } = productCard;
+
+  const onAddingButtonClick = () => {
+    dispatch(addProductsToBasket(id));
+    onModalClose();
+    onAddingProductSuccessModalOpen();
+  };
 
   return (
     <div
@@ -34,7 +44,7 @@ function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose }: PopupCa
                 <li className="basket-item__list-item">{`${type} ${category === 'Фотоаппарат' ? 'фотокамера' : 'видеокамера'}`}</li>
                 <li className="basket-item__list-item">{`${level} уровень`}</li>
               </ul>
-              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${price} ₽`}</p>
+              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${price?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') || ''}`} &#x20BD;</p>
             </div>
           </div>
           <div className="modal__buttons">
@@ -43,6 +53,7 @@ function PopupCatalogAddItem({ isModalOpen, productCard, onModalClose }: PopupCa
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
               tabIndex={0}
+              onClick={onAddingButtonClick}
             >
               <svg width="24" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-add-basket"></use>

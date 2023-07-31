@@ -53,7 +53,10 @@ describe('Component: CatalogPage', () => {
             },
             page: 1,
             allReviews: mockAllReviews,
-          }
+          },
+          [NameSpace.BasketData]: {
+            productsInBasket: {},
+          },
         })}
         >
           <BrowserRouter>

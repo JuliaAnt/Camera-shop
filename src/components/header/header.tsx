@@ -1,8 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../consts';
 import Search from '../search/search';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import { getAddedProducts } from '../../store/basket-data/basket-data-selectors';
 
 function Header(): JSX.Element {
+  const navigate = useNavigate();
+  const addedProducts = useAppSelector(getAddedProducts);
+  const totalAmount = Object.values(addedProducts).reduce((sum, amount) => sum + +amount, 0);
+
   return (
     <header className="header" id="header" data-testid={'header'}>
       <div className="container">
@@ -24,11 +30,14 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <Search />
-        <Link className="header__basket-link" to={AppRoute.Basket}>
+        <button className="header__basket-link" style={{ border: 'none', cursor: 'pointer' }} onClick={() => navigate(AppRoute.Basket)}>
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
-        </Link>
+          {
+            totalAmount > 0 ? <span className="header__basket-count">{totalAmount}</span> : null
+          }
+        </button>
       </div>
     </header>
   );

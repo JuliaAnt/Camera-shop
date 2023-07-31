@@ -7,7 +7,7 @@ export enum AppRoute {
 export enum NameSpace {
   CatalogData = 'CATALOG_DATA',
   ProductData = 'PRODUCT_DATA',
-  Basket = 'BASKET',
+  BasketData = 'BASKET',
 }
 
 export enum APIRoute {
@@ -17,6 +17,8 @@ export enum APIRoute {
   SimilarProducts = '/cameras/{cameraId}/similar',
   ReviewRequest = '/reviews',
   Reviews = '/cameras/{cameraId}/reviews',
+  Coupons = '/coupons',
+  Order = '/orders',
 }
 
 export const LEVEL_FILTER_MAP = [

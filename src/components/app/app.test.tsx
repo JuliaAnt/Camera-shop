@@ -59,7 +59,15 @@ describe('App component', () => {
   test('renders CatalogPage component when on the Catalog route', () => {
     render(
       <Provider store={mockStore({
-        [NameSpace.CatalogData]: initialState
+        [NameSpace.CatalogData]: initialState,
+        [NameSpace.BasketData]: {
+          productsInBasket: {},
+          discont: 0,
+          submittedCoupon: {
+            coupon: '',
+          },
+          hasOrderError: false,
+        },
       })}
       >
         <MemoryRouter initialEntries={[AppRoute.Catalog]}>
@@ -87,7 +95,15 @@ describe('App component', () => {
             id: 546565686
           }],
         },
-        [NameSpace.CatalogData]: initialState
+        [NameSpace.CatalogData]: initialState,
+        [NameSpace.BasketData]: {
+          productsInBasket: {},
+          discont: 0,
+          submittedCoupon: {
+            coupon: '',
+          },
+          hasOrderError: false,
+        },
       })}
       >
         <MemoryRouter initialEntries={['/camera/7?tab=description']}>
@@ -106,7 +122,18 @@ describe('App component', () => {
 
   test('renders BasketPage component when on the Basket route', () => {
     render(
-      <Provider store={mockStore()}>
+      <Provider store={mockStore({
+        [NameSpace.CatalogData]: initialState,
+        [NameSpace.BasketData]: {
+          productsInBasket: {},
+          discont: 0,
+          submittedCoupon: {
+            coupon: '',
+          },
+          hasOrderError: false,
+        },
+      })}
+      >
         <MemoryRouter initialEntries={[AppRoute.Basket]}>
           <Routes>
             <Route path={AppRoute.Catalog} element={<CatalogPage />} />
@@ -118,7 +145,7 @@ describe('App component', () => {
       </Provider>
     );
 
-    expect(screen.getByText('!!!')).toBeInTheDocument();
+    expect(screen.getByText(/К оплате/i)).toBeInTheDocument();
   });
 
   test('renders NotFoundPage component when on an unknown route', () => {
