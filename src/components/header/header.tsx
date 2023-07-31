@@ -30,7 +30,7 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <Search />
-        <button className="header__basket-link" onClick={() => navigate(AppRoute.Basket)}>
+        <button className="header__basket-link" style={{ border: 'none', cursor: 'pointer' }} onClick={() => navigate(AppRoute.Basket)}>
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
