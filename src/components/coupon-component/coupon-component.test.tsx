@@ -3,14 +3,11 @@ import { Provider } from 'react-redux';
 import CouponComponent from './coupon-component';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { NameSpace } from '../../consts';
-// import thunk from 'redux-thunk';
-// import { api } from '../../store';
 
-// const middlewares = [thunk.withExtraArgument(api)];
 const mockStore = configureMockStore();
 
 describe('CouponComponent', () => {
-  it('should render the component correctly', () => {
+  it('should render the component correctly', async () => {
     render(
       <Provider store={mockStore({
         [NameSpace.BasketData]: {
@@ -25,12 +22,16 @@ describe('CouponComponent', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Если у вас есть промокод на скидку, примените его в этом поле')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Введите промокод')).toBeInTheDocument();
-    expect(screen.getByText('Применить')).toBeInTheDocument();
+    const couponInput = await screen.findByTestId('basket-promo');
+    const applyButton = await screen.findByTestId('promo-button');
+    const title = await screen.findByText('Если у вас есть промокод на скидку, примените его в этом поле');
+
+    expect(title).toBeInTheDocument();
+    expect(couponInput).toBeInTheDocument();
+    expect(applyButton).toBeInTheDocument();
   });
 
-  it('should disable the input and button when a coupon is submitted', () => {
+  it('should disable the input and button when a coupon is submitted', async () => {
     render(
       <Provider store={mockStore({
         [NameSpace.BasketData]: {
@@ -46,8 +47,8 @@ describe('CouponComponent', () => {
       </Provider >
     );
 
-    const couponInput = screen.getByTestId('basket-promo');
-    const applyButton = screen.getByTestId('promo-button');
+    const couponInput = await screen.findByTestId('basket-promo');
+    const applyButton = await screen.findByTestId('promo-button');
 
     expect(couponInput).toBeDisabled();
     expect(applyButton).toBeDisabled();
