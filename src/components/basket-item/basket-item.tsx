@@ -54,7 +54,7 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
 
   const onKeyDown = (evt: React.KeyboardEvent) => {
     if (evt.key === 'Enter') {
-      if (currentAmount) {
+      if (currentAmount && +currentAmount !== 0) {
         dispatch(changeProductAmount({ id: id, amount: +currentAmount }));
       } else {
         setCurrentAmount(amount);
@@ -63,7 +63,7 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
   };
 
   const onBlurInput = () => {
-    if (currentAmount) {
+    if (currentAmount && +currentAmount !== 0) {
       dispatch(changeProductAmount({ id: id, amount: +currentAmount }));
     } else {
       setCurrentAmount(amount);
