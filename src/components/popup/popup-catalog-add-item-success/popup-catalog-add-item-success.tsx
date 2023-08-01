@@ -14,6 +14,11 @@ function PopupCatalogAddItemSuccess({ isAddingProductSuccessModalOpen, onAddingP
     navigate(AppRoute.Basket);
   };
 
+  const onContinueShoppingButtonClick = () => {
+    onAddingProductSuccessModalClose();
+    navigate(AppRoute.Catalog);
+  };
+
   return (
     <div className={`modal modal--narrow${isAddingProductSuccessModalOpen ? ' is-active' : ''}`}>
       <div className="modal__wrapper">
@@ -24,7 +29,7 @@ function PopupCatalogAddItemSuccess({ isAddingProductSuccessModalOpen, onAddingP
             <use xlinkHref="#icon-success"></use>
           </svg>
           <div className="modal__buttons">
-            <button className="btn btn--transparent modal__btn" id='continue' onClick={onAddingProductSuccessModalClose}>Продолжить покупки</button>
+            <button className="btn btn--transparent modal__btn" id='continue' onClick={onContinueShoppingButtonClick}>Продолжить покупки</button>
             <button
               className="btn btn--purple modal__btn modal__btn--fit-width"
               onClick={onBasketButtonClick}

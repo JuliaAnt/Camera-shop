@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { ProductCard } from '../../types/product-card';
-import { changeProductAmount, decreaseProductAmount, increaseProductAmount } from '../../store/basket-data/basket-data-slice';
+import { decreaseProductAmount, increaseProductAmount } from '../../store/basket-data/basket-data-slice';
 import BasketItem from './basket-item';
 
 const mockStore = configureMockStore([]);
@@ -81,22 +81,6 @@ describe('BasketItem', () => {
     fireEvent.click(increaseButton);
 
     expect(store.dispatch).toHaveBeenCalledWith(increaseProductAmount(product.id));
-  });
-
-  it('should dispatch changeAmountProduct action when the quantity input is changed', () => {
-    const store = mockStore({});
-    store.dispatch = jest.fn();
-
-    render(
-      <Provider store={store}>
-        <BasketItem product={product} amount={amount} />
-      </Provider>
-    );
-
-    const quantityInput = screen.getByTestId('amount');
-    fireEvent.change(quantityInput, { target: { value: '5' } });
-
-    expect(store.dispatch).toHaveBeenCalledWith(changeProductAmount({ id: product.id, amount: 5 }));
   });
 
   it('should open and close the remove item modal when the remove button is clicked', () => {

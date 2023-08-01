@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import { AppRoute, NameSpace } from '../../consts';
@@ -81,6 +81,7 @@ describe('App component', () => {
       </Provider>
     );
 
+
     expect(screen.getByText('Каталог фото- и видеотехники')).toBeInTheDocument();
   });
 
@@ -120,7 +121,7 @@ describe('App component', () => {
     expect(screen.getByTestId('productTitle').innerHTML).toMatch('Look 54');
   });
 
-  test('renders BasketPage component when on the Basket route', () => {
+  test('renders BasketPage component when on the Basket route', async () => {
     render(
       <Provider store={mockStore({
         [NameSpace.CatalogData]: initialState,
@@ -145,7 +146,10 @@ describe('App component', () => {
       </Provider>
     );
 
-    expect(screen.getByText(/К оплате/i)).toBeInTheDocument();
+    await waitFor(async () => {
+      const costTitle = await screen.findByText(/К оплате/i);
+      expect(costTitle).toBeInTheDocument();
+    });
   });
 
   test('renders NotFoundPage component when on an unknown route', () => {
