@@ -3,9 +3,8 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { AppRoute } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { getAddedProducts, getCoupon, getDiscont, getOrderStatus } from '../../store/basket-data/basket-data-selectors';
+import { getBasketState } from '../../store/basket-data/basket-data-selectors';
 import BasketList from '../../components/basket-list/basket-list';
-import { getProducts } from '../../store/catalog-data/catalog-data-selectors';
 import CouponComponent from '../../components/coupon-component/coupon-component';
 import { sendOrderAction } from '../../store/api-actions';
 import { addError, resetBasket } from '../../store/basket-data/basket-data-slice';
@@ -16,12 +15,12 @@ import PopupBasketOrderSuccess from '../../components/popup/popup-basket-order-s
 
 function BasketPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const addedProducts = useAppSelector(getAddedProducts);
-  const products = useAppSelector(getProducts);
-  const discont = useAppSelector(getDiscont);
-  const submittedCoupon = useAppSelector(getCoupon);
+  const basketState = useAppSelector(getBasketState);
+  const addedProducts = basketState.productsInBasket;
+  const products = basketState.productCards;
+  const discont = basketState.discont;
+  const submittedCoupon = basketState.submittedCoupon;
 
-  const [isDisabled, setDisabled] = useState<boolean>(false);
   const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false);
 
   const onSuccessModalOpen = () => {
@@ -64,24 +63,21 @@ function BasketPage(): JSX.Element {
 
 
   const onOrderSubmit = () => {
-    setDisabled(true);
     dispatch(sendOrderAction({
       camerasIds: idsNum,
       coupon: submittedCoupon.coupon ? submittedCoupon.coupon : null,
       onSuccess: () => {
         dispatch(resetBasket());
         dispatch(addError(false));
-        setDisabled(false);
         onSuccessModalOpen();
       },
       onError: () => {
         dispatch(addError(true));
-        setDisabled(false);
       },
     }));
   };
 
-  const hasError = useAppSelector(getOrderStatus);
+  const hasError = basketState.hasOrderError;
 
   if (hasError) {
     return <OrderErrorPage />;
@@ -137,15 +133,19 @@ function BasketPage(): JSX.Element {
                       {`${totalCostWithDiscont ? totalCostWithDiscont?.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ') : 0}`} &#x20BD;
                     </span>
                   </p>
-                  <button className="btn btn--purple" type="submit" disabled={isDisabled} onClick={onOrderSubmit}>Оформить заказ
+                  <button
+                    className="btn btn--purple"
+                    type="button"
+                    onClick={onOrderSubmit}
+                  >Оформить заказ
                   </button>
                 </div>
               </div>
             </div>
           </section>
         </div>
-        {/* @ts-expect-error children*/}
-        <FocusTrap active={isSuccessModalOpen} focusTrapOptions={{ initialFocus: '#back-btn', onDeactivate: onSuccessModalClose }}>
+        {/* @ts-expect-error children */}
+        <FocusTrap active={isSuccessModalOpen}>
           <PopupBasketOrderSuccess isSuccessModalOpen={isSuccessModalOpen} onSuccessModalClose={onSuccessModalClose} />
         </FocusTrap>
       </main>

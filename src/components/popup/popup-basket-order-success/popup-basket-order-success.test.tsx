@@ -1,13 +1,16 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import PopupBasketOrderSuccess from './popup-basket-order-success';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('PopupBasketOrderSuccess', () => {
   test('should render the modal with correct content when isSuccessModalOpen is true', () => {
     render(
-      <PopupBasketOrderSuccess
-        isSuccessModalOpen
-        onSuccessModalClose={jest.fn()}
-      />
+      <BrowserRouter>
+        <PopupBasketOrderSuccess
+          isSuccessModalOpen
+          onSuccessModalClose={jest.fn()}
+        />
+      </BrowserRouter>
     );
 
     expect(screen.getByText('Спасибо за покупку')).toBeInTheDocument();
@@ -20,10 +23,12 @@ describe('PopupBasketOrderSuccess', () => {
   test('should call onSuccessModalClose when "Вернуться к покупкам" button is clicked', () => {
     const mockCloseModal = jest.fn();
     render(
-      <PopupBasketOrderSuccess
-        isSuccessModalOpen
-        onSuccessModalClose={mockCloseModal}
-      />
+      <BrowserRouter>
+        <PopupBasketOrderSuccess
+          isSuccessModalOpen
+          onSuccessModalClose={mockCloseModal}
+        />
+      </BrowserRouter>
     );
 
     const backButton = screen.getByText('Вернуться к покупкам');
@@ -35,10 +40,12 @@ describe('PopupBasketOrderSuccess', () => {
   test('should call onSuccessModalClose when overlay is clicked', () => {
     const mockCloseModal = jest.fn();
     render(
-      <PopupBasketOrderSuccess
-        isSuccessModalOpen
-        onSuccessModalClose={mockCloseModal}
-      />
+      <BrowserRouter>
+        <PopupBasketOrderSuccess
+          isSuccessModalOpen
+          onSuccessModalClose={mockCloseModal}
+        />
+      </BrowserRouter>
     );
 
     const overlay = screen.getByLabelText('Закрыть попап');
