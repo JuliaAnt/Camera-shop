@@ -1,7 +1,7 @@
 import FocusTrap from 'react-focus-trap';
 import { ProductCard } from '../../types/product-card';
 import PopupBasketRemoveItem from '../popup/popup-basket-remove-item/popup-basket-remove-item';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { changeProductAmount, decreaseProductAmount, increaseProductAmount } from '../../store/basket-data/basket-data-slice';
 
@@ -15,6 +15,11 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
   const { id, name, price, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, vendorCode, category, level, type } = product;
   const productCost = price * amount;
   const [isRemovingModalOpen, setRemovingModalOpen] = useState<boolean>(false);
+  const [currentAmount, setCurrentAmount] = useState<string | number>(0);
+
+  useEffect(() => {
+    setCurrentAmount(amount);
+  }, [amount]);
 
   const onRemovingModalOpen = () => {
     setRemovingModalOpen(true);
@@ -47,8 +52,22 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
     dispatch(decreaseProductAmount(id));
   };
 
-  const onAmountChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeProductAmount({ id: id, amount: +evt.target.value }));
+  const onKeyDown = (evt: React.KeyboardEvent) => {
+    if (evt.key === 'Enter') {
+      if (currentAmount) {
+        dispatch(changeProductAmount({ id: id, amount: +currentAmount }));
+      } else {
+        setCurrentAmount(amount);
+      }
+    }
+  };
+
+  const onBlurInput = () => {
+    if (currentAmount) {
+      dispatch(changeProductAmount({ id: id, amount: +currentAmount }));
+    } else {
+      setCurrentAmount(amount);
+    }
   };
 
   return (
@@ -82,7 +101,18 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
             </svg>
           </button>
           <label className="visually-hidden" htmlFor="counter1"></label>
-          <input type="number" id="counter1" value={amount} min="1" max="99" data-testid='amount' aria-label="количество товара" onChange={onAmountChange} />
+          <input
+            type="number"
+            id="counter1"
+            value={currentAmount}
+            min="1"
+            max="99"
+            data-testid='amount'
+            aria-label="количество товара"
+            onChange={(evt) => setCurrentAmount(evt.target.value)}
+            onKeyDown={onKeyDown}
+            onBlur={onBlurInput}
+          />
           <button
             className="btn-icon btn-icon--next"
             aria-label="увеличить количество товара"
