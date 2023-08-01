@@ -46,9 +46,9 @@ function BasketPage(): JSX.Element {
 
   }, []);
 
-  const ids = Object.keys(addedProducts);
+  const productIds = Object.keys(addedProducts);
   let totalCost = 0;
-  ids.forEach((productId) => {
+  productIds.forEach((productId) => {
     const currentProduct = products.find((product) => product.id === +productId);
     if (currentProduct) {
       totalCost += currentProduct.price * addedProducts[+productId];
@@ -59,12 +59,11 @@ function BasketPage(): JSX.Element {
   const discontSum = Math.round(totalCost * (discont / 100));
   const totalCostWithDiscont = totalCost - discontSum;
 
-  const idsNum = ids.map((currentId) => +currentId);
-
+  const productIdsAsNumbers = productIds.map((currentId) => +currentId);
 
   const onOrderSubmit = () => {
     dispatch(sendOrderAction({
-      camerasIds: idsNum,
+      camerasIds: productIdsAsNumbers,
       coupon: submittedCoupon.coupon ? submittedCoupon.coupon : null,
       onSuccess: () => {
         dispatch(resetBasket());
