@@ -59,7 +59,7 @@ function BasketPage(): JSX.Element {
   const discontSum = Math.round(totalCost * (discont / 100));
   const totalCostWithDiscont = totalCost - discontSum;
 
-  const productIdsAsNumbers = productIds.map((currentId) => +currentId);
+  const productIdsAsNumbers = productIds.map((currentId) => +currentId).filter((productIdAsNumber) => addedProducts[productIdAsNumber] > 0);
 
   const onOrderSubmit = () => {
     dispatch(sendOrderAction({
