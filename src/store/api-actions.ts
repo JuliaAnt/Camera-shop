@@ -88,9 +88,9 @@ export const sendReviewAction = createAsyncThunk<void, SendReviewProps, {
   }
 );
 
-type fetchReviewsByIdProps = Record<number, Review[]>;
+type FetchReviewsByIdProps = Record<number, Review[]>;
 
-export const fetchReviewsByIdAction = createAsyncThunk<fetchReviewsByIdProps, number[], {
+export const fetchReviewsByIdAction = createAsyncThunk<FetchReviewsByIdProps, number[], {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -107,15 +107,23 @@ export const fetchReviewsByIdAction = createAsyncThunk<fetchReviewsByIdProps, nu
   }
 );
 
-export const fetchDiscontAction = createAsyncThunk<number, Coupon, {
+type FetchDiscontActionProps = { coupon: Coupon; onSuccess(): void; onError(): void };
+
+export const fetchDiscontAction = createAsyncThunk<number | undefined, FetchDiscontActionProps, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'fetchDiscont',
-  async (coupon, { extra: api }) => {
-    const { data } = await api.post<number>(APIRoute.Coupons, coupon);
-    return data;
+  async ({ coupon, onSuccess, onError }, { extra: api }) => {
+    try {
+      const { data } = await api.post<number | undefined>(APIRoute.Coupons, coupon);
+      onSuccess();
+      return data;
+    }
+    catch (error) {
+      onError();
+    }
   }
 );
 

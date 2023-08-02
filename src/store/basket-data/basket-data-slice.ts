@@ -5,7 +5,7 @@ import { Coupon } from '../../types/coupon';
 
 type InitialState = {
   productsInBasket: Record<number, number>;
-  discont: number;
+  discont: number | undefined;
   submittedCoupon: Coupon;
   hasOrderError: boolean;
 }
