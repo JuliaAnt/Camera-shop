@@ -56,7 +56,7 @@ function BasketPage(): JSX.Element {
     return totalCost;
   });
 
-  const discontSum = Math.round(totalCost * (discont / 100));
+  const discontSum = discont ? Math.round(totalCost * (discont / 100)) : 0;
   const totalCostWithDiscont = totalCost - discontSum;
 
   const productIdsAsNumbers = productIds.map((currentId) => +currentId).filter((productIdAsNumber) => addedProducts[productIdAsNumber] > 0);
