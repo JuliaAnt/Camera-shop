@@ -1,7 +1,7 @@
 import FocusTrap from 'react-focus-trap';
 import { ProductCard } from '../../types/product-card';
 import PopupBasketRemoveItem from '../popup/popup-basket-remove-item/popup-basket-remove-item';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { changeProductAmount, decreaseProductAmount, increaseProductAmount } from '../../store/basket-data/basket-data-slice';
 
@@ -50,6 +50,14 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
 
   const onPrevButtonClick = () => {
     dispatch(decreaseProductAmount(id));
+  };
+
+  const regex = /^(?:[1-9]|[1-9][0-9])$/;
+
+  const onAmountChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (regex.test(evt.target.value) || evt.target.value === '') {
+      setCurrentAmount(evt.target.value);
+    }
   };
 
   const onKeyDown = (evt: React.KeyboardEvent) => {
@@ -109,7 +117,7 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
             max="99"
             data-testid='amount'
             aria-label="количество товара"
-            onChange={(evt) => setCurrentAmount(evt.target.value)}
+            onChange={onAmountChange}
             onKeyDown={onKeyDown}
             onBlur={onBlurInput}
           />
