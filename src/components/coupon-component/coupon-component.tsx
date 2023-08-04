@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { fetchDiscontAction } from '../../store/api-actions';
 import { getAddedProducts, getCoupon } from '../../store/basket-data/basket-data-selectors';
 import { addCoupon } from '../../store/basket-data/basket-data-slice';
-import { useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 
 function CouponComponent(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -42,11 +42,18 @@ function CouponComponent(): JSX.Element {
     color = '#65cd54';
   }
 
+  const onKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Enter') {
+      evt.preventDefault();
+      onSubmit();
+    }
+  };
+
   return (
     <div className="basket__promo">
       <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
       <div className="basket-form">
-        <form action="#" data-testid='promo-form'>
+        <form data-testid='promo-form'>
           <div className="custom-input">
             <label><span className="custom-input__label">Промокод</span>
               <input
@@ -59,6 +66,7 @@ function CouponComponent(): JSX.Element {
                 onChange={(evt) => {
                   setCurrentCoupon({ coupon: evt.target.value });
                 }}
+                onKeyDown={onKeyDown}
               />
             </label>
             {couponStatusMessage === 'Промокод принят!' ? <p className="custom-input__success" style={{ opacity: 1 }}>{couponStatusMessage}</p>
