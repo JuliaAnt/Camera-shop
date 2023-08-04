@@ -61,6 +61,9 @@ function BasketItem({ product, amount }: BasketItemProps): JSX.Element {
   };
 
   const onKeyDown = (evt: React.KeyboardEvent) => {
+    if (evt.code === 'Slash' || evt.code === 'Comma' || evt.code === 'Period' || evt.code === 'NumpadDecimal') {
+      evt.preventDefault();
+    }
     if (evt.key === 'Enter') {
       if (currentAmount && +currentAmount !== 0) {
         dispatch(changeProductAmount({ id: id, amount: +currentAmount }));
