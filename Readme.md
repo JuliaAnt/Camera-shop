@@ -6,4 +6,4 @@
 
 Вёрстка проекта предоставлена HTMLacademy.
 
-Deploy: https://antoshkina-camera-shop.vercel.app/?page=1
+Deploy: [Camera-shop](https://antoshkina-camera-shop.vercel.app/?page=1).
